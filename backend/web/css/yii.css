@@ -1,0 +1,67 @@
+
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:before, a.desc:before {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:before {
+    content: /*"\e113"*/ "\e151";
+}
+
+a.desc:before {
+    content: /*"\e114"*/ "\e152";
+}
+
+.sort-numerical a.asc:before {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:before {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:before {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:before {
+    content: "\e156";
+}
+
+.grid-view td {
+    white-space: nowrap;
+}
+
+.grid-view .filters input,
+.grid-view .filters select {
+    min-width: 50px;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+

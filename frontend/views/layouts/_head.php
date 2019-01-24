@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 ?>
 <meta charset="<?= Yii::$app->charset ?>">
-<meta name="google-site-verification" content="QIzfLxEnZHKtjkMny8sI13CuGNrq5iqekk8YqXhocUU" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 

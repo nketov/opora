@@ -12,7 +12,7 @@ class UsersActions extends BaseObject
 
     public function init()
     {
-        if ($id = \Yii::$app->user->identity->id) {
+        if (isset(\Yii::$app->user->identity) && $id = \Yii::$app->user->identity->id) {
 
             $actions=Actions::findAll(['user_id'=>\Yii::$app->user->identity->id]);
 

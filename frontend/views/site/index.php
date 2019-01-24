@@ -1,5 +1,5 @@
 <div class="container-actions">
-    <h2>opora.dn.ua</h2>
+    <h2>_opora.dn.ua_</h2>
 <!--    --><?php //for ($i = 0; $i < 3; $i++) { ?>
 <!--        <div>-->
 <!--            <img src="/images/actions/--><?//= $contents[$i]->image_name ?><!--" alt="sliderImg" style="width: 100% "/>-->

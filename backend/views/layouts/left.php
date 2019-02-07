@@ -5,11 +5,12 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="/admin/images/uploader.gif" class="img-circle" alt="User Image"/>
+                <img src="/images/main/logo_64.jpg" class="img-rounded" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p>Опора</p>
-
+                <br>
+                <p>&laquo;ОПОРА&raquo;</p>
+                <br>
                 <a href="#" style="display: none"><i class="fa fa-circle text-success" ></i> Online</a>
             </div>
         </div>
@@ -34,7 +35,7 @@
 //                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
 //                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
 //                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-//                    ['label' => 'Товары', 'icon' => 'shopping-bag', 'url' => ['/products'],],
+                    ['label' => 'Товары', 'icon' => 'shopping-bag', 'url' => ['/products'],],
 //                    ['label' => 'Товары на главной', 'icon' => 'th', 'url' => ['/main-page'],],
                     ['label' => 'Содержание сайта', 'icon' => 'tv', 'url' => ['/content'],],
 //                    ['label' => 'Содержание акций', 'icon' => 'gift', 'url' => ['/actions-content'],],

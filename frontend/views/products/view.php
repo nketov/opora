@@ -13,7 +13,7 @@ $this->title = $model->name;
             ?>
             <img class="image" id="image" src="<?= $src ?>"/>
         <?php } else {
-            $src='/images/main/logo.png';
+            $src='/images/main/logo.jpg';
             ?>
             <img class="image empty" src="<?= $src ?>"/>
         <?php } ?>

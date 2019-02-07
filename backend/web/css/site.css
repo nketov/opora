@@ -13,7 +13,7 @@ html, body {
 
 .content-wrapper {
 
-    background-image: url('/admin/images/background.png') !important;
+    background-image: url('/admin/images/background.jpg') !important;
     padding: 16px;
     display: grid;
     align-content: start;

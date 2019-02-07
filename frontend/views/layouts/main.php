@@ -28,9 +28,13 @@ $siteContent = Content::findOne(1);
 <? //= $this->render('_cart.php') ?>
 <? //= $this->render('_header.php', compact('siteContent')) ?>
 <? //= $this->render('_top_catalog.php') ?>
+<h2>
+    <img src="/images/main/logo.jpg" class="img-rounded" alt="Cinque Terre" style="width: 260px; margin: 15px auto">
+<!--    &laquo;ОПОРА&raquo;-->
+</h2>
 
 <main class="main-content">
-    <h2>Опора</h2>
+
 
     <?= Alert::widget() ?>
     <?= $content ?>

@@ -66,27 +66,13 @@ $(document).ready(function () {
         return false;
     });
 
-    $('body').on('change', '#products-table select[name="active"]',
-        function () {
-            var product = $(this).closest('tr').data('key');
-            var active = markDeactivated(product);
-            $.ajax({
-                method: "POST",
-                url: '/admin/products/active',
-                data: {active: active, product: product}
-            })
-                .done(function (data) {
-                    console.log('Status Changed');
-                });
-        }
-    );
 
-    $('body').on('click', '#products-table tbody tr td:not(.td-active)',
-        function () {
-            var product = $(this).closest('tr').data('key');
-            location.href = '/admin/products/update?id=' + product;
-        }
-    );
+    // $('body').on('click', '#products-table tbody tr td:not(.td-active)',
+    //     function () {
+    //         var product = $(this).closest('tr').data('key');
+    //         location.href = '/admin/products/update?id=' + product;
+    //     }
+    // );
 
     $('body').on('click', '#orders-table tbody tr td:not(.td-status)',
         function () {
@@ -109,7 +95,6 @@ $(document).ready(function () {
         }
     );
 
-    checkDeactivated();
 
     $('body').on(
         'click',
@@ -176,8 +161,3 @@ $(document).ready(function () {
 
 });
 
-
-$(document).on('ready pjax:end', function (event) {
-    "use strict"
-    checkDeactivated();
-});

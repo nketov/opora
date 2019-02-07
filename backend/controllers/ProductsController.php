@@ -48,8 +48,6 @@ class ProductsController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProductSearch();
-        $searchModel->withoutImageShow= 1;
-        $searchModel->withoutPricesShow= 1;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

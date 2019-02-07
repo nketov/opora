@@ -54,56 +54,36 @@ $this->title = 'Товары';
                     'contentOptions' => ['style' => 'width:225px;text-align:center'],
                 ],
 
+                [
+                    'attribute' => 'article',
+                    'contentOptions' => ['style' => 'width:225px;text-align:center'],
+                ],
+
+                [
+                    'attribute' => 'category',
+                    'contentOptions' => ['style' => 'width:225px;text-align:center'],
+                ],
+
                 ['attribute' => 'price',
-                    'contentOptions' => ['style' => 'width:100px;text-align:right'],
+                    'contentOptions' => ['style' => 'width:125px;text-align:right'],
                     'filter' => false,
+                    'value' => function ($data) {
+                        $currency = $data->currency == 1 ? 'грн' : 'валюта';
+                        return $data->price . ' ' . $currency;
+                    }
+
                 ],
 
-                ['attribute' => 'shop',
-                    'contentOptions' => ['style' => 'width:155px;text-align:center'],
+                [
+                    'attribute' => 'remains',
+                    'filter' => false,
+                    'contentOptions' => ['style' => 'width:150px;max-width:300px;text-align:right'],
                     'value' => function ($data) {
-                        return Product::shopName($data->shop);
-                    },
-                    'filter' => Product::shopNamesList(),
-                ],
-
-                ['attribute' => 'category',
-                    'format' => 'raw',
-                    'contentOptions' => ['style' => 'width:260px;text-align:center'],
-                    'filter' => Product::categoryNamesList(),
-                    'value' => function ($data) {
-                        return Product::categoryName($data->category);
-                    }],
-
-//                'description:ntext',
-                ['attribute' => 'images_count',
-                    'format' => 'raw',
-                    'contentOptions' => ['style' => 'width:245px;text-align:center'],
-                    'filter' => Product::categoryNamesList(),
-                    'value' => function ($data) {
-                        return ImagesIcons::widget(['images' => $data->getImages()]);
-                    }],
-//                'image_2',
-//                'image_3',
-//                'image_4',
-//                'image_5',
-//                'color',
-//                'material',
-                //'height',
-                //'diametr',
-                //'width',
-                //'depth',
-                //'lamps',
-                //'second_code',
-
-                ['attribute' => 'active',
-                    'format' => 'raw',
-                    'filter' => Product::getStatuses(),
-                    'contentOptions' => ['class'=>'td-active','style' => 'width:130px;text-align:center'],
-                    'value' => function ($data) {
-                        return Html::dropDownList('active', $data->active, Product::getStatuses());
+                        return $data->remains . ' ' . $data->unit;
                     }
                 ],
+
+//
 //                ['class' => 'yii\grid\ActionColumn'],
             ],
         ]); ?>

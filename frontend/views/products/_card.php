@@ -11,7 +11,7 @@ use yii\helpers\StringHelper;
     ?>
     <img class="card-img" src="<?=$src ?>"/>
 <?php } else {
-    $src='/images/main/logo.png';
+    $src='/images/main/logo.jpg';
     ?>
     <img class="card-img empty" src="<?=$src ?>"/>
 <?php } ?>

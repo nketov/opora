@@ -1,13 +1,13 @@
-
-function topCatalogResize() {
-    "use strict";
-    let height = $('.top-catalog div:last').offset().top - 388;
-    $('.top-catalog').css('height', height);
-}
+//
+// function topCatalogResize() {
+//     "use strict";
+//     let height = $('.top-catalog div:last').offset().top - 388;
+//     $('.top-catalog').css('height', height);
+// }
 
 $(function () {
     "use strict";
-    topCatalogResize();
+    // topCatalogResize();
 
     $('.hamburger').mouseover(function () {
         $('.top-catalog').css('opacity', '0.99');
@@ -56,6 +56,21 @@ $(function () {
         e.preventDefault();
         $('#phone-modal').modal('show');
     });
+
+    $('body').on('click', '#brands-table tbody tr',
+        function () {
+            var mfa_id = $(this).closest('tr').find('td').eq(1).text();
+            location.href = '/tecdoc/models/' + mfa_id;
+        }
+    );
+
+    $('body').on('click', '#models-table tbody tr',
+        function () {
+            var mod_id = $(this).closest('tr').find('td').eq(1).text();
+            location.href = '/tecdoc/types/' + mod_id;
+        }
+    );
+
 
     $('.cd-cart footer .btn-cart').on('click', function (e) {
 

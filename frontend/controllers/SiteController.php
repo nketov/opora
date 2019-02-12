@@ -233,14 +233,6 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public
-    function actionTecdoc()
-    {
-        return $this->render('tecdoc');
-    }
-
-
-
 
     public
     function actionResetPassword($token)

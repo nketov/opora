@@ -10,7 +10,31 @@ use yii\helpers\Url;
 class TecDoc extends Component
 {
 
-    public static function getModelInfo($mod_mfa_id)
+
+    public static function getBrands()
+    {
+        $rows = (new Query())
+            ->select(['MFA_ID', 'MFA_BRAND'])
+            ->from('MANUFACTURERS')
+            ->orderBy('MFA_BRAND')
+            ->all();
+
+        return $rows;
+    }
+
+
+    public static function getBrandName($mfa_id)
+    {
+        return (new Query())
+            ->select(['MFA_BRAND'])
+            ->from('MANUFACTURERS')
+            ->orderBy('MFA_BRAND')
+            ->where(['MFA_ID' => $mfa_id,])
+            ->scalar();
+    }
+
+
+    public static function getModels($mfa_id)
     {
 
         /* Вывод списка моделей по заданной марке автомобиля (MFA_ID) */
@@ -29,7 +53,7 @@ class TecDoc extends Component
             ->from('MODELS')
             ->innerJoin('COUNTRY_DESIGNATIONS', 'CDS_ID = MOD_CDS_ID')
             ->innerJoin('DES_TEXTS', 'TEX_ID = CDS_TEX_ID ')
-            ->where(['MOD_MFA_ID' => $mod_mfa_id, 'CDS_LNG_ID' => '16'])
+            ->where(['MOD_MFA_ID' => $mfa_id, 'CDS_LNG_ID' => '16'])
 //            ->andWhere(['>', 'MOD_PCON_START', 200000])
 //            ->andWhere(['>', 'MOD_PCON_END', 201100])
             ->orderBy('MOD_CDS_TEXT')
@@ -41,26 +65,26 @@ class TecDoc extends Component
     }
 
 
-    public static function getModels()
+    public static function getModelFullName($mod_id)
     {
-        $rows = (new Query())
-            ->select(['MFA_ID', 'MFA_BRAND'])
-            ->from('MANUFACTURERS')
-            ->orderBy('MFA_BRAND')
-            ->all();
 
-        return $rows;
+        $row = \Yii::$app->db->createCommand(
+            'SELECT MFA_BRAND,	DES_TEXTS7.TEX_TEXT AS MOD_CDS_TEXT
+FROM	           TYPES
+INNER JOIN MODELS ON MOD_ID = TYP_MOD_ID
+INNER JOIN MANUFACTURERS ON MFA_ID = MOD_MFA_ID
+INNER JOIN COUNTRY_DESIGNATIONS AS COUNTRY_DESIGNATIONS2 ON COUNTRY_DESIGNATIONS2.CDS_ID = MOD_CDS_ID AND COUNTRY_DESIGNATIONS2.CDS_LNG_ID = 16
+INNER JOIN DES_TEXTS AS DES_TEXTS7 ON DES_TEXTS7.TEX_ID = COUNTRY_DESIGNATIONS2.CDS_TEX_ID
+INNER JOIN COUNTRY_DESIGNATIONS ON COUNTRY_DESIGNATIONS.CDS_ID = TYP_CDS_ID AND COUNTRY_DESIGNATIONS.CDS_LNG_ID = 16
+INNER JOIN DES_TEXTS ON DES_TEXTS.TEX_ID = COUNTRY_DESIGNATIONS.CDS_TEX_ID
+WHERE	TYP_MOD_ID = ' . $mod_id . '
+ORDER BY	MOD_CDS_TEXT;'
+        )->queryOne();
+
+
+        return $row['MFA_BRAND'].' '.$row['MOD_CDS_TEXT'];
     }
 
-    public static function getModelName($mfa_id)
-    {
-        return (new Query())
-            ->select(['MFA_BRAND'])
-            ->from('MANUFACTURERS')
-            ->orderBy('MFA_BRAND')
-            ->where(['MFA_ID' => $mfa_id,])
-            ->scalar();
-    }
 
     public static function getTypes($mod_id)
     {
@@ -122,7 +146,7 @@ LEFT JOIN DESIGNATIONS AS DESIGNATIONS4 ON DESIGNATIONS4.DES_ID = TYP_KV_MODEL_D
 LEFT JOIN DES_TEXTS AS DES_TEXTS5 ON DES_TEXTS5.TEX_ID = DESIGNATIONS4.DES_TEX_ID
 LEFT JOIN DESIGNATIONS AS DESIGNATIONS5 ON DESIGNATIONS5.DES_ID = TYP_KV_AXLE_DES_ID AND DESIGNATIONS5.DES_LNG_ID = 16
 LEFT JOIN DES_TEXTS AS DES_TEXTS6 ON DES_TEXTS6.TEX_ID = DESIGNATIONS5.DES_TEX_ID
-WHERE	TYP_MOD_ID = '.$mod_id.'
+WHERE	TYP_MOD_ID = ' . $mod_id . '
 ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM
 LIMIT	100;')->queryAll();
 

@@ -50,9 +50,11 @@ return [
                 'catalog' => 'products/category',
                 'product/<id:\d+>' => 'products/view',
                 'article/<id:\d+>' => 'site/article-view',
+                'tecdoc/models/<mfa_id:\d+>' => 'tecdoc/models',
+                'tecdoc/types/<mod_id:\d+>' => 'tecdoc/types',
                 'category/<category:\d+>' => 'products/category',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                '<action:(about|contact|login|signup|view|cabinet|actions|articles|tecdoc)>' => 'site/<action>'
+                '<action:(about|contact|login|signup|view|cabinet|actions|articles)>' => 'site/<action>'
             ],
         ],
     ],

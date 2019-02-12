@@ -52,7 +52,7 @@ return [
                 'article/<id:\d+>' => 'site/article-view',
                 'category/<category:\d+>' => 'products/category',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                '<action:(about|contact|login|signup|view|cabinet|actions|articles)>' => 'site/<action>'
+                '<action:(about|contact|login|signup|view|cabinet|actions|articles|tecdoc)>' => 'site/<action>'
             ],
         ],
     ],

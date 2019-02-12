@@ -55,7 +55,7 @@ $this->title = 'Вопросы';
     <div>
         <h2> Контакты:</h2>
 
-        <p><img src="/images/icons/email.png" alt=""> svitlograd.krm@gmail.com</p>
+        <p><img src="/images/icons/email.png" alt=""> mail@opora.dn.ua</p>
         <p><img src="/images/icons/icq.png" alt=""> <?= $content->icq ?></p>
         <p><img src="/images/phone32.png" alt=""> <br><?= str_replace(',','<br>',$content->phones_header).'<br>'.$content->phone_footer ?></p>
 

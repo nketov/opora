@@ -6,6 +6,8 @@ namespace console\controllers;
 use common\models\Product;
 use yii\console\Controller;
 use yii\helpers\Url;
+use yii\db\Query;
+
 
 
 class CronController extends Controller
@@ -17,6 +19,27 @@ class CronController extends Controller
      * @command php yii test/mail
      */
 
+
+    public function actionCars(){
+
+
+        $rows = (new Query())
+            ->select(['MFA_ID', 'MFA_BRAND'])
+            ->from('MANUFACTURERS')
+            ->orderBy('MFA_BRAND')
+            ->all();
+        $log = fopen(Url::to('@backend/1C_test/logs/' . date('Y-m-d') . '.txt'), "a");
+        foreach ($rows as $row) {
+
+            fputs($log, $row["MFA_ID"] . ' - ' . $row["MFA_BRAND"] . "\n");
+//                    print "\t<tr><td>" . $row["MFA_ID"] . "</td>";
+//                    print "<td>" . $row["MFA_BRAND"] . "</td>";
+
+
+        }
+        fclose($log);
+
+    }
 
     public function actionXmlToSql()
     {

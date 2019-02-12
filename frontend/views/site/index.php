@@ -1,10 +1,13 @@
 <div class="container-actions">
+<?php
+//   echo  Yii::$app->mailer->compose()
+//        ->setTo('ketovnv@gmail.com')
+//        ->setFrom(['mail@opora.dn.ua' => 'Opora'])
+//        ->setSubject('TEST')
+//        ->setHtmlBody("<h2>Тест</h2>")
+////            ->setTextBody($this->text)
+//        ->send();
+?>
 
 
-<?php foreach (\common\models\Product::find()->all() as $product){
-    echo "<h2>".$product->name."</h2>";
-
-}
-
-    ?>
 </div>

@@ -205,17 +205,6 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-
-   echo phpinfo();
-        exit;
-
-
-
-//        var_dump($app);
-
-
-
-        exit;
         $content=Content::findOne(1);
 
         $model = new ContactForm();
@@ -242,6 +231,12 @@ class SiteController extends Controller
     function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public
+    function actionTecdoc()
+    {
+        return $this->render('tecdoc');
     }
 
 

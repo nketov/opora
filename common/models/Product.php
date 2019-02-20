@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use common\models\Color;
 
+
 /**
  * This is the model class for table "product".
  *
@@ -16,17 +17,17 @@ use common\models\Color;
  * @property int $category
  * @property string $name
  * @property string $price
- * @property string $image_1
- * @property string $image_2
- * @property string $image_3
- * @property string $image_4
- * @property string $image_5
- * @property int $images_count
+ * @property string $images
+ * @property string $description
  * @property string $unit
  * @property string $article
  */
 class Product extends \yii\db\ActiveRecord
 {
+
+
+    public $tecdoc_images;
+
     /**
      * {@inheritdoc}
      */
@@ -42,11 +43,11 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['active', 'remains','currency'], 'integer'],
+            [['active', 'remains','currency','category'], 'integer'],
             [['price'], 'number'],
-            [['code', 'category', 'article'], 'string', 'max' => 50],
+            [['code', 'article'], 'string', 'max' => 50],
             [['name'], 'string', 'max' => 200],
-            [['image_1'], 'string', 'max' => 55],
+            [['images','description'], 'string'],
             [['unit'], 'string', 'max' => 10],
             [['code'], 'unique'],
         ];
@@ -68,14 +69,8 @@ class Product extends \yii\db\ActiveRecord
             'currency' => 'Валюта',
             'remains' => 'Остатки',
             'unit' => 'Единица измерения',
-            'images_count' => 'Фотографии',
-            'image_1' => 'Фото 1',
-            'image_2' => 'Фото 2',
-            'image_3' => 'Фото 3',
-            'image_4' => 'Фото 4',
-            'image_5' => 'Фото 5',
-
-
+            'images' => 'Фотографии',
+            'description' => 'Описание',
         ];
     }
 

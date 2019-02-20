@@ -71,6 +71,22 @@ $(function () {
         }
     );
 
+    $('body').on('click', '#types-table tbody tr',
+        function () {
+            var type_id = $(this).closest('tr').find('td').eq(1).text();
+            location.href = '/tecdoc/test-tree/' + type_id;
+        }
+    );
+
+    $('body').on('click', '#test-tree li',
+        function (e) {
+            var category = $(this).data('key');
+            var type = $('#test-tree').data('type');
+            e.stopPropagation();
+            location.href = '/tecdoc/category/' + category+'/type/'+type;
+        }
+    );
+
 
     $('.cd-cart footer .btn-cart').on('click', function (e) {
 
@@ -150,7 +166,7 @@ $(function () {
     });
 
     $(window).resize(function () {
-        topCatalogResize();
+        // topCatalogResize();
     });
 
 

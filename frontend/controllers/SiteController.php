@@ -234,6 +234,15 @@ class SiteController extends Controller
     }
 
 
+    public function actionAllImages()
+    {
+
+        $products = Product::find()->all();
+
+        return $this->render('all-images', compact('products'));
+    }
+
+
     public
     function actionResetPassword($token)
     {

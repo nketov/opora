@@ -82,7 +82,7 @@ ORDER BY	MOD_CDS_TEXT;'
         )->queryOne();
 
 
-        return $row['MFA_BRAND'].' '.$row['MOD_CDS_TEXT'];
+        return $row['MFA_BRAND'] . ' ' . $row['MOD_CDS_TEXT'];
     }
 
 
@@ -149,6 +149,61 @@ LEFT JOIN DES_TEXTS AS DES_TEXTS6 ON DES_TEXTS6.TEX_ID = DESIGNATIONS5.DES_TEX_I
 WHERE	TYP_MOD_ID = ' . $mod_id . '
 ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM
 LIMIT	100;')->queryAll();
+
+    }
+
+    public static function getImages($article)
+    {
+
+        $SQL = \Yii::$app->db->createCommand("
+         SELECT
+    CONCAT(GRA_TAB_NR, '/',GRA_GRD_ID, '.',
+	IF(LOWER(DOC_EXTENSION)='jp2', 'jpg', LOWER(DOC_EXTENSION))) AS PATH
+FROM
+    	LINK_GRA_ART
+       	INNER JOIN GRAPHICS ON GRA_ID = LGA_GRA_ID
+       	INNER JOIN DOC_TYPES ON DOC_TYPE = GRA_DOC_TYPE
+       	INNER JOIN ARTICLES ON ART_ID = LGA_ART_ID
+       	WHERE
+		ART_ARTICLE_NR = '".$article."'  AND
+        (GRA_LNG_ID = 16 OR GRA_LNG_ID = 255) AND
+        GRA_DOC_TYPE <> 2
+ORDER BY  GRA_GRD_ID   
+            
+        ");
+
+        return $SQL->queryAll();
+
+    }
+
+
+    public static function getInfo($article)
+    {
+
+        $SQL = \Yii::$app->db->createCommand("
+        SELECT
+    ART_ARTICLE_NR,
+    SUP_BRAND,
+    DES_TEXTS.TEX_TEXT AS ART_COMPLETE_DES_TEXT,
+    DES_TEXTS2.TEX_TEXT AS ART_DES_TEXT,
+    DES_TEXTS3.TEX_TEXT AS ART_STATUS_TEXT
+FROM
+               ARTICLES
+    INNER JOIN DESIGNATIONS ON DESIGNATIONS.DES_ID = ART_COMPLETE_DES_ID
+                           AND DESIGNATIONS.DES_LNG_ID = 16
+    INNER JOIN DES_TEXTS ON DES_TEXTS.TEX_ID = DESIGNATIONS.DES_TEX_ID
+     LEFT JOIN DESIGNATIONS AS DESIGNATIONS2 ON DESIGNATIONS2.DES_ID = ART_DES_ID
+                                            AND DESIGNATIONS2.DES_LNG_ID = 16
+     LEFT JOIN DES_TEXTS AS DES_TEXTS2 ON DES_TEXTS2.TEX_ID = DESIGNATIONS2.DES_TEX_ID
+    INNER JOIN SUPPLIERS ON SUP_ID = ART_SUP_ID
+    INNER JOIN ART_COUNTRY_SPECIFICS ON ACS_ART_ID = ART_ID
+    INNER JOIN DESIGNATIONS AS DESIGNATIONS3 ON DESIGNATIONS3.DES_ID = ACS_KV_STATUS_DES_ID
+                                            AND DESIGNATIONS3.DES_LNG_ID = 16
+    INNER JOIN DES_TEXTS AS DES_TEXTS3 ON DES_TEXTS3.TEX_ID = DESIGNATIONS3.DES_TEX_ID
+WHERE
+    ART_ARTICLE_NR = '".$article."';");
+
+        return $SQL->queryAll();
 
     }
 

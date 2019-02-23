@@ -34,7 +34,7 @@ class TecDoc extends Component
     }
 
 
-    public static function getModels($mfa_id)
+    public static function getModels($mfa_id, $year = null)
     {
 
         /* Вывод списка моделей по заданной марке автомобиля (MFA_ID) */
@@ -53,14 +53,21 @@ class TecDoc extends Component
             ->from('MODELS')
             ->innerJoin('COUNTRY_DESIGNATIONS', 'CDS_ID = MOD_CDS_ID')
             ->innerJoin('DES_TEXTS', 'TEX_ID = CDS_TEX_ID ')
-            ->where(['MOD_MFA_ID' => $mfa_id, 'CDS_LNG_ID' => '16'])
-//            ->andWhere(['>', 'MOD_PCON_START', 200000])
-//            ->andWhere(['>', 'MOD_PCON_END', 201100])
-            ->orderBy('MOD_CDS_TEXT')
-            ->all();
+            ->where(['MOD_MFA_ID' => $mfa_id, 'CDS_LNG_ID' => '16']);
+
+        if ($year) {
+            $rows->andWhere(['or',
+                ['<=', 'MOD_PCON_START', $year . '00'],
+                ['is', 'MOD_PCON_START', null]
+            ])
+                ->andWhere(['or',
+                    ['>=', 'MOD_PCON_END', $year . '12'],
+                    ['is', 'MOD_PCON_END', null]
+                ]);
+        }
 
 
-        return $rows;
+        return $rows->orderBy('MOD_CDS_TEXT')->all();
 
     }
 
@@ -126,7 +133,8 @@ ORDER BY	MOD_CDS_TEXT;'
 
         /* TYP_MAX_WEIGHT - Тоннаж (для грузовых)*/
 
-        return \Yii::$app->db->createCommand('SELECT	TYP_ID,	MFA_BRAND,	DES_TEXTS7.TEX_TEXT AS MOD_CDS_TEXT,	DES_TEXTS.TEX_TEXT AS TYP_CDS_TEXT,	TYP_PCON_START,	TYP_PCON_END,	TYP_CCM,	TYP_KW_FROM,	TYP_KW_UPTO,	TYP_HP_FROM,	TYP_HP_UPTO,	TYP_CYLINDERS,	ENGINES.ENG_CODE,	DES_TEXTS2.TEX_TEXT AS TYP_ENGINE_DES_TEXT,	DES_TEXTS3.TEX_TEXT AS TYP_FUEL_DES_TEXT,	IFNULL(DES_TEXTS4.TEX_TEXT, DES_TEXTS5.TEX_TEXT) AS TYP_BODY_DES_TEXT,	DES_TEXTS6.TEX_TEXT AS TYP_AXLE_DES_TEXT,	TYP_MAX_WEIGHT
+        return \Yii::$app->db->createCommand('SELECT DISTINCT 	
+TYP_ID,	MFA_BRAND,	DES_TEXTS7.TEX_TEXT AS MOD_CDS_TEXT,	DES_TEXTS.TEX_TEXT AS TYP_CDS_TEXT,	TYP_PCON_START,	TYP_PCON_END,	TYP_CCM,	TYP_KW_FROM,	TYP_KW_UPTO,	TYP_HP_FROM,	TYP_HP_UPTO,	TYP_CYLINDERS,	ENGINES.ENG_CODE,	DES_TEXTS2.TEX_TEXT AS TYP_ENGINE_DES_TEXT,	DES_TEXTS3.TEX_TEXT AS TYP_FUEL_DES_TEXT,	IFNULL(DES_TEXTS4.TEX_TEXT, DES_TEXTS5.TEX_TEXT) AS TYP_BODY_DES_TEXT,	DES_TEXTS6.TEX_TEXT AS TYP_AXLE_DES_TEXT,	TYP_MAX_WEIGHT
 FROM	           TYPES
 INNER JOIN MODELS ON MOD_ID = TYP_MOD_ID
 INNER JOIN MANUFACTURERS ON MFA_ID = MOD_MFA_ID
@@ -165,7 +173,7 @@ FROM
        	INNER JOIN DOC_TYPES ON DOC_TYPE = GRA_DOC_TYPE
        	INNER JOIN ARTICLES ON ART_ID = LGA_ART_ID
        	WHERE
-		ART_ARTICLE_NR = '".$article."'  AND
+		ART_ARTICLE_NR = '" . $article . "'  AND
         (GRA_LNG_ID = 16 OR GRA_LNG_ID = 255) AND
         GRA_DOC_TYPE <> 2
 ORDER BY  GRA_GRD_ID   
@@ -201,7 +209,7 @@ FROM
                                             AND DESIGNATIONS3.DES_LNG_ID = 16
     INNER JOIN DES_TEXTS AS DES_TEXTS3 ON DES_TEXTS3.TEX_ID = DESIGNATIONS3.DES_TEX_ID
 WHERE
-    ART_ARTICLE_NR = '".$article."';");
+    ART_ARTICLE_NR = '" . $article . "';");
 
         return $SQL->queryAll();
 

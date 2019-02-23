@@ -22,11 +22,11 @@ class TecdocController extends \yii\web\Controller
     }
 
 
-    public function actionModels($mfa_id)
+    public function actionModels($mfa_id,$year=null)
     {
 
         $modelsProvider = new ArrayDataProvider([
-            'allModels' => TecDoc::getModels($mfa_id),
+            'allModels' => TecDoc::getModels($mfa_id,$year),
             'pagination' => [
                 'pageSize' => 10,
             ],
@@ -69,6 +69,7 @@ class TecdocController extends \yii\web\Controller
         //ORDER BY STR_DES_TEXT');
 
 
+
         foreach ($SQL->queryAll() as $arPRes) {
 
             if (empty($arPRes['STR_ID_PARENT'])) {
@@ -104,9 +105,11 @@ class TecdocController extends \yii\web\Controller
             return $result;
         }
 
-        $c10001 = $menu[0]['child'];
-
+        $cats= '';
+        if($c10001 = $menu[0]['child']){
         $cats = GetCat($c10001);
+        }
+
         return $this->render('test-tree', compact('cats','type_id'));
 
     }
@@ -179,11 +182,45 @@ SELECT
      LGS_STR_ID = ".$category." 
         ");
 
-       // var_dump( $SQL->queryAll());
+//        var_dump( $SQL->queryAll());
 
         foreach ($SQL->queryAll() as $article){
             echo $article['SUP_BRAND'].' <b>'.$article['ART_ARTICLE_NR'].'</b><br>';
         }
+
+        exit;
+    }
+
+    public function actionLookup($number)
+    {
+
+     $search_number = preg_replace('/[^a-zA-Z0-9]/ui', '',$number );
+
+           $SQL = \Yii::$app->db->createCommand("
+SELECT DISTINCT
+IF (ART_LOOKUP.ARL_KIND IN (3, 4), BRANDS.BRA_BRAND, SUPPLIERS.SUP_BRAND) AS BRAND,
+ART_LOOKUP.ARL_SEARCH_NUMBER AS NUMBER,
+ART_LOOKUP.ARL_KIND,
+ART_LOOKUP.ARL_ART_ID, 
+DES_TEXTS.TEX_TEXT AS ART_COMPLETE_DES_TEXT
+FROM ART_LOOKUP
+LEFT JOIN BRANDS ON BRANDS.BRA_ID = ART_LOOKUP.ARL_BRA_ID
+INNER JOIN ARTICLES ON ARTICLES.ART_ID = ART_LOOKUP.ARL_ART_ID
+INNER JOIN SUPPLIERS ON SUPPLIERS.SUP_ID = ARTICLES.ART_SUP_ID
+INNER JOIN DESIGNATIONS ON DESIGNATIONS.DES_ID = ARTICLES.ART_COMPLETE_DES_ID
+INNER JOIN DES_TEXTS ON DES_TEXTS.TEX_ID = DESIGNATIONS.DES_TEX_ID
+WHERE
+ART_LOOKUP.ARL_SEARCH_NUMBER = '".$search_number."' AND
+ART_LOOKUP.ARL_KIND IN (1, 2, 3, 4) AND
+DESIGNATIONS.DES_LNG_ID = 16
+GROUP BY BRAND, NUMBER ;
+        ");
+
+         var_dump( $SQL->queryAll());
+
+//        foreach ($SQL->queryAll() as $article){
+//            echo $article['SUP_BRAND'].' <b>'.$article['ART_ARTICLE_NR'].'</b><br>';
+//        }
 
         exit;
     }

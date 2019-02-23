@@ -1,5 +1,6 @@
 <?php
 use common\components\TecDoc;
+use kartik\select2\Select2;
 use yii\helpers\StringHelper;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
@@ -12,6 +13,17 @@ use yii\grid\GridView;
 
     <?php
 
+    $data['0'] = 'Не указан';
+    for ($i=1950;$i<= date('Y'); $i++){
+        $data[$i] = $i;
+    }
+
+    echo '<label class="control-label">Год выпуска:</label>';
+
+    echo Select2::widget([
+        'name' => 'year',
+        'data' => $data
+    ]);
     echo GridView::widget([
         'id' => 'brands-table',
         'dataProvider' => $brandsProvider,

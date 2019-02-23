@@ -59,8 +59,13 @@ $(function () {
 
     $('body').on('click', '#brands-table tbody tr',
         function () {
+            var year_ref = '';
+            var year_number = $('select[name="year"]').val()
+            if (year_number != 0) {
+                year_ref = '/year/' + year_number;
+            }
             var mfa_id = $(this).closest('tr').find('td').eq(1).text();
-            location.href = '/tecdoc/models/' + mfa_id;
+            location.href = '/tecdoc/models/' + mfa_id+year_ref;
         }
     );
 
@@ -83,7 +88,7 @@ $(function () {
             var category = $(this).data('key');
             var type = $('#test-tree').data('type');
             e.stopPropagation();
-            location.href = '/tecdoc/category/' + category+'/type/'+type;
+            location.href = '/tecdoc/category/' + category + '/type/' + type;
         }
     );
 
@@ -91,7 +96,7 @@ $(function () {
     $('.cd-cart footer .btn-cart').on('click', function (e) {
 
         console.log($(this).data('guest'));
-        if($(this).data('guest') === 1) {
+        if ($(this).data('guest') === 1) {
             e.preventDefault();
             $('#order-phone-modal').modal('show');
         }
@@ -150,16 +155,16 @@ $(function () {
 
     }
 
-    $("#pjax_form").on("pjax:end", function() {
-        $.pjax.reload({container:"#pjax_list"});
+    $("#pjax_form").on("pjax:end", function () {
+        $.pjax.reload({container: "#pjax_list"});
     });
 
-    $('.form-footer-text.toggle').click(function(e){
+    $('.form-footer-text.toggle').click(function (e) {
         e.preventDefault();
         $('.login-form:not("#request-password-reset-form")').animate({height: "toggle", opacity: "toggle"}, 'slow');
     });
 
-    $('.form-footer-text.reset').click(function(e){
+    $('.form-footer-text.reset').click(function (e) {
         e.preventDefault();
         $('#request-password-reset-form').animate({height: "toggle", opacity: "toggle"}, 'slow');
         $(this).closest('form').animate({height: "toggle", opacity: "toggle"}, 'slow');
@@ -168,7 +173,6 @@ $(function () {
     $(window).resize(function () {
         // topCatalogResize();
     });
-
 
 
 });

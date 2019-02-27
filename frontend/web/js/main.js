@@ -35,7 +35,8 @@ $(function () {
         location.href = '/product/' + product;
     });
 
-    $('body').on('click', '.header-panel .logo', function () {
+    $('body').on('click', '.site-header-logo', function () {
+        $('.site-header-logo').css('box-shadow','none');
         location.href = '/';
     });
 
@@ -71,8 +72,13 @@ $(function () {
 
     $('body').on('click', '#models-table tbody tr',
         function () {
+            var year_ref = '';
+            var year_number = $('h3').data('year');
+            if (year_number != 0) {
+                year_ref = '/year/' + year_number;            }
+
             var mod_id = $(this).closest('tr').find('td').eq(1).text();
-            location.href = '/tecdoc/types/' + mod_id;
+            location.href = '/tecdoc/types/' + mod_id+year_ref;
         }
     );
 

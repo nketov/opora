@@ -52,6 +52,7 @@ return [
                 'article/<id:\d+>' => 'site/article-view',
                 'tecdoc/models/<mfa_id:\d+>/year/<year:\d+>' => 'tecdoc/models',
                 'tecdoc/models/<mfa_id:\d+>' => 'tecdoc/models',
+                'tecdoc/types/<mod_id:\d+>/year/<year:\d+>' => 'tecdoc/types',
                 'tecdoc/types/<mod_id:\d+>' => 'tecdoc/types',
                 'tecdoc/test-tree/<type_id:\d+>' => 'tecdoc/test-tree',
                 'tecdoc/category/<category:\d+>/type/<type:\d+>' => 'tecdoc/category',

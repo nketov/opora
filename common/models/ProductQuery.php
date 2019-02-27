@@ -47,5 +47,12 @@ class ProductQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['active' => 1]);
     }
 
+    public function hasArticle()
+    {
+        return $this->andWhere(['is not','article', null])
+//            ->andWhere(['!=','article', 0])
+            ;
+    }
+
 
 }

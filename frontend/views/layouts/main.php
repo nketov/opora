@@ -26,21 +26,16 @@ $siteContent = Content::findOne(1);
 
 
 <? //= $this->render('_cart.php') ?>
-<? //= $this->render('_header.php', compact('siteContent')) ?>
+<?= $this->render('_header.php', compact('siteContent')) ?>
 <? //= $this->render('_top_catalog.php') ?>
-<h2>
-    <img src="/images/main/logo.jpg" class="img-rounded" alt="Cinque Terre" style="width: 260px; margin: 15px auto">
-<!--    &laquo;ОПОРА&raquo;-->
-</h2>
+
 
 <main class="main-content">
-
-
     <?= Alert::widget() ?>
     <?= $content ?>
 </main>
 
-<? //= $this->render('_footer.php', compact('siteContent')) ?>
+<?= $this->render('_footer.php', compact('siteContent')) ?>
 <?php $this->endBody() ?>
 </body>
 </html>

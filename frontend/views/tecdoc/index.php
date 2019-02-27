@@ -22,8 +22,14 @@ use yii\grid\GridView;
 
     echo Select2::widget([
         'name' => 'year',
-        'data' => $data
+        'data' => $data,
+        'pluginOptions' => [
+            'width' => '150px'
+        ],
     ]);
+
+    echo '<hr>';
+
     echo GridView::widget([
         'id' => 'brands-table',
         'dataProvider' => $brandsProvider,

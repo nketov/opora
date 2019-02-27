@@ -93,8 +93,17 @@ ORDER BY	MOD_CDS_TEXT;'
     }
 
 
-    public static function getTypes($mod_id)
+    public static function getTypes($mod_id,$year=null)
     {
+
+        $year_sql=' ';
+        if ($year) {
+            $year_sql=' AND (TYP_PCON_START <= '.$year . '00 OR TYP_PCON_START IS NULL) 
+            AND (TYP_PCON_END >= '.$year . '12 OR TYP_PCON_END IS NULL)';
+        }
+
+
+
         /* Вывод списка типов автомобилей по заданной модели (MOD_ID) */
 
         /* TYP_ID - Номер типа автомобиля */
@@ -154,7 +163,7 @@ LEFT JOIN DESIGNATIONS AS DESIGNATIONS4 ON DESIGNATIONS4.DES_ID = TYP_KV_MODEL_D
 LEFT JOIN DES_TEXTS AS DES_TEXTS5 ON DES_TEXTS5.TEX_ID = DESIGNATIONS4.DES_TEX_ID
 LEFT JOIN DESIGNATIONS AS DESIGNATIONS5 ON DESIGNATIONS5.DES_ID = TYP_KV_AXLE_DES_ID AND DESIGNATIONS5.DES_LNG_ID = 16
 LEFT JOIN DES_TEXTS AS DES_TEXTS6 ON DES_TEXTS6.TEX_ID = DESIGNATIONS5.DES_TEX_ID
-WHERE	TYP_MOD_ID = ' . $mod_id . '
+WHERE	TYP_MOD_ID = ' . $mod_id . $year_sql.'
 ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM
 LIMIT	100;')->queryAll();
 

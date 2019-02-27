@@ -7,7 +7,7 @@ use yii\grid\GridView;
 ?>
 
 <div>
-    <h3 style='color : #ff0084'><b><?=TecDoc::getBrandName($mfa_id) ?>:</b></h3></br>
+    <h3 style='color : #ff0084' data-year="<?= $year ?>"><b><?=TecDoc::getBrandName($mfa_id) ?>:</b></h3></br>
     </br>
 
     <?php

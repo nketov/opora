@@ -31,26 +31,37 @@ a{
     min-height: 100vh;
 }
 
-.site-header {
+#site-header {
     grid-area: header;
     background: rgba(50, 125, 150, .5);
     /*background-repeat: round;*/
     height: 162px;
     z-index: 1;
     border-radius: 10px;
-    margin: 5px;
+    margin: 8px;
+    display: grid;
+    grid-template-columns: 175px 265px 1fr;
 
 }
 
-.site-header-logo {
+#site-header-logo {
     width: 150px;
     margin: 6px;
     box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.5);
     cursor: pointer;
-
 }
 
+#header_pjax_form,#header_text_form{
+    display: grid;
+    align-items: center;
+}
 
+#tecdoc-search-form {
+    padding: 10px 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-column-gap: 35px;
+}
 
 .top-catalog {
     z-index: 0;
@@ -105,6 +116,7 @@ a{
 
 .main-content {
     grid-area: content;
+    padding: 12px;
 }
 
 .alert{
@@ -539,7 +551,7 @@ a{
 }
 
 #footer {
-    background-color: #020512;
+    background-color: #020505;
     color: white;
     padding-top: 20px;
 }
@@ -547,7 +559,6 @@ a{
 
 #footer .footer-copyright {
     background-color: #050511;
-    color: #ccc;
     text-align: center;
     margin: 10px auto;
 }

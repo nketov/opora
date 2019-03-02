@@ -4,21 +4,31 @@ namespace frontend\controllers;
 
 use common\components\TecDoc;
 use common\models\Product;
+use common\models\TecdocSearch;
 use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 class TecdocController extends \yii\web\Controller
 {
-    public function actionIndex()
+    public function actionIndex($year=null)
     {
 
         $brandsProvider = new ArrayDataProvider([
-            'allModels' => TecDoc::getBrands(),
+            'allModels' => TecDoc::getManufacturers($year),
             'pagination' => [
                 'pageSize' => 10,
             ],
         ]);
 
         return $this->render('index', compact('brandsProvider'));
+    }
+
+
+    public function actionSearch()
+    {
+        $tecdocSearch = new TecdocSearch();
+        return $this->render('test-search', compact('tecdocSearch'));
     }
 
 
@@ -258,6 +268,63 @@ GROUP BY BRAND, NUMBER ;
         }
 
     }
+
+//    ---------------------DROPDOWNs-----------------
+
+//
+//    public function actionMfaDropDown()
+//    {
+//        $out = [];
+//        if (isset($_POST['depdrop_parents'])) {
+//            $parents = $_POST['depdrop_parents'];
+//
+//            isset($_GET['mfa_id'])? $selected=$_GET['mfa_id']:'';
+//
+//            if ($parents != null) {
+//                $country_id = $parents[0];
+//                $out = ArrayHelper::map(TecDoc::getManufacturers(),'MFA_ID', 'MFA_BRAND');
+//                echo Json::encode(['output'=>$out, 'selected'=>$selected]);
+//                return;
+//            }
+//        }
+//        echo Json::encode(['output'=>'', 'selected'=>$selected]);
+//    }
+
+
+    public function actionMfaDropDown()
+    {
+
+        $data = $_POST['depdrop_all_params'];
+
+        $list = TecDoc::getManufacturers($data['td_year']);
+        $out=[];
+        foreach ($list as $item){
+            $out[] = ['id'=> $item['MFA_ID'], 'name'=>$item['MFA_BRAND']];
+        }
+
+        return Json::encode(['output' => $out, 'selected' => $_GET['mfa_id']]);
+    }
+
+
+    public function actionModelDropDown()
+    {
+
+        $data = $_POST['depdrop_all_params'];
+
+        $list = TecDoc::getModels($data['td_mfa_id'],$data['td_year']);
+        $out=[];
+        foreach ($list as $item){
+            $out[] = ['id'=> $item['MOD_ID'], 'name'=>$item['MOD_CDS_TEXT']];
+        }
+
+        return Json::encode(['output' => $out, 'selected' => $_GET['mod_id']]);
+    }
+
+
+    public function actionSetYears(){
+//       TecDoc::setMfYears();
+    }
+
 
 
 }

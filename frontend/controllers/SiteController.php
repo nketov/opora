@@ -7,7 +7,6 @@ use common\models\ActionsContent;
 use common\models\Article;
 use common\models\ArticleSearch;
 use common\models\Content;
-use common\models\MainPage;
 use common\models\Order;
 use common\models\Product;
 use Yii;
@@ -81,14 +80,14 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//
-//        $models=MainPage::find()->with(['product'])->all();
-//        $contents=ActionsContent::find()->all();
 
-        $this->view->title = Content::findOne(1)->title;
-
-        return $this->render('index', compact('models','contents'));
+//        $this->view->title = Content::findOne(1)->title;
+        return $this->render('index');
     }
+
+
+
+
 
 
     public function actionView()

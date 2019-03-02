@@ -47,9 +47,11 @@ return [
 
             'rules' => [
                 '' => '/',
+                'search' => 'products/text-search',
                 'catalog' => 'products/category',
                 'product/<id:\d+>' => 'products/view',
                 'article/<id:\d+>' => 'site/article-view',
+                'tecdoc/year/<year:\d+>' => 'tecdoc/index',
                 'tecdoc/models/<mfa_id:\d+>/year/<year:\d+>' => 'tecdoc/models',
                 'tecdoc/models/<mfa_id:\d+>' => 'tecdoc/models',
                 'tecdoc/types/<mod_id:\d+>/year/<year:\d+>' => 'tecdoc/types',

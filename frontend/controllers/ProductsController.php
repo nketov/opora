@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Order;
+use common\models\ProductTextSearch;
 use frontend\models\Cart;
 use frontend\models\UnregisteredUser;
 use Yii;
@@ -30,6 +31,15 @@ class ProductsController extends Controller
         return $this->render('category', compact('products', 'searchModel', 'dataProvider'));
 
     }
+
+    public function actionTextSearch()
+    {
+        $searchModel = new ProductTextSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('text_search', compact( 'searchModel', 'dataProvider'));
+
+    }
+
 
 
     public function actionView($id)

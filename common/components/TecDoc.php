@@ -11,16 +11,29 @@ class TecDoc extends Component
 {
 
 
-    public static function getBrands()
+    public static function getManufacturers($year = null)
     {
         $rows = (new Query())
             ->select(['MFA_ID', 'MFA_BRAND'])
             ->from('MANUFACTURERS')
-            ->orderBy('MFA_BRAND')
-            ->all();
+            ->where(['active' => 1,])
+            ->orderBy('MFA_BRAND');
 
-        return $rows;
+        if ($year) {
+            $rows->andWhere(['or',
+                ['<=', 'MF_START', $year . '00'],
+                ['is', 'MF_START', null]
+            ])
+                ->andWhere(['or',
+                    ['>=', 'MF_END', $year . '12'],
+                    ['is', 'MF_END', null]
+                ]);
+        }
+
+        return $rows->all();
     }
+
+
 
 
     public static function getBrandName($mfa_id)
@@ -93,15 +106,14 @@ ORDER BY	MOD_CDS_TEXT;'
     }
 
 
-    public static function getTypes($mod_id,$year=null)
+    public static function getTypes($mod_id, $year = null)
     {
 
-        $year_sql=' ';
+        $year_sql = ' ';
         if ($year) {
-            $year_sql=' AND (TYP_PCON_START <= '.$year . '00 OR TYP_PCON_START IS NULL) 
-            AND (TYP_PCON_END >= '.$year . '12 OR TYP_PCON_END IS NULL)';
+            $year_sql = ' AND (TYP_PCON_START <= ' . $year . '00 OR TYP_PCON_START IS NULL) 
+            AND (TYP_PCON_END >= ' . $year . '12 OR TYP_PCON_END IS NULL)';
         }
-
 
 
         /* Вывод списка типов автомобилей по заданной модели (MOD_ID) */
@@ -163,7 +175,7 @@ LEFT JOIN DESIGNATIONS AS DESIGNATIONS4 ON DESIGNATIONS4.DES_ID = TYP_KV_MODEL_D
 LEFT JOIN DES_TEXTS AS DES_TEXTS5 ON DES_TEXTS5.TEX_ID = DESIGNATIONS4.DES_TEX_ID
 LEFT JOIN DESIGNATIONS AS DESIGNATIONS5 ON DESIGNATIONS5.DES_ID = TYP_KV_AXLE_DES_ID AND DESIGNATIONS5.DES_LNG_ID = 16
 LEFT JOIN DES_TEXTS AS DES_TEXTS6 ON DES_TEXTS6.TEX_ID = DESIGNATIONS5.DES_TEX_ID
-WHERE	TYP_MOD_ID = ' . $mod_id . $year_sql.'
+WHERE	TYP_MOD_ID = ' . $mod_id . $year_sql . '
 ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM
 LIMIT	100;')->queryAll();
 
@@ -221,6 +233,62 @@ WHERE
     ART_ARTICLE_NR = '" . $article . "';");
 
         return $SQL->queryAll();
+
+    }
+
+
+    public static function setMfYears()
+    {
+
+//        foreach (self::getManufacturers() as $brand) {
+//
+//            $models = self::getModels($brand['MFA_ID']);
+
+//            if (!$models) {
+//                $active = 0;
+//            } else {
+//                $active = 1;
+//            }
+//
+//            $SQL = \Yii::$app->db->createCommand("
+//                UPDATE MANUFACTURERS SET active=".$active." WHERE MFA_ID=" . $brand['MFA_ID']);
+//
+//
+
+//             if (stripos($brand['MFA_BRAND'],'MOTORCYCLES') !== false) {
+////
+//            $SQL = \Yii::$app->db->createCommand("
+//                UPDATE MANUFACTURERS SET active=0 WHERE MFA_ID=" . $brand['MFA_ID']);
+//            }
+
+
+//            $SQL->execute();
+
+//
+//            $brand_start = $models[0]['MOD_PCON_START'];
+//            $brand_end = $models[0]['MOD_PCON_END'];
+//
+//            foreach ($models as $model) {
+//                if ($model['MOD_PCON_END'] == null) {
+//                    $brand_end = null;
+//                    break;
+//                }
+//                if ($model['MOD_PCON_END'] > $brand_end) $brand_end = $model['MOD_PCON_END'];
+//
+//
+//            }
+//
+//            if ($brand_end) {
+//
+//            var_dump($brand);
+//                $SQL = \Yii::$app->db->createCommand("
+//                 UPDATE MANUFACTURERS SET MF_END=".$brand_end." WHERE MFA_ID=" . $brand['MFA_ID']);
+//                $SQL->execute();
+//            }
+//            var_dump($models[0]);
+//            var_dump($brand_start);
+
+//        }
 
     }
 

@@ -30,12 +30,12 @@ $(function () {
         $(this).closest('form').submit();
     });
 
-    $('body').on('click', '.card-img,.card-text', function () {
-        var product = $(this).closest('.card').data('key');
-        location.href = '/product/' + product;
-    });
+    // $('body').on('click', '.card-img,.card-text', function () {
+    //     var product = $(this).closest('.card').data('key');
+    //     location.href = '/product/' + product;
+    // });
 
-    $('body').on('click', '.site-header-logo', function () {
+    $('body').on('click', '#site-header-logo', function () {
         $('.site-header-logo').css('box-shadow','none');
         location.href = '/';
     });
@@ -161,7 +161,7 @@ $(function () {
 
     }
 
-    $("#pjax_form").on("pjax:end", function () {
+    $("#header_pjax_form").on("pjax:end", function () {
         $.pjax.reload({container: "#pjax_list"});
     });
 

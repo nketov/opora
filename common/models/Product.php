@@ -100,6 +100,26 @@ class Product extends \yii\db\ActiveRecord
         return floor($model->price);
     }
 
+    public  function getDiscountPrice()
+    {
+//        $discounts = \Yii::$app->user->identity->actions ?? [];
+//
+//        if(array_key_exists($this->id, $discounts)) {
+//            return round($this->price *(100-$discounts[$this->id])/100, 2);
+//        }
+//
+//        if(array_key_exists('', $discounts)) {
+//            return round($this->price *(100-$discounts[''])/100, 2);
+//        }
+
+        return $this->price;
+    }
+
+    public function getFirstImage()    {
+
+        return explode(';',$this->images)[0];
+    }
+
 
     public static function getActiveCodesArray()
     {

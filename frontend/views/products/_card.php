@@ -6,8 +6,8 @@ use yii\helpers\StringHelper;
 
 <div class="card-contur"></div>
 
-<?php if ($model->images_count > 0) {
-    $src='/images/products/'.$model->getFirstImage();
+<?php if ($model->images) {
+    $src='/images/1C_images/'.$model->getFirstImage();
     ?>
     <img class="card-img" src="<?=$src ?>"/>
 <?php } else {
@@ -30,5 +30,6 @@ use yii\helpers\StringHelper;
             data-image="<?= $src ?>"
     >ДОБАВИТЬ В КОРЗИНУ</button>
 
-    <p style="font-size: .7rem; font-weight: lighter">Артикул: <?= $model->code ?></p>
+
+    <p style="font-size: .7rem; font-weight: lighter">Артикул: <?= $model->article ?></p>
 </div>

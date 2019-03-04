@@ -29,7 +29,7 @@ class TecdocController extends \yii\web\Controller
     public function actionSearch()
     {
         $tecdocSearch = new TecdocSearch();
-        if(!empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false])))
+        if(isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false])))
         {
             $tecdocSearch->load($car,'');
         }

@@ -7,11 +7,12 @@ use common\models\Product;
 use common\models\TecdocSearch;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\helpers\Json;
 
 class TecdocController extends \yii\web\Controller
 {
-    public function actionIndex($year=null)
+    public function actionIndex($year = null)
     {
 
         $brandsProvider = new ArrayDataProvider([
@@ -28,6 +29,10 @@ class TecdocController extends \yii\web\Controller
     public function actionSearch()
     {
         $tecdocSearch = new TecdocSearch();
+        if(!empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false])))
+        {
+            $tecdocSearch->load($car,'');
+        }
         return $this->render('test-search', compact('tecdocSearch'));
     }
 
@@ -60,38 +65,8 @@ class TecdocController extends \yii\web\Controller
 
     public function actionTestTree($type_id)
     {
-        $SQL = \Yii::$app->db->createCommand('SELECT
-                STR_ID, TEX_TEXT AS STR_DES_TEXT, STR_ID_PARENT, STR_LEVEL, STR_SORT, STR_NODE_NR, 
-                IF(EXISTS(SELECT * FROM SEARCH_TREE AS SEARCH_TREE2 WHERE SEARCH_TREE2.STR_ID_PARENT <=> SEARCH_TREE.STR_ID LIMIT 1), 1, 0) AS DESCENDANTS
-            FROM SEARCH_TREE
-                INNER JOIN DESIGNATIONS ON DES_ID = STR_DES_ID
-                INNER JOIN DES_TEXTS ON TEX_ID = DES_TEX_ID
-            WHERE
-                DES_LNG_ID = 16 AND
-                EXISTS (
-                    SELECT * FROM LINK_GA_STR
-                        INNER JOIN LINK_LA_TYP ON LAT_TYP_ID =' . $type_id . ' AND LAT_GA_ID = LGS_GA_ID
-                        INNER JOIN LINK_ART ON LA_ID = LAT_LA_ID
-                    WHERE
-                        LGS_STR_ID = STR_ID
-                    LIMIT 1)
-            ');
-        //ORDER BY STR_DES_TEXT');
 
-
-        foreach ($SQL->queryAll() as $arPRes) {
-
-            if (empty($arPRes['STR_ID_PARENT'])) {
-                //if($arPRes['STR_LEVEL'] == 1) {
-                $emptyArray[] = $arPRes;
-                $menu[] = $arPRes;
-                $menu[sizeof($menu) - 1]['child'] = array();
-                $menu_index[$arPRes['STR_ID']] = &$menu[sizeof($menu) - 1];
-            } else {
-                $menu_index[$arPRes['STR_ID_PARENT']]['child'][] = $arPRes;
-                $menu_index[$arPRes['STR_ID']] = &$menu_index[$arPRes['STR_ID_PARENT']]['child'][sizeof($menu_index[$arPRes['STR_ID_PARENT']]['child']) - 1];
-            }
-        }
+        $menu = TecDoc::getTreeArray($type_id);
 
         function sort_p($a, $b)
         {
@@ -155,7 +130,7 @@ class TecdocController extends \yii\web\Controller
     public function actionCarsForArticle()
     {
 
-        $article = 'B20002PR';
+        $article = 'K015408XS';
         $SQL = \Yii::$app->db->createCommand("
 SELECT 
 TYPES.TYP_ID,    
@@ -198,18 +173,17 @@ SELECT
         $products = Product::find()->select('article')->active()->hasArticle()->asArray()->all();
 
 
-
-        foreach ($SQL->queryAll() as $article){
+        foreach ($SQL->queryAll() as $article) {
             $exist = false;
             foreach ($products as $product) {
                 if ($product['article'] == $article['ART_ARTICLE_NR']) $exist = true;
             }
 
-            $text= $article['SUP_BRAND'].' <b>'.$article['ART_ARTICLE_NR'].'</b><span style="font-size: .7em">  ID: '.$article['ART_ID'].'</span><br>';
-            if ($exist){
-                echo '<div style="color:green">'.$text.'</div>';
-            }else{
-                echo  $text;
+            $text = $article['SUP_BRAND'] . ' <b>' . $article['ART_ARTICLE_NR'] . '</b><span style="font-size: .7em">  ID: ' . $article['ART_ID'] . '</span><br>';
+            if ($exist) {
+                echo '<div style="color:green">' . $text . '</div>';
+            } else {
+                echo $text;
             }
 
         }
@@ -219,7 +193,6 @@ SELECT
 
     public function actionLookup($number)
     {
-
 
 
         $SQL = \Yii::$app->db->createCommand("
@@ -243,7 +216,6 @@ GROUP BY BRAND, NUMBER ;
         ");
 
 
-
 //
 
         $products = Product::find()->select('article')->active()->hasArticle()->asArray()->all();
@@ -253,16 +225,16 @@ GROUP BY BRAND, NUMBER ;
 
             $exist = false;
             foreach ($products as $product) {
-                if ( preg_replace('/[^a-zA-Z0-9]/ui', '', $product['article']) == $article['NUMBER']) $exist = true;
+                if (preg_replace('/[^a-zA-Z0-9]/ui', '', $product['article']) == $article['NUMBER']) $exist = true;
             }
 
 
             $kind = $article['ARL_KIND'] == 3 ? 'Оригинал' : 'Неоригинал';
             $text = $article['BRAND'] . ' <b>' . $article['NUMBER'] . '</b>  <i>' . $kind . '</i><br>';
-            if ($exist){
-                echo '<div style="color:green">'.$text.'</div>';
-            }else{
-                echo  $text;
+            if ($exist) {
+                echo '<div style="color:green">' . $text . '</div>';
+            } else {
+                echo $text;
             }
 
         }
@@ -271,25 +243,6 @@ GROUP BY BRAND, NUMBER ;
 
 //    ---------------------DROPDOWNs-----------------
 
-//
-//    public function actionMfaDropDown()
-//    {
-//        $out = [];
-//        if (isset($_POST['depdrop_parents'])) {
-//            $parents = $_POST['depdrop_parents'];
-//
-//            isset($_GET['mfa_id'])? $selected=$_GET['mfa_id']:'';
-//
-//            if ($parents != null) {
-//                $country_id = $parents[0];
-//                $out = ArrayHelper::map(TecDoc::getManufacturers(),'MFA_ID', 'MFA_BRAND');
-//                echo Json::encode(['output'=>$out, 'selected'=>$selected]);
-//                return;
-//            }
-//        }
-//        echo Json::encode(['output'=>'', 'selected'=>$selected]);
-//    }
-
 
     public function actionMfaDropDown()
     {
@@ -297,9 +250,9 @@ GROUP BY BRAND, NUMBER ;
         $data = $_POST['depdrop_all_params'];
 
         $list = TecDoc::getManufacturers($data['td_year']);
-        $out=[];
-        foreach ($list as $item){
-            $out[] = ['id'=> $item['MFA_ID'], 'name'=>$item['MFA_BRAND']];
+        $out = [];
+        foreach ($list as $item) {
+            $out[] = ['id' => $item['MFA_ID'], 'name' => $item['MFA_BRAND']];
         }
 
         return Json::encode(['output' => $out, 'selected' => $_GET['mfa_id']]);
@@ -311,20 +264,52 @@ GROUP BY BRAND, NUMBER ;
 
         $data = $_POST['depdrop_all_params'];
 
-        $list = TecDoc::getModels($data['td_mfa_id'],$data['td_year']);
-        $out=[];
-        foreach ($list as $item){
-            $out[] = ['id'=> $item['MOD_ID'], 'name'=>$item['MOD_CDS_TEXT']];
+        $list = TecDoc::getModels($data['td_mfa_id'], $data['td_year']);
+        $out = [];
+        foreach ($list as $item) {
+            $out[] = ['id' => $item['MOD_ID'], 'name' => $item['MOD_CDS_TEXT']];
         }
 
         return Json::encode(['output' => $out, 'selected' => $_GET['mod_id']]);
     }
 
 
-    public function actionSetYears(){
-//       TecDoc::setMfYears();
+    public function actionTypeDropDown()
+    {
+
+        $data = $_POST['depdrop_all_params'];
+        $out = [];
+        if ((int)$data['td_mod_id']) {
+            $list = TecDoc::getTypes($data['td_mod_id'], $data['td_year']);
+            foreach ($list as $item) {
+                $out[] = ['id' => $item['TYP_ID'],
+                    'name' => $item['MOD_CDS_TEXT'] . ' ' . $item['TYP_CDS_TEXT'] . ', ' . $item['TYP_HP_FROM'] . ' л.с.'];
+            }
+        }
+        return Json::encode(['output' => $out, 'selected' => $_GET['type_id']]);
     }
 
+    public function actionAddCar()
+    {
+
+        unset($_COOKIE['car']);
+        setcookie('car', null, -1, '/');
+        $form = $_POST['TecdocSearch'];
+//       $td_tree = serialize(TecDoc::getTreeArray($form['type_id'])[0]);
+        setcookie("car", serialize($form), time() + 3600 + 24 * 365, '/');
+
+        $car_text=$form['car_name'];
+        if ($form['year']){
+            $car_text .=', '.$form['year'].' г.в.';
+        }
+        return Html::a($car_text,'/car');
+    }
+
+
+    public function actionSetYears()
+    {
+//       TecDoc::setMfYears();
+    }
 
 
 }

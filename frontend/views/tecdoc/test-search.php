@@ -16,11 +16,10 @@ use yii\helpers\ArrayHelper;
 ?>
 
 <div>
-    <h3 style='color : #115522'><b>Поиск по текдоку:</b></h3></br>
+    <!--    <h3 style='color : #115522'><b>Поиск по текдоку:</b></h3></br>-->
     </br>
 
     <?php
-
 
     for ($i = 1950; $i <= date('Y'); $i++) {
         $data[$i] = $i;
@@ -34,13 +33,13 @@ use yii\helpers\ArrayHelper;
         'options' => [
             'id' => 'td_year',
             'role' => "button-cursor",
-            'placeholder' => 'Выберите год ...'
+            'placeholder' => 'Выберите год ...',
         ],
         'pluginOptions' => [
             'allowClear' => true
         ],
         'theme' => Select2::THEME_BOOTSTRAP
-    ]); ?>
+    ])->label(false); ?>
 
 
 
@@ -48,7 +47,7 @@ use yii\helpers\ArrayHelper;
         'options' => [
             'tabindex' => 1,
             'role' => 'button-cursor',
-            'id'=>'td_mfa_id'
+            'id' => 'td_mfa_id'
         ],
         'type' => DepDrop::TYPE_SELECT2,
         'select2Options' => [
@@ -62,36 +61,53 @@ use yii\helpers\ArrayHelper;
             'allowClear' => true,
             'initialize' => true,
         ],
-    ]);
+    ])->label(false);
     ?>
 
     <?= $form->field($tecdocSearch, 'mod_id')->widget(DepDrop::classname(), [
         'options' => [
             'tabindex' => 1,
             'role' => 'button-cursor',
-            'id'=>'td_mod_id'
+            'id' => 'td_mod_id'
         ],
         'type' => DepDrop::TYPE_SELECT2,
         'select2Options' => [
             'theme' => Select2::THEME_BOOTSTRAP
         ],
         'pluginOptions' => [
-            'depends' => ['td_mfa_id','td_year'],
+            'depends' => ['td_mfa_id', 'td_year'],
             'url' => Url::to(['/tecdoc/model-drop-down?mod_id=' . $tecdocSearch->mod_id]),
             'loadingText' => 'Загрузка ...',
             'placeholder' => 'Выберите модель',
-            'allowClear' => true,
-            'initialize' => true,
+//            'allowClear' => true,
+//            'initialize' => true,
         ],
-    ]);
+    ])->label(false);
     ?>
 
 
+    <?= $form->field($tecdocSearch, 'type_id')->widget(DepDrop::classname(), [
+        'options' => [
+            'tabindex' => 1,
+            'role' => 'button-cursor',
+            'id' => 'td_type_id'
+        ],
+        'type' => DepDrop::TYPE_SELECT2,
+        'select2Options' => [
+            'theme' => Select2::THEME_BOOTSTRAP
+        ],
+        'pluginOptions' => [
+            'depends' => ['td_mod_id', 'td_year'],
+            'url' => Url::to(['/tecdoc/type-drop-down?type_id=' . $tecdocSearch->type_id]),
+            'loadingText' => 'Загрузка ...',
+            'placeholder' => 'Выберите тип модели',
+//            'allowClear' => true,
+//            'initialize' => true,
+        ],
+    ])->label(false);
+    ?>
 
-    <!--        <div class="form-group" style="text-align: center">-->
-    <!--            --><? //= Html::submitButton('Сохранить', ['class' => 'btn btn-lg btn-primary',]) ?>
-    <!--        </div>-->
-
+    <?= Html::submitButton('Выбрать авто', ['class' => 'btn btn-primary td_submit']) ?>
 
     <?php ActiveForm::end(); ?>
 

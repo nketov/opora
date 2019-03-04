@@ -18,7 +18,8 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
-            'baseUrl' => ''
+            'baseUrl' => '',
+            'cookieValidationKey' => 'sdi8s#fnj98jwiqiw;qfh!fjgh0d8f',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -49,6 +50,7 @@ return [
                 '' => '/',
                 'search' => 'products/text-search',
                 'catalog' => 'products/category',
+                'car' => 'tecdoc/search',
                 'product/<id:\d+>' => 'products/view',
                 'article/<id:\d+>' => 'site/article-view',
                 'tecdoc/year/<year:\d+>' => 'tecdoc/index',

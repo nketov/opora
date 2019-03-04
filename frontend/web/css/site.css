@@ -44,6 +44,11 @@ a{
 
 }
 
+.header-car a{
+    font-weight: bold;
+    font-family: "Rockwell Extra Bold";
+}
+
 #site-header-logo {
     width: 150px;
     margin: 6px;
@@ -58,9 +63,18 @@ a{
 
 #tecdoc-search-form {
     padding: 10px 25px;
+    padding-top: 30px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-column-gap: 35px;
+    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+    grid-column-gap: 25px;
+    background: rgba(50, 150, 125, .33);
+    border-radius: 10px;
+}
+
+.td_submit{
+    height: 35px;
+    opacity: 0;
+    transition: opacity .65s;
 }
 
 .top-catalog {

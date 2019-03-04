@@ -17,6 +17,7 @@ class TecdocSearch extends Product
     public $mfa_id;
     public $mod_id;
     public $type_id;
+    public $car_name;
 
     /**
      * {@inheritdoc}
@@ -27,7 +28,7 @@ class TecdocSearch extends Product
     {
         return [
             [['year', 'mfa_id','mod_id','type_id'], 'integer'],
-            [['category'], 'safe'],
+            [['category', 'car_name'], 'safe'],
         ];
     }
 
@@ -47,7 +48,6 @@ class TecdocSearch extends Product
             'mfa_id' => 'Марка',
             'mod_id' => 'Модель',
             'type_id' => 'Тип модели',
-            'category' => 'Категория',
         ];
     }
 

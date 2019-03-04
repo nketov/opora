@@ -154,7 +154,7 @@ ORDER BY	MOD_CDS_TEXT;'
 
         /* TYP_MAX_WEIGHT - Тоннаж (для грузовых)*/
 
-        return \Yii::$app->db->createCommand('SELECT DISTINCT 	
+        return \Yii::$app->db->createCommand('SELECT DISTINCT  	
 TYP_ID,	MFA_BRAND,	DES_TEXTS7.TEX_TEXT AS MOD_CDS_TEXT,	DES_TEXTS.TEX_TEXT AS TYP_CDS_TEXT,	TYP_PCON_START,	TYP_PCON_END,	TYP_CCM,	TYP_KW_FROM,	TYP_KW_UPTO,	TYP_HP_FROM,	TYP_HP_UPTO,	TYP_CYLINDERS,	ENGINES.ENG_CODE,	DES_TEXTS2.TEX_TEXT AS TYP_ENGINE_DES_TEXT,	DES_TEXTS3.TEX_TEXT AS TYP_FUEL_DES_TEXT,	IFNULL(DES_TEXTS4.TEX_TEXT, DES_TEXTS5.TEX_TEXT) AS TYP_BODY_DES_TEXT,	DES_TEXTS6.TEX_TEXT AS TYP_AXLE_DES_TEXT,	TYP_MAX_WEIGHT
 FROM	           TYPES
 INNER JOIN MODELS ON MOD_ID = TYP_MOD_ID
@@ -176,7 +176,9 @@ LEFT JOIN DES_TEXTS AS DES_TEXTS5 ON DES_TEXTS5.TEX_ID = DESIGNATIONS4.DES_TEX_I
 LEFT JOIN DESIGNATIONS AS DESIGNATIONS5 ON DESIGNATIONS5.DES_ID = TYP_KV_AXLE_DES_ID AND DESIGNATIONS5.DES_LNG_ID = 16
 LEFT JOIN DES_TEXTS AS DES_TEXTS6 ON DES_TEXTS6.TEX_ID = DESIGNATIONS5.DES_TEX_ID
 WHERE	TYP_MOD_ID = ' . $mod_id . $year_sql . '
+GROUP BY TYP_ID
 ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM
+
 LIMIT	100;')->queryAll();
 
     }
@@ -233,6 +235,48 @@ WHERE
     ART_ARTICLE_NR = '" . $article . "';");
 
         return $SQL->queryAll();
+
+    }
+
+    public static function getTreeArray($type_id)
+    {
+
+        $SQL = \Yii::$app->db->createCommand('SELECT
+                STR_ID, TEX_TEXT AS STR_DES_TEXT, STR_ID_PARENT, STR_LEVEL, STR_SORT, STR_NODE_NR, 
+                IF(EXISTS(SELECT * FROM SEARCH_TREE AS SEARCH_TREE2 WHERE SEARCH_TREE2.STR_ID_PARENT <=> SEARCH_TREE.STR_ID LIMIT 1), 1, 0) AS DESCENDANTS
+            FROM SEARCH_TREE
+                INNER JOIN DESIGNATIONS ON DES_ID = STR_DES_ID
+                INNER JOIN DES_TEXTS ON TEX_ID = DES_TEX_ID
+            WHERE
+                DES_LNG_ID = 16 AND
+                EXISTS (
+                    SELECT * FROM LINK_GA_STR
+                        INNER JOIN LINK_LA_TYP ON LAT_TYP_ID =' . $type_id . ' AND LAT_GA_ID = LGS_GA_ID
+                        INNER JOIN LINK_ART ON LA_ID = LAT_LA_ID
+                    WHERE
+                        LGS_STR_ID = STR_ID
+                    LIMIT 1)
+            ');
+        //ORDER BY STR_DES_TEXT');
+
+
+
+
+        foreach ($SQL->queryAll() as $arPRes) {
+
+            if (empty($arPRes['STR_ID_PARENT'])) {
+                //if($arPRes['STR_LEVEL'] == 1) {
+                $emptyArray[] = $arPRes;
+                $menu[] = $arPRes;
+                $menu[sizeof($menu) - 1]['child'] = array();
+                $menu_index[$arPRes['STR_ID']] = &$menu[sizeof($menu) - 1];
+            } else {
+                $menu_index[$arPRes['STR_ID_PARENT']]['child'][] = $arPRes;
+                $menu_index[$arPRes['STR_ID']] = &$menu_index[$arPRes['STR_ID_PARENT']]['child'][sizeof($menu_index[$arPRes['STR_ID_PARENT']]['child']) - 1];
+            }
+        }
+
+        return $menu;
 
     }
 

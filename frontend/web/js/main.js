@@ -36,7 +36,7 @@ $(function () {
     // });
 
     $('body').on('click', '#site-header-logo', function () {
-        $('.site-header-logo').css('box-shadow','none');
+        $('.site-header-logo').css('box-shadow', 'none');
         location.href = '/';
     });
 
@@ -66,7 +66,7 @@ $(function () {
                 year_ref = '/year/' + year_number;
             }
             var mfa_id = $(this).closest('tr').find('td').eq(1).text();
-            location.href = '/tecdoc/models/' + mfa_id+year_ref;
+            location.href = '/tecdoc/models/' + mfa_id + year_ref;
         }
     );
 
@@ -75,10 +75,11 @@ $(function () {
             var year_ref = '';
             var year_number = $('h3').data('year');
             if (year_number != 0) {
-                year_ref = '/year/' + year_number;            }
+                year_ref = '/year/' + year_number;
+            }
 
             var mod_id = $(this).closest('tr').find('td').eq(1).text();
-            location.href = '/tecdoc/types/' + mod_id+year_ref;
+            location.href = '/tecdoc/types/' + mod_id + year_ref;
         }
     );
 
@@ -98,6 +99,49 @@ $(function () {
         }
     );
 
+    $('#td_type_id').on('change',
+        function () {
+            if (parseInt($(this).val(), 10) > 0) {
+                $('.td_submit').css('opacity', '0.99');
+            }
+            else {
+                $('.td_submit').css('opacity', '0');
+            }
+
+        }
+    );
+
+    $('.td_submit').on('click',
+        function (e) {
+            e.preventDefault();
+
+            var name = $('#td_mfa_id option:selected').text()
+                + " " + $('#td_type_id option:selected').text();
+
+            var data = $('#tecdoc-search-form').find('select').serialize();
+
+           data += '&TecdocSearch%5Bcar_name%5D='+name;
+
+            $.ajax({
+                    url: '/tecdoc/add-car',
+                    data:  data,
+                    type: 'post',
+                    datatype : 'html',
+                    // async: false,
+                    success: function (response) {
+                        $('#site-header .header-car').html(response);
+                    },
+                    error: function (e) {
+                        console.log('Error!');
+                        console.log(e.responseText);
+                    }
+                }
+            );
+
+
+        }
+    );
+
 
     $('.cd-cart footer .btn-cart').on('click', function (e) {
 
@@ -108,58 +152,6 @@ $(function () {
         }
     });
 
-    var image = document.getElementById('image');
-    if (image) {
-        image.addEventListener('mousemove', function (e) {
-            var x = e.offsetX == undefined ? e.layerX : e.offsetX;
-            var y = e.offsetY == undefined ? e.layerY : e.offsetY;
-            var parent = this.parentNode;
-            var parentPosInfo = parent.getBoundingClientRect();
-
-            var alphaWidth = 0.34 * parentPosInfo.width;
-            var alphaHeight = 0.34 * parentPosInfo.height;
-
-            var posCalibrateX = 0;
-            var posCalibrateY = 0;
-
-            if (x > parentPosInfo.width / 2) {
-                let deltaX = x - parentPosInfo.width / 2;
-                posCalibrateX = alphaWidth * (deltaX / (parentPosInfo.width / 2));
-            } else if (x < parentPosInfo.width / 2) {
-                let deltaX = x - parentPosInfo.width / 2;
-                posCalibrateX = alphaWidth * (deltaX / (parentPosInfo.width / 2));
-            } else {
-                posCalibrateX = 0;
-            }
-
-            if (x > parentPosInfo.width / 2) {
-                let deltaX = x - parentPosInfo.width / 2;
-                posCalibrateX = -1 * alphaWidth * (deltaX / (parentPosInfo.width / 2));
-            } else if (x < parentPosInfo.width / 2) {
-                let deltaX = x - parentPosInfo.width / 2;
-                posCalibrateX = -1 * alphaWidth * (deltaX / (parentPosInfo.width / 2));
-            } else {
-                posCalibrateX = 0;
-            }
-
-            if (y > parentPosInfo.height / 2) {
-                let deltaY = y - parentPosInfo.height / 2;
-                posCalibrateY = -1 * alphaHeight * (deltaY / (parentPosInfo.height / 2));
-            } else if (y < parentPosInfo.height / 2) {
-                let deltaY = y - parentPosInfo.height / 2;
-                posCalibrateY = -1 * alphaHeight * (deltaY / (parentPosInfo.height / 2));
-            } else {
-                posCalibrateY = 0;
-            }
-
-            this.style.transform = 'scale(3) translateX(' + posCalibrateX + 'px) translateY(' + posCalibrateY + 'px)';
-        });
-
-        image.addEventListener('mouseout', function () {
-            this.style.transform = 'none';
-        });
-
-    }
 
     $("#header_pjax_form").on("pjax:end", function () {
         $.pjax.reload({container: "#pjax_list"});

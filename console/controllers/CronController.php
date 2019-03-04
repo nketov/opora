@@ -141,7 +141,7 @@ class CronController extends Controller
 
         fputs($log, "Загрузка закончена ( " . date("Y-m-d H:i:s") . " )\n" . $report);
 
-        if(rename($filename, Url::to('@backend/logs/files/' . date('Y-m-d_H-i-s') . '.xml')))
+        if(rename($filename, Url::to('@backend/logs/files/xml_file.xml')))
         fputs($log, "XML-фаил перемещён.\n\n");
 
         fclose($log);

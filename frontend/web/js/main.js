@@ -4,6 +4,20 @@
 //     let height = $('.top-catalog div:last').offset().top - 388;
 //     $('.top-catalog').css('height', height);
 // }
+function animateCSS(element, animationName, callback) {
+    const node = document.querySelector(element)
+    node.classList.add('animated', animationName)
+
+    function handleAnimationEnd() {
+        node.classList.remove('animated', animationName)
+        node.removeEventListener('animationend', handleAnimationEnd)
+
+        if (typeof callback === 'function') callback()
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd)
+}
+
 
 $(function () {
     "use strict";
@@ -114,22 +128,28 @@ $(function () {
     $('.td_submit').on('click',
         function (e) {
             e.preventDefault();
-
             var name = $('#td_mfa_id option:selected').text()
                 + " " + $('#td_type_id option:selected').text();
 
             var data = $('#tecdoc-search-form').find('select').serialize();
 
-           data += '&TecdocSearch%5Bcar_name%5D='+name;
+            data += '&TecdocSearch%5Bcar_name%5D=' + name;
+
+            // animateCSS('#car_pjax', 'bounceOutLeft');
+            // $("#tree-levels-selectors *").hide(650);
+
 
             $.ajax({
                     url: '/tecdoc/add-car',
-                    data:  data,
+                    data: data,
                     type: 'post',
-                    datatype : 'html',
+                    datatype: 'html',
                     // async: false,
                     success: function (response) {
                         $('#site-header .header-car').html(response);
+                        $.pjax.reload({container: "#car_pjax", timeout: false});
+                        // animateCSS('#car_pjax', 'bounceInLeft');
+                        // $("#tree-levels-selectors *").show(650);
                     },
                     error: function (e) {
                         console.log('Error!');
@@ -138,6 +158,33 @@ $(function () {
                 }
             );
 
+
+        }
+    );
+
+    $('body').on('change', '#tree_level_3', function (e) {
+
+            var category = 0;
+            if (parseInt($('#tree_level_3').val(), 10) > 0) {
+                category = $('#tree_level_3').val();
+            } else {
+                if (parseInt($('#tree_level_2').val(), 10) > 0) {
+                    category = $('#tree_level_2').val();
+                } else {
+                    if (parseInt($('#tree_level_1').val(), 10) > 0) {
+                        category = $('#tree_level_1').val();
+                    }
+                }
+            }
+
+
+            $.pjax.reload({
+                container: "#pjax_car_category",
+                timeout: false,
+                type: 'POST',
+                async: false,
+                data: {'category':category}
+            });
 
         }
     );
@@ -154,7 +201,7 @@ $(function () {
 
 
     $("#header_pjax_form").on("pjax:end", function () {
-        $.pjax.reload({container: "#pjax_list"});
+        $.pjax.reload({container: "#pjax_text_search", timeout: 5000});
     });
 
     $('.form-footer-text.toggle').click(function (e) {
@@ -167,6 +214,7 @@ $(function () {
         $('#request-password-reset-form').animate({height: "toggle", opacity: "toggle"}, 'slow');
         $(this).closest('form').animate({height: "toggle", opacity: "toggle"}, 'slow');
     });
+
 
     $(window).resize(function () {
         // topCatalogResize();

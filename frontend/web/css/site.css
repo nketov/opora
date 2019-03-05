@@ -61,14 +61,21 @@ a{
     align-items: center;
 }
 
-#tecdoc-search-form {
+#tecdoc-search-form, #tree-levels-selectors {
     padding: 10px 25px;
     padding-top: 30px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     grid-column-gap: 25px;
     background: rgba(50, 150, 125, .33);
     border-radius: 10px;
+}
+
+#tree-levels-selectors{
+    padding: 10px 25px;
+    grid-template-columns: repeat(3,1fr);
+    grid-column-gap: calc(7vw);
+    background: rgba(150, 150, 55, .33);
 }
 
 .td_submit{

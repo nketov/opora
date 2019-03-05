@@ -8,7 +8,8 @@ $searchModel = new ProductTextSearch();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 if (Yii::$app->controller->action->id == 'text-search') {
-    Pjax::begin(['id' => 'header_pjax_form']);
+
+Pjax::begin(['id' => 'header_pjax_form']);
 
 $form = ActiveForm::begin([
     'method' => 'get',
@@ -23,8 +24,6 @@ $fieldOptions = [
     'inputTemplate' => '{input}<i class="fa fa-search fa-fw form-control-feedback"></i>
       '
 ];
-
-
 ?>
 <?= $form->field($searchModel, 'text', $fieldOptions)->label(false)->textInput(['placeholder' => "Поиск по названию или коду"]) ?>
 

@@ -2,9 +2,10 @@
 
 namespace common\models;
 
+use common\components\TecDoc;
 use Yii;
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use common\models\Product;
 
 /**
@@ -18,6 +19,7 @@ class TecdocSearch extends Product
     public $mod_id;
     public $type_id;
     public $car_name;
+    public $category;
 
     /**
      * {@inheritdoc}
@@ -59,8 +61,23 @@ class TecdocSearch extends Product
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search()
     {
+
+        $allModels=[];
+        if($this->category && $this->type_id) {
+            $allModels= TecDoc::getCategory($this->category, $this->type_id);
+        }
+
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $allModels,
+            'pagination' => [
+                'pageSize' => 25,
+            ],
+        ]);
+
+
 
 //        $query = Product::find();
 //
@@ -98,6 +115,6 @@ class TecdocSearch extends Product
 //            ->andFilterWhere(['like', 'article', $this->article])
 //            ->andFilterWhere(['like', 'category', $this->category]) ;
 //
-//        return $dataProvider;
+        return $dataProvider;
     }
 }

@@ -3,8 +3,10 @@
 namespace common\components;
 
 
+use common\models\Product;
 use yii\base\Component;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 class TecDoc extends Component
@@ -13,27 +15,32 @@ class TecDoc extends Component
 
     public static function getManufacturers($year = null)
     {
-        $rows = (new Query())
-            ->select(['MFA_ID', 'MFA_BRAND'])
-            ->from('MANUFACTURERS')
-            ->where(['active' => 1,])
-            ->orderBy('MFA_BRAND');
 
-        if ($year) {
-            $rows->andWhere(['or',
-                ['<=', 'MF_START', $year . '00'],
-                ['is', 'MF_START', null]
-            ])
-                ->andWhere(['or',
-                    ['>=', 'MF_END', $year . '12'],
-                    ['is', 'MF_END', null]
-                ]);
-        }
 
-        return $rows->all();
+        $data = \Yii::$app->cache->getOrSet('manufacturers',
+            function () use ($year) {
+                $rows = (new Query())
+                    ->select(['MFA_ID', 'MFA_BRAND'])
+                    ->from('MANUFACTURERS')
+                    ->where(['active' => 1,])
+                    ->orderBy('MFA_BRAND');
+
+                if ($year) {
+                    $rows->andWhere(['or',
+                        ['<=', 'MF_START', $year . '00'],
+                        ['is', 'MF_START', null]
+                    ])
+                        ->andWhere(['or',
+                            ['>=', 'MF_END', $year . '12'],
+                            ['is', 'MF_END', null]
+                        ]);
+                }
+
+                return $rows->all();
+            });
+
+        return $data;
     }
-
-
 
 
     public static function getBrandName($mfa_id)
@@ -177,13 +184,95 @@ LEFT JOIN DESIGNATIONS AS DESIGNATIONS5 ON DESIGNATIONS5.DES_ID = TYP_KV_AXLE_DE
 LEFT JOIN DES_TEXTS AS DES_TEXTS6 ON DES_TEXTS6.TEX_ID = DESIGNATIONS5.DES_TEX_ID
 WHERE	TYP_MOD_ID = ' . $mod_id . $year_sql . '
 GROUP BY TYP_ID
-ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM
+ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM;')->queryAll();
+    }
 
-LIMIT	100;')->queryAll();
+
+    public static function getCategory($category, $type)
+    {
+        $data = \Yii::$app->cache->getOrSet('category_'.$category.'_type_'.$type,
+            function () use ($category, $type) {
+                $SQL = \Yii::$app->db->createCommand("
+SELECT 
+     *
+     FROM 
+     LINK_GA_STR 
+     INNER JOIN LINK_LA_TYP ON LAT_TYP_ID = " . $type . " AND 
+     LAT_GA_ID = LGS_GA_ID 
+     INNER JOIN LINK_ART ON LA_ID = LAT_LA_ID 
+     INNER JOIN SUPPLIERS ON LINK_LA_TYP.LAT_SUP_ID=SUPPLIERS.SUP_ID 
+     INNER JOIN ARTICLES ON ART_ID = LINK_ART.LA_ART_ID    
+     WHERE 
+     LGS_STR_ID = " . $category . " 
+        ");
+
+
+//        INNER JOIN product ON ARTICLES.ART_ARTICLE_NR = product.article
+                $result = [];
+                foreach ($SQL->queryAll() as $article) {
+
+                    $lookup = self::getLookup($article['ART_ID']);
+                    foreach ($lookup as $article) {
+                        $result[] = $article;
+                    }
+                }
+
+
+                $products = [];
+                foreach (array_unique($result) as $article) {
+                    if ($article)
+                        foreach (Product::find()->where(['like', 'article', $article])->all() as $product)
+                            $products[] = $product;
+                }
+                return $products;
+            });
+
+        return $data;
+
 
     }
 
-    public static function getImages($article)
+
+    public
+    static function getLookup($number)
+    {
+
+        $SQL = \Yii::$app->db->createCommand("
+SELECT DISTINCT
+IF (ART_LOOKUP.ARL_KIND IN (3, 4), BRANDS.BRA_BRAND, SUPPLIERS.SUP_BRAND) AS BRAND,
+ART_LOOKUP.ARL_SEARCH_NUMBER AS NUMBER,
+ART_LOOKUP.ARL_KIND,
+ART_LOOKUP.ARL_ART_ID, 
+DES_TEXTS.TEX_TEXT AS ART_COMPLETE_DES_TEXT,
+ARTICLES.ART_ARTICLE_NR,
+ART_LOOKUP.ARL_DISPLAY_NR
+FROM ART_LOOKUP
+LEFT JOIN BRANDS ON BRANDS.BRA_ID = ART_LOOKUP.ARL_BRA_ID
+INNER JOIN ARTICLES ON ARTICLES.ART_ID = ART_LOOKUP.ARL_ART_ID
+INNER JOIN SUPPLIERS ON SUPPLIERS.SUP_ID = ARTICLES.ART_SUP_ID
+INNER JOIN DESIGNATIONS ON DESIGNATIONS.DES_ID = ARTICLES.ART_COMPLETE_DES_ID
+INNER JOIN DES_TEXTS ON DES_TEXTS.TEX_ID = DESIGNATIONS.DES_TEX_ID
+INNER JOIN product ON product.article LIKE ART_LOOKUP.ARL_DISPLAY_NR
+WHERE
+ART_LOOKUP.ARL_ART_ID = '" . $number . "' AND
+ART_LOOKUP.ARL_KIND IN (1,2,3, 4) AND
+DESIGNATIONS.DES_LNG_ID = 16
+GROUP BY BRAND, NUMBER;
+        ");
+
+        $result = [];
+        foreach ($SQL->queryAll() as $article) {
+            if ($article['ARL_DISPLAY_NR'])
+                $result[] = $article['ARL_DISPLAY_NR'];
+        }
+
+        return array_unique($result);
+
+    }
+
+
+    public
+    static function getImages($article)
     {
 
         $SQL = \Yii::$app->db->createCommand("
@@ -208,7 +297,8 @@ ORDER BY  GRA_GRD_ID
     }
 
 
-    public static function getInfo($article)
+    public
+    static function getInfo($article)
     {
 
         $SQL = \Yii::$app->db->createCommand("
@@ -238,10 +328,13 @@ WHERE
 
     }
 
-    public static function getTreeArray($type_id)
+    public
+    static function getTreeArray($type_id)
     {
 
-        $SQL = \Yii::$app->db->createCommand('SELECT
+        $data = \Yii::$app->cache->getOrSet('tree_type_' . $type_id,
+            function () use ($type_id) {
+                $SQL = \Yii::$app->db->createCommand('SELECT
                 STR_ID, TEX_TEXT AS STR_DES_TEXT, STR_ID_PARENT, STR_LEVEL, STR_SORT, STR_NODE_NR, 
                 IF(EXISTS(SELECT * FROM SEARCH_TREE AS SEARCH_TREE2 WHERE SEARCH_TREE2.STR_ID_PARENT <=> SEARCH_TREE.STR_ID LIMIT 1), 1, 0) AS DESCENDANTS
             FROM SEARCH_TREE
@@ -257,31 +350,32 @@ WHERE
                         LGS_STR_ID = STR_ID
                     LIMIT 1)
             ');
-        //ORDER BY STR_DES_TEXT');
+                //ORDER BY STR_DES_TEXT');
 
 
+                foreach ($SQL->queryAll() as $arPRes) {
 
+                    if (empty($arPRes['STR_ID_PARENT'])) {
+                        //if($arPRes['STR_LEVEL'] == 1) {
+                        $emptyArray[] = $arPRes;
+                        $menu[] = $arPRes;
+                        $menu[sizeof($menu) - 1]['child'] = array();
+                        $menu_index[$arPRes['STR_ID']] = &$menu[sizeof($menu) - 1];
+                    } else {
+                        $menu_index[$arPRes['STR_ID_PARENT']]['child'][] = $arPRes;
+                        $menu_index[$arPRes['STR_ID']] = &$menu_index[$arPRes['STR_ID_PARENT']]['child'][sizeof($menu_index[$arPRes['STR_ID_PARENT']]['child']) - 1];
+                    }
+                }
 
-        foreach ($SQL->queryAll() as $arPRes) {
-
-            if (empty($arPRes['STR_ID_PARENT'])) {
-                //if($arPRes['STR_LEVEL'] == 1) {
-                $emptyArray[] = $arPRes;
-                $menu[] = $arPRes;
-                $menu[sizeof($menu) - 1]['child'] = array();
-                $menu_index[$arPRes['STR_ID']] = &$menu[sizeof($menu) - 1];
-            } else {
-                $menu_index[$arPRes['STR_ID_PARENT']]['child'][] = $arPRes;
-                $menu_index[$arPRes['STR_ID']] = &$menu_index[$arPRes['STR_ID_PARENT']]['child'][sizeof($menu_index[$arPRes['STR_ID_PARENT']]['child']) - 1];
-            }
-        }
-
-        return $menu;
+                return $menu;
+            });
+        return $data;
 
     }
 
 
-    public static function setMfYears()
+    public
+    static function setMfYears()
     {
 
 //        foreach (self::getManufacturers() as $brand) {

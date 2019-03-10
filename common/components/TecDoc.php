@@ -68,100 +68,48 @@ class TecDoc extends Component
         /*	MOD_PCON_END - YYYYMM: Год/месяц окончания выпуска модели (NULL - неограничен) */
 
 
-        $rows = (new Query())
-            ->select(['MOD_ID', 'TEX_TEXT AS MOD_CDS_TEXT', 'MOD_PCON_START', 'MOD_PCON_END'])
-            ->from('MODELS')
-            ->innerJoin('COUNTRY_DESIGNATIONS', 'CDS_ID = MOD_CDS_ID')
-            ->innerJoin('DES_TEXTS', 'TEX_ID = CDS_TEX_ID ')
-            ->where(['MOD_MFA_ID' => $mfa_id, 'CDS_LNG_ID' => '16']);
+        $data = \Yii::$app->cache->getOrSet('mfa_' . $mfa_id . '_year_' . $year,
+            function () use ($mfa_id, $year) {
+                $rows = (new Query())
+                    ->select(['MOD_ID', 'TEX_TEXT AS MOD_CDS_TEXT', 'MOD_PCON_START', 'MOD_PCON_END'])
+                    ->from('MODELS')
+                    ->innerJoin('COUNTRY_DESIGNATIONS', 'CDS_ID = MOD_CDS_ID')
+                    ->innerJoin('DES_TEXTS', 'TEX_ID = CDS_TEX_ID ')
+                    ->where(['MOD_MFA_ID' => $mfa_id, 'CDS_LNG_ID' => '16']);
 
-        if ($year) {
-            $rows->andWhere(['or',
-                ['<=', 'MOD_PCON_START', $year . '00'],
-                ['is', 'MOD_PCON_START', null]
-            ])
-                ->andWhere(['or',
-                    ['>=', 'MOD_PCON_END', $year . '12'],
-                    ['is', 'MOD_PCON_END', null]
-                ]);
-        }
-
-
-        return $rows->orderBy('MOD_CDS_TEXT')->all();
-
-    }
+                if ($year) {
+                    $rows->andWhere(['or',
+                        ['<=', 'MOD_PCON_START', $year . '00'],
+                        ['is', 'MOD_PCON_START', null]
+                    ])
+                        ->andWhere(['or',
+                            ['>=', 'MOD_PCON_END', $year . '12'],
+                            ['is', 'MOD_PCON_END', null]
+                        ]);
+                }
 
 
-    public static function getModelFullName($mod_id)
-    {
+                return $rows->orderBy('MOD_CDS_TEXT')->all();
+            });
 
-        $row = \Yii::$app->db->createCommand(
-            'SELECT MFA_BRAND,	DES_TEXTS7.TEX_TEXT AS MOD_CDS_TEXT
-FROM	           TYPES
-INNER JOIN MODELS ON MOD_ID = TYP_MOD_ID
-INNER JOIN MANUFACTURERS ON MFA_ID = MOD_MFA_ID
-INNER JOIN COUNTRY_DESIGNATIONS AS COUNTRY_DESIGNATIONS2 ON COUNTRY_DESIGNATIONS2.CDS_ID = MOD_CDS_ID AND COUNTRY_DESIGNATIONS2.CDS_LNG_ID = 16
-INNER JOIN DES_TEXTS AS DES_TEXTS7 ON DES_TEXTS7.TEX_ID = COUNTRY_DESIGNATIONS2.CDS_TEX_ID
-INNER JOIN COUNTRY_DESIGNATIONS ON COUNTRY_DESIGNATIONS.CDS_ID = TYP_CDS_ID AND COUNTRY_DESIGNATIONS.CDS_LNG_ID = 16
-INNER JOIN DES_TEXTS ON DES_TEXTS.TEX_ID = COUNTRY_DESIGNATIONS.CDS_TEX_ID
-WHERE	TYP_MOD_ID = ' . $mod_id . '
-ORDER BY	MOD_CDS_TEXT;'
-        )->queryOne();
+        return $data;
 
-
-        return $row['MFA_BRAND'] . ' ' . $row['MOD_CDS_TEXT'];
     }
 
 
     public static function getTypes($mod_id, $year = null)
     {
 
-        $year_sql = ' ';
-        if ($year) {
-            $year_sql = ' AND (TYP_PCON_START <= ' . $year . '00 OR TYP_PCON_START IS NULL) 
+        $data = \Yii::$app->cache->getOrSet('mod_' . $mod_id . '_year_' . $year,
+            function () use ($mod_id, $year) {
+
+                $year_sql = ' ';
+                if ($year) {
+                    $year_sql = ' AND (TYP_PCON_START <= ' . $year . '00 OR TYP_PCON_START IS NULL) 
             AND (TYP_PCON_END >= ' . $year . '12 OR TYP_PCON_END IS NULL)';
-        }
+                }
 
-
-        /* Вывод списка типов автомобилей по заданной модели (MOD_ID) */
-
-        /* TYP_ID - Номер типа автомобиля */
-
-        /* MFA_BRAND - Марка автомобиля */
-
-        /* MOD_CDS_TEXT - Модель автомобиля */
-
-        /* TYP_CDS_TEXT - Название типа автомобиля */
-
-        /* TYP_PCON_START - YYYYMM: Год/месяц начала выпуска типа */
-
-        /* TYP_PCON_END - YYYYMM: Год/месяц окончания выпуска типа (NULL - неограничен) */
-
-        /* TYP_CCM - Объём двигателя (куб.см) */
-
-        /* TYP_KW_FROM - Мощность двигателя (кВт): ОТ */
-
-        /* TYP_KW_UPTO - Мощность двигателя (кВт): ДО (NULL - неограничен) */
-
-        /* TYP_HP_FROM - Мощность двигателя (л.с.): ОТ */
-
-        /* TYP_HP_UPTO - Мощность двигателя (л.с.): ДО (NULL - неограничен) */
-
-        /* TYP_CYLINDERS - Количество цилиндров */
-
-        /* ENG_CODE - Код двигателя */
-
-        /* TYP_ENGINE_DES_TEXT - Тип двигателя */
-
-        /* TYP_FUEL_DES_TEXT - Тип топлива */
-
-        /* TYP_BODY_DES_TEXT - Вид сборки */
-
-        /* TYP_AXLE_DES_TEXT - Конструкция оси (для грузовых)*/
-
-        /* TYP_MAX_WEIGHT - Тоннаж (для грузовых)*/
-
-        return \Yii::$app->db->createCommand('SELECT DISTINCT  	
+                return \Yii::$app->db->createCommand('SELECT DISTINCT  	
 TYP_ID,	MFA_BRAND,	DES_TEXTS7.TEX_TEXT AS MOD_CDS_TEXT,	DES_TEXTS.TEX_TEXT AS TYP_CDS_TEXT,	TYP_PCON_START,	TYP_PCON_END,	TYP_CCM,	TYP_KW_FROM,	TYP_KW_UPTO,	TYP_HP_FROM,	TYP_HP_UPTO,	TYP_CYLINDERS,	ENGINES.ENG_CODE,	DES_TEXTS2.TEX_TEXT AS TYP_ENGINE_DES_TEXT,	DES_TEXTS3.TEX_TEXT AS TYP_FUEL_DES_TEXT,	IFNULL(DES_TEXTS4.TEX_TEXT, DES_TEXTS5.TEX_TEXT) AS TYP_BODY_DES_TEXT,	DES_TEXTS6.TEX_TEXT AS TYP_AXLE_DES_TEXT,	TYP_MAX_WEIGHT
 FROM	           TYPES
 INNER JOIN MODELS ON MOD_ID = TYP_MOD_ID
@@ -185,12 +133,16 @@ LEFT JOIN DES_TEXTS AS DES_TEXTS6 ON DES_TEXTS6.TEX_ID = DESIGNATIONS5.DES_TEX_I
 WHERE	TYP_MOD_ID = ' . $mod_id . $year_sql . '
 GROUP BY TYP_ID
 ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM;')->queryAll();
+
+            });
+        return $data;
+
     }
 
 
     public static function getCategory($category, $type)
     {
-        $data = \Yii::$app->cache->getOrSet('category_'.$category.'_type_'.$type,
+        $data = \Yii::$app->cache->getOrSet('category_' . $category . '_type_' . $type,
             function () use ($category, $type) {
                 $SQL = \Yii::$app->db->createCommand("
 SELECT 
@@ -217,14 +169,7 @@ SELECT
                     }
                 }
 
-
-                $products = [];
-                foreach (array_unique($result) as $article) {
-                    if ($article)
-                        foreach (Product::find()->where(['like', 'article', $article])->all() as $product)
-                            $products[] = $product;
-                }
-                return $products;
+                return array_unique($result);
             });
 
         return $data;
@@ -236,8 +181,9 @@ SELECT
     public
     static function getLookup($number)
     {
-
-        $SQL = \Yii::$app->db->createCommand("
+        $data = \Yii::$app->cache->getOrSet('lookup_' . $number,
+            function () use ($number) {
+                $SQL = \Yii::$app->db->createCommand("
 SELECT DISTINCT
 IF (ART_LOOKUP.ARL_KIND IN (3, 4), BRANDS.BRA_BRAND, SUPPLIERS.SUP_BRAND) AS BRAND,
 ART_LOOKUP.ARL_SEARCH_NUMBER AS NUMBER,
@@ -252,7 +198,6 @@ INNER JOIN ARTICLES ON ARTICLES.ART_ID = ART_LOOKUP.ARL_ART_ID
 INNER JOIN SUPPLIERS ON SUPPLIERS.SUP_ID = ARTICLES.ART_SUP_ID
 INNER JOIN DESIGNATIONS ON DESIGNATIONS.DES_ID = ARTICLES.ART_COMPLETE_DES_ID
 INNER JOIN DES_TEXTS ON DES_TEXTS.TEX_ID = DESIGNATIONS.DES_TEX_ID
-INNER JOIN product ON product.article LIKE ART_LOOKUP.ARL_DISPLAY_NR
 WHERE
 ART_LOOKUP.ARL_ART_ID = '" . $number . "' AND
 ART_LOOKUP.ARL_KIND IN (1,2,3, 4) AND
@@ -260,13 +205,14 @@ DESIGNATIONS.DES_LNG_ID = 16
 GROUP BY BRAND, NUMBER;
         ");
 
-        $result = [];
-        foreach ($SQL->queryAll() as $article) {
-            if ($article['ARL_DISPLAY_NR'])
-                $result[] = $article['ARL_DISPLAY_NR'];
-        }
-
-        return array_unique($result);
+                $result = [];
+                foreach ($SQL->queryAll() as $article) {
+                    if ($article['ARL_DISPLAY_NR'])
+                        $result[] = $article['ARL_DISPLAY_NR'];
+                }
+                return array_unique($result);
+            });
+        return $data;
 
     }
 
@@ -428,6 +374,27 @@ WHERE
 
 //        }
 
+    }
+
+
+    public static function getModelFullName($mod_id)
+    {
+
+        $row = \Yii::$app->db->createCommand(
+            'SELECT MFA_BRAND,	DES_TEXTS7.TEX_TEXT AS MOD_CDS_TEXT
+FROM	           TYPES
+INNER JOIN MODELS ON MOD_ID = TYP_MOD_ID
+INNER JOIN MANUFACTURERS ON MFA_ID = MOD_MFA_ID
+INNER JOIN COUNTRY_DESIGNATIONS AS COUNTRY_DESIGNATIONS2 ON COUNTRY_DESIGNATIONS2.CDS_ID = MOD_CDS_ID AND COUNTRY_DESIGNATIONS2.CDS_LNG_ID = 16
+INNER JOIN DES_TEXTS AS DES_TEXTS7 ON DES_TEXTS7.TEX_ID = COUNTRY_DESIGNATIONS2.CDS_TEX_ID
+INNER JOIN COUNTRY_DESIGNATIONS ON COUNTRY_DESIGNATIONS.CDS_ID = TYP_CDS_ID AND COUNTRY_DESIGNATIONS.CDS_LNG_ID = 16
+INNER JOIN DES_TEXTS ON DES_TEXTS.TEX_ID = COUNTRY_DESIGNATIONS.CDS_TEX_ID
+WHERE	TYP_MOD_ID = ' . $mod_id . '
+ORDER BY	MOD_CDS_TEXT;'
+        )->queryOne();
+
+
+        return $row['MFA_BRAND'] . ' ' . $row['MOD_CDS_TEXT'];
     }
 
 

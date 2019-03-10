@@ -135,9 +135,8 @@ $(function () {
 
             data += '&TecdocSearch%5Bcar_name%5D=' + name;
 
-            // animateCSS('#car_pjax', 'bounceOutLeft');
-            // $("#tree-levels-selectors *").hide(650);
-
+            $('#td-category-panel .select2').slideUp(500);
+            $('#pjax_car_category').slideUp(500);
 
             $.ajax({
                     url: '/tecdoc/add-car',
@@ -147,9 +146,22 @@ $(function () {
                     // async: false,
                     success: function (response) {
                         $('#site-header .header-car').html(response);
-                        $.pjax.reload({container: "#car_pjax", timeout: false});
-                        // animateCSS('#car_pjax', 'bounceInLeft');
-                        // $("#tree-levels-selectors *").show(650);
+                        $.ajax({
+                            url: '/tecdoc/category-drop-down',
+                            type: 'post',
+                            datatype: 'html',
+                            // async: false,
+                            success: function (response) {
+                                console.log(response);
+                                 $('#td-category-panel').html(response);
+                                 $('#td-category-panel .select2').slideUp(0).slideDown(500);
+                            },
+                            error: function (e) {
+                                console.log('Error!');
+                                console.log(e.responseText);
+                            }
+                        });
+
                     },
                     error: function (e) {
                         console.log('Error!');
@@ -162,28 +174,31 @@ $(function () {
         }
     );
 
-    $('body').on('change', '#tree_level_3', function (e) {
 
-            var category = 0;
-            if (parseInt($('#tree_level_3').val(), 10) > 0) {
-                category = $('#tree_level_3').val();
-            } else {
-                if (parseInt($('#tree_level_2').val(), 10) > 0) {
-                    category = $('#tree_level_2').val();
-                } else {
-                    if (parseInt($('#tree_level_1').val(), 10) > 0) {
-                        category = $('#tree_level_1').val();
-                    }
-                }
-            }
+    //
+    // $('#td_category').on('select2:open', function () {
+    //     var container = $(this).select('select2-container');
+    //     var position = container.offset().top;
+    //     var availableHeight = $(window).height() - position - container.outerHeight();
+    //     var bottomPadding = 500; // Set as needed
+    //     $('ul.select2-results__options').css('max-height', (availableHeight - bottomPadding) + 'px');
+    // });
 
+    $('body').on('change', '#td_category', function (e) {
+            var category = $('#td_category').val();
+            // $('.list-wrapper').html('<div>Загрузка...</div>');
 
+            $("#td_wheel-preloader").show(300);
+            $("#pjax_car_category").slideUp(500);
             $.pjax.reload({
                 container: "#pjax_car_category",
                 timeout: false,
-                type: 'POST',
-                async: false,
-                data: {'category':category}
+                type: 'get',
+                url: '/car',
+                data: {'category': category}
+            }).done(function () {
+                $("#td_wheel-preloader").hide(300);
+                $("#pjax_car_category").slideDown(500);
             });
 
         }

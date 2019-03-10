@@ -30,17 +30,14 @@ class TecdocController extends \yii\web\Controller
     {
 
         $tecdocSearch = new TecdocSearch();
-        $tree = null;
 
         if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
             $tecdocSearch->load($car, '');
-            $tree = TecDoc::getTreeArray($car['type_id'])[0]['child'];
-            $tecdocSearch['category'] = $_POST['category'] ?? 0;
-
+            $tecdocSearch['category'] = $_GET['category'] ?? 0;
         }
-        $dataProvider= $tecdocSearch->search();
 
-        return $this->render('test-search', compact('tecdocSearch', 'dataProvider', 'tree'));
+
+        return $this->render('car', compact('tecdocSearch'));
     }
 
 
@@ -223,8 +220,6 @@ GROUP BY BRAND, NUMBER ;
         ");
 
 
-//
-
         $products = Product::find()->select('article')->active()->hasArticle()->asArray()->all();
 
 
@@ -297,54 +292,6 @@ GROUP BY BRAND, NUMBER ;
     }
 
 
-    public function actionLevel2DropDown()
-    {
-
-        $data = $_POST['depdrop_all_params'];
-        $out = [];
-        if ((int)$data['tree_level_1']) {
-            $car = unserialize($_COOKIE['car'], ["allowed_classes" => false]);
-            $tree = TecDoc::getTreeArray($car['type_id'])[0]['child'];
-
-            foreach ($tree as $level_1) {
-                if ($level_1['STR_ID'] == $data['tree_level_1']) {
-                    if (isset($level_1['child']))
-                    foreach ($level_1['child'] as $level_2) {
-
-                        $out[] = ['id' => $level_2['STR_ID'],
-                            'name' => $level_2['STR_DES_TEXT']];
-                    }
-                }
-            }
-        }
-        return Json::encode(['output' => $out]);
-    }
-
-    public function actionLevel3DropDown()
-    {
-
-        $data = $_POST['depdrop_all_params'];
-        $out = [];
-        if ((int)$data['tree_level_2']) {
-            $car = unserialize($_COOKIE['car'], ["allowed_classes" => false]);
-            $tree = TecDoc::getTreeArray($car['type_id'])[0]['child'];
-
-            foreach ($tree as $level_1) {
-                foreach ($level_1['child'] as $level_2) {
-                    if ($level_2['STR_ID'] == $data['tree_level_2']) {
-                        if (isset($level_2['child']))
-                            foreach ($level_2['child'] as $level_3) {
-
-                                $out[] = ['id' => $level_3['STR_ID'],
-                                    'name' => $level_3['STR_DES_TEXT']];
-                            }
-                    }
-                }
-            }
-        }
-        return Json::encode(['output' => $out]);
-    }
-
     public
     function actionAddCar()
     {
@@ -359,8 +306,22 @@ GROUP BY BRAND, NUMBER ;
         if ($form['year']) {
             $car_text .= ', ' . $form['year'] . ' г.в.';
         }
+
         return Html::a($car_text, '/car');
     }
+
+
+    public function actionCategoryDropDown()
+    {
+        $tecdocSearch= new TecdocSearch();
+        if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
+            $tecdocSearch->load($car, '');
+        }
+
+        return $this->renderAjax('cat-selector', compact('tecdocSearch'));
+    }
+
+
 
 
     public

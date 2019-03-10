@@ -14,14 +14,14 @@ $this->title = 'Содержание сайта'; ?>
 
             <?= $form->field($model, 'phones_header')->textInput() ?>
 
-            <?= $form->field($model, 'phone_footer')->textInput() ?>
+            <?= $form->field($model, 'address')->textInput() ?>
 
-            <?= $form->field($model, 'phone_footer_icon')->dropDownList([
-                'voodafone.png' => 'Voodafone',
-                'kyivstar.png' => 'KyivStar',
-                'life.png' => 'Life'
-
-            ]); ?>
+<!--            --><?//= $form->field($model, 'phone_footer_icon')->dropDownList([
+//                'voodafone.png' => 'Voodafone',
+//                'kyivstar.png' => 'KyivStar',
+//                'life.png' => 'Life'
+//
+//            ]); ?>
 
             <?= $form->field($model, 'title')->textarea() ?>
 

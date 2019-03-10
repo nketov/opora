@@ -298,7 +298,7 @@ WHERE
             ');
                 //ORDER BY STR_DES_TEXT');
 
-
+                $menu=[];
                 foreach ($SQL->queryAll() as $arPRes) {
 
                     if (empty($arPRes['STR_ID_PARENT'])) {

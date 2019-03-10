@@ -135,8 +135,8 @@ $(function () {
 
             data += '&TecdocSearch%5Bcar_name%5D=' + name;
 
-            $('#pjax_car_category').slideUp(500);
-            $('#td-category-panel .select2').slideUp(500, function () {
+            $('#pjax_car_category').slideUp(1000);
+            $('#td-category-panel .select2').slideUp(1000, function () {
                 history.pushState({}, null, '/car');
 
                 $('#td-category-panel').html('<div id="select-preloader"></div>');
@@ -151,7 +151,7 @@ $(function () {
                             console.log(res.select_render);
                             $('#site-header .header-car').html(res.car_name);
                             $('#td-category-panel').html(res.select_render);
-                            $('#td-category-panel .select2').slideUp(0).slideDown(500);
+                            $('#td-category-panel .select2').slideUp(0).slideDown(1000);
 
                         },
                         error: function (e) {
@@ -167,11 +167,11 @@ $(function () {
 
     $(document)
         .on('pjax:start', function () {
-            $('.list-wrapper').slideUp(700);
+            $('.list-wrapper').slideUp(1000);
             $('.main-content').css('min-height', $('.main-content').css('height'));
         })
         .on('pjax:end', function () {
-            $('.list-wrapper').slideUp(0).slideDown(700);
+            $('.list-wrapper').slideUp(0).slideDown(1000);
         })
 
 
@@ -179,8 +179,8 @@ $(function () {
             var category = $('#td_category').val();
             // $('.list-wrapper').html('<div>Загрузка...</div>');
 
-            $("#td_wheel-preloader").show(300);
-            $("#pjax_car_category").slideUp(500);
+            $("#td_wheel-preloader").show(750);
+            $("#pjax_car_category").slideUp(1000);
             $.pjax.reload({
                 container: "#pjax_car_category",
                 timeout: false,
@@ -188,8 +188,8 @@ $(function () {
                 url: '/car',
                 data: {'category': category}
             }).done(function () {
-                $("#td_wheel-preloader").hide(300);
-                $("#pjax_car_category").slideDown(500);
+                $("#td_wheel-preloader").hide(750);
+                $("#pjax_car_category").slideDown(1000);
             });
 
         }

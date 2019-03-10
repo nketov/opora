@@ -72,7 +72,7 @@ class TecdocSearch extends Product
         $dataProvider = new ArrayDataProvider([
             'allModels' => $allModels,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 10,
             ],
         ]);
 

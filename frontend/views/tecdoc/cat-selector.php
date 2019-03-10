@@ -10,8 +10,8 @@ $tree = TecDoc::getTreeArray($tecdocSearch->type_id)[0]['child'] ?? [];
 $td_levels = [];
 foreach ($tree as $level_1) {
     $level_2_array = [];
+    if (isset($level_1['child']))
     foreach ($level_1['child'] as $level_2) {
-        if (isset($level_1['child']))
             $level_2_array = [];
         foreach ($level_1['child'] as $level_2) {
             $level_2_array[$level_2['STR_ID']] = " " . $level_2['STR_DES_TEXT'];

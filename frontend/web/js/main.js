@@ -135,54 +135,45 @@ $(function () {
 
             data += '&TecdocSearch%5Bcar_name%5D=' + name;
 
-            $('#td-category-panel .select2').slideUp(500);
             $('#pjax_car_category').slideUp(500);
+            $('#td-category-panel .select2').slideUp(500, function () {
+                history.pushState({}, null, '/car');
 
-            $.ajax({
-                    url: '/tecdoc/add-car',
-                    data: data,
-                    type: 'post',
-                    datatype: 'html',
-                    // async: false,
-                    success: function (response) {
-                        $('#site-header .header-car').html(response);
-                        $.ajax({
-                            url: '/tecdoc/category-drop-down',
-                            type: 'post',
-                            datatype: 'html',
-                            // async: false,
-                            success: function (response) {
-                                console.log(response);
-                                 $('#td-category-panel').html(response);
-                                 $('#td-category-panel .select2').slideUp(0).slideDown(500);
-                            },
-                            error: function (e) {
-                                console.log('Error!');
-                                console.log(e.responseText);
-                            }
-                        });
+                $('#td-category-panel').html('<div id="select-preloader"></div>');
+                $.ajax({
+                        url: '/tecdoc/add-car',
+                        data: data,
+                        type: 'post',
+                        datatype: 'html',
+                        // async: false,
+                        success: function (response) {
+                            var res = JSON.parse(response);
+                            console.log(res.select_render);
+                            $('#site-header .header-car').html(res.car_name);
+                            $('#td-category-panel').html(res.select_render);
+                            $('#td-category-panel .select2').slideUp(0).slideDown(500);
 
-                    },
-                    error: function (e) {
-                        console.log('Error!');
-                        console.log(e.responseText);
+                        },
+                        error: function (e) {
+                            console.log(e.responseText);
+                        }
                     }
-                }
-            );
+                );
+            });
 
 
         }
     );
 
+    $(document)
+        .on('pjax:start', function () {
+            $('.list-wrapper').slideUp(700);
+            $('.main-content').css('min-height', $('.main-content').css('height'));
+        })
+        .on('pjax:end', function () {
+            $('.list-wrapper').slideUp(0).slideDown(700);
+        })
 
-    //
-    // $('#td_category').on('select2:open', function () {
-    //     var container = $(this).select('select2-container');
-    //     var position = container.offset().top;
-    //     var availableHeight = $(window).height() - position - container.outerHeight();
-    //     var bottomPadding = 500; // Set as needed
-    //     $('ul.select2-results__options').css('max-height', (availableHeight - bottomPadding) + 'px');
-    // });
 
     $('body').on('change', '#td_category', function (e) {
             var category = $('#td_category').val();

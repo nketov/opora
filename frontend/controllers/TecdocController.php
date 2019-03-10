@@ -29,6 +29,10 @@ class TecdocController extends \yii\web\Controller
     public function actionSearch()
     {
 
+        if(!\Yii::$app->request->isAjax && !empty($_GET['category'])){
+            $this->redirect('car');
+        }
+
         $tecdocSearch = new TecdocSearch();
 
         if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
@@ -307,7 +311,17 @@ GROUP BY BRAND, NUMBER ;
             $car_text .= ', ' . $form['year'] . ' г.в.';
         }
 
-        return Html::a($car_text, '/car');
+        $tecdocSearch= new TecdocSearch();
+        $tecdocSearch->load($form, '');
+
+
+
+//        return Html::a($car_text, '/car');
+        return Json::encode([
+            'car_name' => Html::a($car_text, '/car'),
+            'select_render' => $this->renderAjax('cat-selector',
+                                    compact('tecdocSearch'))
+        ]);
     }
 
 

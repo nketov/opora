@@ -275,7 +275,8 @@ WHERE
     }
 
     public
-    static function getTreeArray($type_id)
+    static function
+    getTreeArray($type_id)
     {
 
         $data = \Yii::$app->cache->getOrSet('tree_type_' . $type_id,

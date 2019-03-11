@@ -6,11 +6,13 @@ use common\models\Actions;
 use common\models\ActionsContent;
 use common\models\Article;
 use common\models\ArticleSearch;
+use common\models\Category;
 use common\models\Content;
 use common\models\Order;
 use common\models\Product;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -21,13 +23,17 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
+
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
+
+    private $_category_arr = [];
+
     /**
-     * {@inheritdoc}
+     *      * {@inheritdoc}
      */
     public function behaviors()
     {
@@ -86,8 +92,36 @@ class SiteController extends Controller
     }
 
 
+    public function action1cTree()
+    {
 
+        $all_cats = Category::find()->all();
+        foreach ($all_cats as $cat) {
+            $this->_category_arr[$cat['parent_code']][] = $cat;
+        }
 
+        $this->outTree('', 0);
+
+        exit;
+
+    }
+
+    private function outTree($parent_id, $level)
+    {
+        if (isset($this->_category_arr[$parent_id])) {
+            foreach ($this->_category_arr[$parent_id] as $value) {
+
+                echo "<div style='
+                margin-left:" . ($level * 50) . "px; 
+                font-size:" . (30 - $level * 2) . "px;
+                color: rgb(" . (255 - $level * 25) . ",".(0 + $level * 35). ",".(100 + $level * 25).");
+                '>" . $value->name . "</div>";
+                $level++;
+                $this->outTree($value->code, $level);
+                $level--;
+            }
+        }
+    }
 
 
     public function actionView()
@@ -136,9 +170,8 @@ class SiteController extends Controller
 
         $model->password = '';
 
-        return $this->render('login', compact('model', 'signupModel','passwordModel'));
+        return $this->render('login', compact('model', 'signupModel', 'passwordModel'));
     }
-
 
 
     public function actionCabinet()
@@ -153,15 +186,14 @@ class SiteController extends Controller
         $actions = Actions::getDiscounts();
         $lastOrders = Order::find()->where(['user_id' => $user->id])->orderBy(['date' => SORT_DESC])->limit(5)->all();
 
-        return $this->render('cabinet', compact('actions', 'user','lastOrders'));
+        return $this->render('cabinet', compact('actions', 'user', 'lastOrders'));
     }
-
 
 
     public function actionActions()
     {
 
-        $contents=ActionsContent::find()->all();
+        $contents = ActionsContent::find()->all();
         $actions = Actions::getDiscounts();
 
         return $this->render('actions', compact('actions', 'contents'));
@@ -174,7 +206,7 @@ class SiteController extends Controller
         $searchModel = new ArticleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('articles',  compact('products', 'searchModel', 'dataProvider'));
+        return $this->render('articles', compact('products', 'searchModel', 'dataProvider'));
     }
 
     public function actionArticleView($id)
@@ -204,7 +236,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        $content=Content::findOne(1);
+        $content = Content::findOne(1);
 
         $model = new ContactForm();
 
@@ -217,7 +249,7 @@ class SiteController extends Controller
 
             return $this->refresh();
         } else {
-            return $this->render('contact', compact(['model','content']));
+            return $this->render('contact', compact(['model', 'content']));
         }
     }
 

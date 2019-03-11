@@ -58,7 +58,7 @@ class CronController extends Controller
                 $category->code = (string)$code;
             }
 
-            $category->parent_code = (string)self::getByTagName('ParentCode');
+            $category->parent_code = (string)self::getByTagName('ParentCode') ?? '000000000';
 
             $category->name = (string)self::getByTagName('Name');
 

@@ -41,6 +41,12 @@ class ProductQuery extends \yii\db\ActiveQuery
 //    }
 
 
+    public function shop($shop)
+    {
+        return $this->andWhere(['shop' => $shop]);
+    }
+
+
 
     public function active()
     {

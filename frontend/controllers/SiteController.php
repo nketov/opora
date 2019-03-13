@@ -110,7 +110,6 @@ class SiteController extends Controller
     {
         if (isset($this->_category_arr[$parent_id])) {
             foreach ($this->_category_arr[$parent_id] as $value) {
-
                 echo "<div style='
                 margin-left:" . ($level * 50) . "px; 
                 font-size:" . (30 - $level * 2) . "px;

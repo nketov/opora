@@ -125,7 +125,7 @@ $form = ActiveForm::begin(['id' => 'tecdoc-search-form']); ?>
 
 
         $dataProvider = $tecdocSearch->search();
-        Pjax::begin(['id' => 'pjax_car_category', 'timeout' => 5000]);
+        Pjax::begin(['id' => 'pjax_car_category', 'timeout' => false]);
         if ($tecdocSearch['category'])
             echo ListView::widget([
                 'dataProvider' => $dataProvider,

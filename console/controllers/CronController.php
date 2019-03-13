@@ -88,6 +88,8 @@ class CronController extends Controller
                 $renew_count++;
             }
 
+            $product->shop = 0;
+
             $product->active=1;
 
             $product->name = (string)self::getByTagName('Name');
@@ -124,7 +126,7 @@ class CronController extends Controller
         }
 
 
-        foreach (Product::find()->active()->all() as $product){
+        foreach (Product::find()->shop(Product::OPORA_SHOP)->active()->all() as $product){
             if(!in_array($product->code,$active_records)){
                 $product->active=0;
                 $product->save();

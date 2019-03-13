@@ -36,6 +36,14 @@ class Product extends \yii\db\ActiveRecord
         return 'product';
     }
 
+    const OPORA_SHOP = '0';
+    const VLAD_SHOP = '1';
+
+    private static $_shopName = [
+        self::OPORA_SHOP => 'Опора',
+        self::VLAD_SHOP => 'Владислав',
+
+    ];
 
     /**
      * {@inheritdoc}
@@ -43,7 +51,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['active', 'remains','currency','category'], 'integer'],
+            [['active', 'remains','currency','category','shop'], 'integer'],
             [['price'], 'number'],
             [['code', 'article'], 'string', 'max' => 50],
             [['name'], 'string', 'max' => 200],
@@ -84,6 +92,16 @@ class Product extends \yii\db\ActiveRecord
     }
 
 
+
+    public static function shopName($shop)
+    {
+        return self::$_shopName[$shop];
+    }
+
+    public static function shopNamesList()
+    {
+        return self::$_shopName;
+    }
 
     public static function maxPrice($query)
     {

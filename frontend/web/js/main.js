@@ -167,10 +167,12 @@ $(function () {
 
     $(document)
         .on('pjax:start', function () {
+            $("#td_wheel-preloader").show(750);
             $('.list-wrapper').slideUp(1000);
             $('.main-content').css('min-height', $('.main-content').css('height'));
         })
         .on('pjax:end', function () {
+            $("#td_wheel-preloader").hide(750);
             $('.list-wrapper').slideUp(0).slideDown(1000);
         })
 

@@ -18,7 +18,7 @@ if (isset($searchModel->category)) {
     <?php echo $this->render('_search', compact('searchModel')); ?>
 </aside>
 
-<?php Pjax::begin(['id' => 'pjax_list']); ?>
+<?php Pjax::begin(['id' => 'pjax_list','timeout' => false]); ?>
 <?= ListView::widget([
     'dataProvider' => $dataProvider,
     'options' => [

@@ -19,7 +19,7 @@ class UploadForm extends Model
     public function rules()
     {
         return [
-            [['excelFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'xls,xlsx', 'checkExtensionByMimeType' => false],
+            [['excelFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'xls,xlsx,csv', 'checkExtensionByMimeType' => false],
             [['markup'], 'number'],
             [['shop'], 'required']
         ];
@@ -37,7 +37,7 @@ class UploadForm extends Model
     public function upload()
     {
         if ($this->validate()) {
-            $this->excelFile->saveAs('uploads/prices/'.Product::shopName($this->shop) . '.'. $this->excelFile->extension, false);
+            $this->excelFile->saveAs(Url::to('@backend/web/uploads/prices/').Product::shopName($this->shop) . '.'. $this->excelFile->extension, false);
             return true;
         } else {
             return false;

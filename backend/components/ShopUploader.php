@@ -103,7 +103,7 @@ class ShopUploader extends Widget
                     'name' => (string)(trim($row['H']) . ' ' . trim($row['C'])),
                     'article' => (string)trim($row['D']),
                     'remains' => (int)trim($row['G']),
-                    'price' => (float)trim($row['E']) * 27 * (1 + $this->markup / 100)
+                    'price' => (float)str_replace(',','.',$row['E']) * 27 * (1 + $this->markup / 100)
                 ];
             }
         }

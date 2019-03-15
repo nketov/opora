@@ -56,16 +56,34 @@ class TecdocSearch extends Product
 
         $allModels = [];
 
+//        if ($this->category && $this->type_id) {
+//            \Yii::$app->db->createCommand('SET SESSION wait_timeout = 300;')->execute();
+//            $products = array_unique(ArrayHelper::getColumn(Product::find()->active()->all(), 'article'));
+//
+//            foreach (TecDoc::getCategory($this->category, $this->type_id) as $article) {
+//                if ($article && in_array($article, $products))
+//                    foreach (Product::find()->where(['like', 'article', $article])->active()->all() as $product)
+//                        $allModels[] = $product;
+//            }
+//
+//        }
+
+        $category = $this->category;
+        $type =  $this->type_id;
+
         if ($this->category && $this->type_id) {
-
-            $products = array_unique(ArrayHelper::getColumn(Product::find()->active()->all(), 'article'));
-
-            foreach (TecDoc::getCategory($this->category, $this->type_id) as $article) {
-                if ($article && in_array($article, $products))
-                    foreach (Product::find()->where(['like', 'article', $article])->active()->all() as $product)
-                        $allModels[] = $product;
-            }
-
+            $allModels = \Yii::$app->cache->getOrSet('td_provider_models_' . $category . '_' . $type,
+                function () use ($category, $type) {
+                    \Yii::$app->db->createCommand('SET SESSION wait_timeout = 300;')->execute();
+                    $products = array_unique(ArrayHelper::getColumn(Product::find()->active()->all(), 'article'));
+                    $am = [];
+                    foreach (TecDoc::getCategory($category, $type) as $article) {
+                        if ($article && in_array($article, $products))
+                            foreach (Product::find()->where(['like', 'article', $article])->active()->all() as $product)
+                                $am[] = $product;
+                    }
+                    return $am;
+                }, 300);
         }
 
         $dataProvider = new ArrayDataProvider([

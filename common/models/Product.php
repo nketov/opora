@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\components\TecDoc;
 use Yii;
 use yii\helpers\ArrayHelper;
 use common\models\Color;
@@ -51,11 +52,11 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['active', 'remains','currency','category','shop'], 'integer'],
+            [['active', 'remains', 'currency', 'category', 'shop'], 'integer'],
             [['price'], 'number'],
-            [['code', 'article'], 'string', 'max' => 50],
+            [['code', 'article'], 'string', 'max' => 75],
             [['name'], 'string', 'max' => 200],
-            [['images','description'], 'string'],
+            [['images', 'description'], 'string'],
             [['unit'], 'string', 'max' => 10],
             [['code'], 'unique'],
         ];
@@ -92,7 +93,6 @@ class Product extends \yii\db\ActiveRecord
     }
 
 
-
     public static function shopName($shop)
     {
         return self::$_shopName[$shop];
@@ -105,20 +105,20 @@ class Product extends \yii\db\ActiveRecord
 
     public static function maxPrice($query)
     {
-        $model = $query->andFilterWhere(['>','price',0])->orderBy('price DESC')->one();
-        if(empty($model)) return 1;
+        $model = $query->andFilterWhere(['>', 'price', 0])->orderBy('price DESC')->one();
+        if (empty($model)) return 1;
 
         return ceil($model->price);
     }
 
     public static function minPrice($query)
     {
-        $model = $query->andFilterWhere(['>','price',0])->orderBy('price ASC')->one();
-        if(empty($model)) return 1;
+        $model = $query->andFilterWhere(['>', 'price', 0])->orderBy('price ASC')->one();
+        if (empty($model)) return 1;
         return floor($model->price);
     }
 
-    public  function getDiscountPrice()
+    public function getDiscountPrice()
     {
 //        $discounts = \Yii::$app->user->identity->actions ?? [];
 //
@@ -133,15 +133,35 @@ class Product extends \yii\db\ActiveRecord
         return $this->price;
     }
 
-    public function getFirstImage()    {
+    public function getFirstImage()
+    {
 
-        return explode(';',$this->images)[0];
+        return $this->getAllImages()[0] ?? '';
+    }
+
+    public function getAllImages()
+    {
+        $images = [];
+        if (!empty($this->images)) {
+            foreach (explode(';', $this->images) as $img) {
+                $images[] = '/images/1C_images/' . $img;
+            }
+        } else {
+            if($td_images = TecDoc::getImages($this->article)){
+                foreach ($td_images as $img) {
+                    if($img['PATH'])
+                    $images[] = '/images/Foto/' . $img['PATH'];
+                }
+            }
+        }
+
+        return $images;
     }
 
 
     public static function getActiveCodesArray()
     {
-        return ArrayHelper::map(self::find()->active()->all(),'id','code');
+        return ArrayHelper::map(self::find()->active()->all(), 'id', 'code');
     }
 
     public static function find()

@@ -8,7 +8,7 @@ $this->title = 'Поиск :';
 <!---->
 <!--<div class="content-header">--><?//= $this->title ?><!--</div>-->
 
-<?php Pjax::begin(['id' => 'pjax_text_search']); ?>
+<?php Pjax::begin(['id' => 'pjax_text_search','timeout'=>false]); ?>
 <?= ListView::widget([
     'dataProvider' => $dataProvider,
     'options' => [

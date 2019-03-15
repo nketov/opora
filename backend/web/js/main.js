@@ -67,6 +67,17 @@ $(document).ready(function () {
     });
 
 
+    $('body').on('click', '#synonym-table tbody tr td:not(:last-child)',
+        function () {
+            var collection_id = $(this).closest('tr').data('key');
+            location.href = '/admin/synonym/update?id=' + collection_id;
+        }
+    );
+
+
+
+
+
     // $('body').on('click', '#products-table tbody tr td:not(.td-active)',
     //     function () {
     //         var product = $(this).closest('tr').data('key');

@@ -137,8 +137,6 @@ class SiteController extends Controller
 
     public function actionActionsContent()
     {
-
-
         if (!empty($id = Yii::$app->request->post('ActionsContent')['id'])) {
             $content = ActionsContent::findOne($id);
             if ($content->load(Yii::$app->request->post()) && $content->upload()) {

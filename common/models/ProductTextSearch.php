@@ -51,15 +51,18 @@ class ProductTextSearch extends Product
 
         $this->load($params);
 
+        $synonyms=Synonym::getSynonyms($this->text);
 
+    $query_array = ['or',
+        ['like', 'name', trim($this->text)],
+        ['like', 'article', trim($this->text)],
+    ];
 
-        $query->andFilterWhere(['or',
-                ['like', 'name', trim($this->text)],
-                ['like', 'article', trim($this->text)],
-//                ['like', 'description', trim($this->text)]
+    foreach ($synonyms as $syn){
+        $query_array[] =  ['like', 'name', $syn];
+    }
 
-            ]
-        );
+        $query->andFilterWhere($query_array);
 
 
         return $dataProvider;

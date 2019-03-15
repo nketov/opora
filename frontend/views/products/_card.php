@@ -6,8 +6,8 @@ use yii\helpers\StringHelper;
 
 <div class="card-contur"></div>
 
-<?php if ($model->images) {
-    $src='/images/1C_images/'.$model->getFirstImage();
+<?php if ($model->getFirstImage()) {
+    $src=$model->getFirstImage();
     ?>
     <img class="card-img" src="<?=$src ?>"/>
 <?php } else {

@@ -18,8 +18,10 @@ class AppAsset extends AssetBundle
         'css/cart.css',
     ];
     public $js = [
+        'js/vue_js.js',
         'js/cart.js',
-        'js/main.js'
+        'js/main.js',
+
     ];
     public $depends = [
         'yii\web\YiiAsset',

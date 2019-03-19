@@ -68,10 +68,23 @@ class PasswordResetRequestForm extends Model
             ->send();
         */
         $url = Url::home(true);
-        $text =' Здравствуйте!'."\n\n"
-            . ' Вы отправили запрос на восстановление пароля для  почтового ящика : ' . $this->email . "\n"
-            . ' Для того чтобы задать новый пароль, перейдите по ссылке ниже ' ."\n"
+
+
+
+
+
+        $html ='<h3>Здравствуйте!</h3>>'."<br>"
+            . ' Вы отправили запрос на восстановление пароля для  почтового ящика : <b>' . $this->email . "</b><br>"
+            . ' Для того чтобы задать новый пароль, перейдите по ссылке ниже ' ."<br>"
             . $url.'site/reset-password?token='.$user->password_reset_token ;
+
+
+           return  Yii::$app->mailer->compose()
+        ->setTo($this->email)
+        ->setFrom(['mail@opora.dn.ua' => 'Opora'])
+        ->setSubject('Восстановление пароля opora.dn.ua')
+        ->setHtmlBody($html)
+        ->send();
              
         return mail($this->email, 'Восстановление пароля svitlograd.in.ua ', $text) ;
     }

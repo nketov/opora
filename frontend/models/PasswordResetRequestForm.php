@@ -73,7 +73,7 @@ class PasswordResetRequestForm extends Model
 
 
 
-        $html ='<h3>Здравствуйте!</h3>>'."<br>"
+        $html ='<h3>Здравствуйте!</h3>'
             . ' Вы отправили запрос на восстановление пароля для  почтового ящика : <b>' . $this->email . "</b><br>"
             . ' Для того чтобы задать новый пароль, перейдите по ссылке ниже ' ."<br>"
             . $url.'site/reset-password?token='.$user->password_reset_token ;
@@ -86,6 +86,6 @@ class PasswordResetRequestForm extends Model
         ->setHtmlBody($html)
         ->send();
              
-        return mail($this->email, 'Восстановление пароля svitlograd.in.ua ', $text) ;
+//        return mail($this->email, 'Восстановление пароля svitlograd.in.ua ', $text) ;
     }
 }

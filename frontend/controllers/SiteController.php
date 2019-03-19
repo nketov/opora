@@ -182,10 +182,14 @@ class SiteController extends Controller
             $user->save();
         }
 
-        $actions = Actions::getDiscounts();
-        $lastOrders = Order::find()->where(['user_id' => $user->id])->orderBy(['date' => SORT_DESC])->limit(5)->all();
+//        $actions = Actions::getDiscounts();
+//        $lastOrders = Order::find()->where(['user_id' => $user->id])->orderBy(['date' => SORT_DESC])->limit(5)->all();
 
-        return $this->render('cabinet', compact('actions', 'user', 'lastOrders'));
+        return $this->render('cabinet', compact(
+//            'actions',
+            'user'
+//            ,'lastOrders'
+        ));
     }
 
 

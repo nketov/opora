@@ -40,25 +40,38 @@ a {
     border-radius: 10px;
     margin: 8px;
     display: grid;
-    grid-template-columns: 225px 1fr 1fr auto 1fr 1fr;
+    grid-template-columns: 225px 1fr auto 1fr 1fr;
 
 }
 
-.header-car {
-    padding-top: 25px;
-    font-weight: bold;
-    font-family: "Rockwell Extra Bold";
-}
 
 #header-contacts, #header-time {
     padding: 25px;
     color: white;
     font-weight: bold;
     text-shadow: 2px 1px 1px rgba(0, 0, 0, 0.5);
+    font-size: 1vw;
 }
 
 #header-time {
-    font-size: .85em;
+    font-size: .90vw;
+}
+
+
+
+.header-car {
+    padding: 25px;
+    font-weight: bold;
+    font-family: "Rockwell Extra Bold";
+}
+
+.header-user {
+    color: black !important;
+    padding-top: 25px;
+    font-weight: bold;
+    font-size: 1.25em;
+    text-align: center;
+    font-family: "Roboto";
 }
 
 #site-header-logo {
@@ -220,8 +233,8 @@ li strong {
     left: 7px;
 }
 
-.main-content > .container-login {
-    grid-column-end: span 2;
+.container-login {
+    border-radius: 10px;
     height: 650px;
     background: linear-gradient(to bottom, #CDF, #FFF);
 }
@@ -758,13 +771,27 @@ li strong {
 }
 
 @media screen and (max-width: 1000px) {
-    .header-img {
-        background-position-x: 50%;
+
+    #site-header {
+        min-height: 275px;
+        grid-template-columns: 225px 1fr 1fr;
     }
 
-    .header-text {
-        opacity: 0;
-        width: 0;
+    #tecdoc-search-form {
+        padding: 5px 15px;
+        padding-top: 15px;
+        grid-template-columns: repeat(3, 1fr);
+        grid-column-gap: 15px;
+
+    }
+
+
+    #header-contacts, #header-time{
+        font-size: 12px;
+    }
+
+    .header-car{
+        /*grid-column-end: span 2;*/
     }
 
     .image_container {
@@ -856,6 +883,20 @@ li strong {
 
 @media screen and (max-width: 640px) {
 
+
+    #site-header {
+        min-height: 600px;
+        grid-template-columns: 2fr;
+    }
+
+
+    #tecdoc-search-form {
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 10px;
+    }
+
+
+
     .main-content, .header-panel {
         grid-template-columns: 1fr;
         margin: 1px;
@@ -911,6 +952,17 @@ li strong {
     .pagination {
         font-size: 10px;
     }
+
+    #site-header {
+        height: 600px;
+        grid-template-columns: 1fr;
+    }
+
+    #tecdoc-search-form {
+        grid-template-columns: repeat(1, 1fr);
+        grid-column-gap: 5px;
+    }
+
 
     .container-actions table tr > *:nth-child(5),
     .container-cabinet .actions tr > *:nth-child(5) {

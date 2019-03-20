@@ -6,12 +6,6 @@ use yii\widgets\MaskedInput;
 
 $this->title = 'Мой кабинет';
 
-
-echo '<h2>'.$this->title.'</h2>';
-if(false)
-
-
-
 if (!Yii::$app->user->isGuest) {
     $string = $user->phone;
     $phone_string = '+38 (0' . $string[0] . $string[1] . ') ' . $string[2] . $string[3] . $string[4] . ' ' . $string[5] . $string[6] . ' ' . $string[7] . $string[8]

@@ -269,6 +269,7 @@ li strong {
     background: linear-gradient(to bottom, #DDD, #FFF);
     display: grid;
     grid-template-columns: 1fr 1fr;
+    border-radius: 10px;
 }
 
 .main-content > .container-contact > div,

@@ -116,7 +116,7 @@ a {
     padding: 35px 16px;
     background: rgba(150, 150, 55, .33);
     border-radius: 10px;
-    max-height: 125px;
+    height: 155px;
 }
 
 
@@ -266,7 +266,7 @@ li strong {
 
 .main-content > .container-cabinet {
     grid-column-end: span 2;
-    background: linear-gradient(to bottom, #DDD, #FFF);
+    background: linear-gradient(to bottom, #EEE, #FFF);
     display: grid;
     grid-template-columns: 1fr 1fr;
     border-radius: 10px;

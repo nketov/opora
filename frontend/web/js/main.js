@@ -44,10 +44,10 @@ $(function () {
         $(this).closest('form').submit();
     });
 
-    // $('body').on('click', '.card-img,.card-text', function () {
-    //     var product = $(this).closest('.card').data('key');
-    //     location.href = '/product/' + product;
-    // });
+    $('body').on('click', '.card-img,.card-text', function () {
+        var product = $(this).closest('.card').data('key');
+        location.href = '/product/' + product;
+    });
 
     $('body').on('click', '#site-header-logo', function () {
         $('.site-header-logo').css('box-shadow', 'none');
@@ -177,9 +177,12 @@ $(function () {
         })
 
 
-    $('body').on('change', '#td_category', function (e) {
-            var category = $('#td_category').val();
-            // $('.list-wrapper').html('<div>Загрузка...</div>');
+    $('body').on('change', '#td_category,#td_sub_cat',function (e) {
+
+        let category = parseInt($(this).val(),10);
+
+        if(!(category>0)) return;
+        console.log(category);
 
             $("#td_wheel-preloader").show(750);
             $("#pjax_car_category").slideUp(1000);

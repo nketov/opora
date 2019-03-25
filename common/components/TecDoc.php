@@ -179,6 +179,37 @@ SELECT
 
 
     public
+    static function getAnalogs($article)
+    {
+        $ids = (new Query())
+            ->select(['ART_ID'])
+            ->from('ARTICLES')
+            ->where(['ART_ARTICLE_NR' => $article])
+            ->all();
+        $result = [];
+
+        foreach ($ids as $id) {
+
+            $lookup = TecDoc::getLookup($id['ART_ID']);
+
+            foreach ($lookup as $article) {
+                $result[] = $article;
+            }
+        }
+        $products = array_unique(ArrayHelper::getColumn(Product::find()->active()->all(), 'article'));
+
+        $am = [];
+        foreach ($result as $article){
+            if ($article && in_array($article, $products))
+                foreach (Product::find()->where(['like', 'article', $article])->active()->all() as $product)
+                    $am[$product->id] = $product;
+        }
+
+        return $am;
+    }
+
+
+    public
     static function getLookup($number)
     {
         $data = \Yii::$app->cache->getOrSet('lookup_' . $number,
@@ -299,7 +330,7 @@ WHERE
             ');
                 //ORDER BY STR_DES_TEXT');
 
-                $menu=[];
+                $menu = [];
                 foreach ($SQL->queryAll() as $arPRes) {
 
                     if (empty($arPRes['STR_ID_PARENT'])) {

@@ -94,8 +94,7 @@ class CronController extends Controller
 
             $product->name = (string)self::getByTagName('Name');
 
-            if(!empty($descr = self::getByTagName('Descr')))
-            $product->article = (string)self::getByTagName('Article') ?? null;
+            $product->article = (string)self::getByTagName('Article');
 
             $category=(string)self::getByTagName('ParentCode');
 
@@ -120,6 +119,8 @@ class CronController extends Controller
 
             if(!empty($descr = self::getByTagName('Descr')))
             $product->description = (string)$descr;
+
+
 
             if(!$product->save()) var_dump($product->errors);
 

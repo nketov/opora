@@ -138,7 +138,7 @@ class TecdocController extends \yii\web\Controller
     public function actionCarsForArticle()
     {
 
-        $article = 'K015408XS';
+        $article = 'Brake Fluid DOT 4';
         $SQL = \Yii::$app->db->createCommand("
 SELECT 
 TYPES.TYP_ID,    
@@ -218,7 +218,7 @@ INNER JOIN DESIGNATIONS ON DESIGNATIONS.DES_ID = ARTICLES.ART_COMPLETE_DES_ID
 INNER JOIN DES_TEXTS ON DES_TEXTS.TEX_ID = DESIGNATIONS.DES_TEX_ID
 WHERE
 ART_LOOKUP.ARL_ART_ID = '" . $number . "' AND
-ART_LOOKUP.ARL_KIND IN (1,2,3, 4) AND
+ART_LOOKUP.ARL_KIND IN (3, 4) AND
 DESIGNATIONS.DES_LNG_ID = 16
 GROUP BY BRAND, NUMBER ;
         ");
@@ -335,7 +335,27 @@ GROUP BY BRAND, NUMBER ;
         return $this->renderAjax('cat-selector', compact('tecdocSearch'));
     }
 
-
+    public function actionSubCatDropDown()
+    {
+        $data = $_POST['depdrop_all_params'];
+        $out = [];
+        if ((int)$data['td_category']) {
+            $car = unserialize($_COOKIE['car'], ["allowed_classes" => false]);
+            $tree = TecDoc::getTreeArray($car['type_id'])[0]['child'];
+            foreach ($tree as $level_1) {
+                foreach ($level_1['child'] as $level_2) {
+                    if ($level_2['STR_ID'] == $data['td_category']) {
+                        if (isset($level_2['child']))
+                            foreach ($level_2['child'] as $level_3) {
+                                $out[] = ['id' => $level_3['STR_ID'],
+                                    'name' => $level_3['STR_DES_TEXT']];
+                            }
+                    }
+                }
+            }
+        }
+        return Json::encode(['output' => $out]);
+    }
 
 
     public

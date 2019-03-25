@@ -80,7 +80,7 @@ class TecdocSearch extends Product
                     foreach (TecDoc::getCategory($category, $type) as $article) {
                         if ($article && in_array($article, $products))
                             foreach (Product::find()->where(['like', 'article', $article])->active()->all() as $product)
-                                $am[] = $product;
+                                $am[$product->id] = $product;
                     }
                     return $am;
                 }, 300);

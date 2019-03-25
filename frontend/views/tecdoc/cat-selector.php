@@ -2,7 +2,8 @@
 
 use common\components\TecDoc;
 use common\models\TecdocSearch;
-use kartik\select2\Select2;
+use kartik\depdrop\DepDrop;use kartik\select2\Select2;
+use yii\helpers\Url;
 
 $tree = [];
 if ($tecdocSearch->type_id)
@@ -31,8 +32,32 @@ echo Select2::widget([
 
     ],
     'pluginOptions' => [
-        'allowClear' => true
+        'allowClear' => false
     ],
     'theme' => Select2::THEME_BOOTSTRAP
 ]);
+
+echo "<br>";
+
+echo DepDrop::widget([
+    'options' => [
+        'tabindex' => 1,
+        'role' => 'button-cursor',
+        'id' => 'td_sub_cat'
+    ],
+    'name'=>'td_sub_cat',
+    'type' => DepDrop::TYPE_SELECT2,
+    'select2Options' => [
+        'theme' => Select2::THEME_BOOTSTRAP
+    ],
+    'pluginOptions' => [
+        'depends' => ['td_category'],
+        'url' => Url::to(['/tecdoc/sub-cat-drop-down']),
+        'loadingText' => 'Загрузка ...',
+        'placeholder' => 'Выберите подкатегорию',
+//            'allowClear' => true,
+//            'initialize' => true,
+    ],
+]);
+?>
 

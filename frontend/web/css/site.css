@@ -239,6 +239,14 @@ li strong {
     background: linear-gradient(to bottom, #CDF, #FFF);
 }
 
+
+.product-page{
+    display: grid;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    background: linear-gradient(to bottom, #F0F7FA, #FAF7F0);
+}
+
 .main-content > .container-contact {
     grid-column-end: span 2;
     background: linear-gradient(to bottom, #DFE, #FFF);
@@ -265,7 +273,6 @@ li strong {
 }
 
 .main-content > .container-cabinet {
-    grid-column-end: span 2;
     background: linear-gradient(to bottom, #EEE, #FFF);
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -283,12 +290,7 @@ li strong {
     grid-column-end: span 3;
 }
 
-.main-content > .main-page {
-    grid-column-end: span 2;
-    margin: 25px;
-    padding-bottom: 55px;
 
-}
 
 .content-header {
     font-family: "Century Gothic";
@@ -498,7 +500,7 @@ li strong {
     display: flex;
     align-items: flex-start;
     overflow: hidden;
-    cursor: crosshair;
+    /*cursor: crosshair;*/
 }
 
 .image {

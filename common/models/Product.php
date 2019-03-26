@@ -103,6 +103,9 @@ class Product extends \yii\db\ActiveRecord
         return self::$_shopName;
     }
 
+
+
+
     public static function maxPrice($query)
     {
         $model = $query->andFilterWhere(['>', 'price', 0])->orderBy('price DESC')->one();
@@ -133,6 +136,11 @@ class Product extends \yii\db\ActiveRecord
         return $this->price;
     }
 
+    public function categoryName()
+    {
+        return Category::findOne($this->category)->name ?? "";
+    }
+
     public function getFirstImage()
     {
 
@@ -157,6 +165,8 @@ class Product extends \yii\db\ActiveRecord
 
         return $images;
     }
+
+
 
 
     public static function getActiveCodesArray()

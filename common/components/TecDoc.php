@@ -184,7 +184,7 @@ SELECT
         $ids = (new Query())
             ->select(['ART_ID'])
             ->from('ARTICLES')
-            ->where(['ART_ARTICLE_NR' => $article])
+            ->where(['like','ART_ARTICLE_NR', $article])
             ->all();
         $result = [];
 
@@ -192,20 +192,22 @@ SELECT
 
             $lookup = TecDoc::getLookup($id['ART_ID']);
 
-            foreach ($lookup as $article) {
-                $result[] = $article;
+            foreach ($lookup as $art) {
+                $result[] = $art;
             }
         }
-        $products = array_unique(ArrayHelper::getColumn(Product::find()->active()->all(), 'article'));
 
-        $am = [];
-        foreach ($result as $article){
-            if ($article && in_array($article, $products))
-                foreach (Product::find()->where(['like', 'article', $article])->active()->all() as $product)
-                    $am[$product->id] = $product;
+        $allModels = [];
+        if ($result) {
+            $products = array_unique(ArrayHelper::getColumn(Product::find()->active()->all(), 'article'));
+
+            foreach ($result as $art) {
+                if ($art && $art != $article && in_array($art, $products))
+                    foreach (Product::find()->where(['like', 'article', $art])->active()->all() as $product)
+                        $allModels[$product->id] = $product;
+            }
         }
-
-        return $am;
+        return $allModels;
     }
 
 

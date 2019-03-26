@@ -58,6 +58,7 @@ class ProductTextSearch extends Product
         ['like', 'article', trim($this->text)],
     ];
 
+
     foreach ($synonyms as $syn){
         $query_array[] =  ['like', 'name', $syn];
     }

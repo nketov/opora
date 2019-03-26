@@ -50,18 +50,19 @@ class Synonym extends \yii\db\ActiveRecord
     {
         $result=[];
 
-        foreach (ArrayHelper::getColumn(
-            self::find()->where(['like', 'first', trim($text)])->all(),
-            'second') as $second){
-            $result[]=$second;
-        }
+        if($text) {
+            foreach (ArrayHelper::getColumn(
+                self::find()->where(['like', 'first', trim($text)])->all(),
+                'second') as $second) {
+                $result[] = $second;
+            }
 
-        foreach (ArrayHelper::getColumn(
-            self::find()->where(['like', 'second', trim($text)])->all(),
-            'first') as $first){
-            $result[]=$first;
+            foreach (ArrayHelper::getColumn(
+                self::find()->where(['like', 'second', trim($text)])->all(),
+                'first') as $first) {
+                $result[] = $first;
+            }
         }
-
         return $result;
     }
 

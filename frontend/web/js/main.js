@@ -46,7 +46,14 @@ $(function () {
 
     $('body').on('click', '.card-img,.card-text', function () {
         var product = $(this).closest('.card').data('key');
-        location.href = '/product/' + product;
+
+        if ($('#pjax_car_category').length) {
+            window.open('/product/' + product, '_blank');
+        }
+        else {
+            location.href = '/product/' + product;
+        }
+
     });
 
     $('body').on('click', '#site-header-logo', function () {
@@ -177,12 +184,12 @@ $(function () {
         })
 
 
-    $('body').on('change', '#td_category,#td_sub_cat',function (e) {
+    $('body').on('change', '#td_category,#td_sub_cat', function (e) {
 
-        let category = parseInt($(this).val(),10);
+            let category = parseInt($(this).val(), 10);
 
-        if(!(category>0)) return;
-        console.log(category);
+            if (!(category > 0)) return;
+            console.log(category);
 
             $("#td_wheel-preloader").show(750);
             $("#pjax_car_category").slideUp(1000);

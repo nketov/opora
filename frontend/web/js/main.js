@@ -23,15 +23,6 @@ $(function () {
     "use strict";
     // topCatalogResize();
 
-    $('.hamburger').mouseover(function () {
-        $('.top-catalog').css('opacity', '0.99');
-        $('.top-catalog').css('z-index', '35');
-    });
-    $('.main-content,.header-img').mouseover(function () {
-        $('.top-catalog').css('opacity', '0');
-        $('.top-catalog').css('z-index', '-1');
-    });
-
 
     $('body').on('change', 'input#prices', function () {
         var prices = ($(this).val()).split(',');
@@ -47,12 +38,14 @@ $(function () {
     $('body').on('click', '.card-img,.card-text', function () {
         var product = $(this).closest('.card').data('key');
 
-        if ($('#pjax_car_category').length) {
-            window.open('/product/' + product, '_blank');
-        }
-        else {
-            location.href = '/product/' + product;
-        }
+        // if ($('#pjax_car_category').length) {
+        //     window.open('/product/' + product, '_blank');
+        // }
+        // else {
+        //     location.href = '/product/' + product;
+        // }
+
+        location.href = '/product/' + product;
 
     });
 
@@ -237,6 +230,9 @@ $(function () {
     $(window).resize(function () {
         // topCatalogResize();
     });
+
+    // $('#td_category').trigger('change');
+    // $('#td_sub_cat').trigger('change');
 
 
 });

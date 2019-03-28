@@ -99,11 +99,19 @@ class ShopUploader extends Widget
         $rows = [];
         foreach ($this->sheetData as $row) {
             if (!empty($row['A'])) {
+                $markup = 30;
+
+                if (stripos($row['H'], 'масло') !== false || stripos($row['H'], 'аккумклятор') !== false) {
+                    $markup = 50;
+                } elseif ((float)str_replace(',', '.', $row['E']) < 1) {
+                    $markup = 20;
+                }
+
                 $rows[(string)trim($row['A'])] = [
                     'name' => (string)(trim($row['H']) . ' ' . trim($row['C'])),
                     'article' => (string)trim($row['D']),
                     'remains' => (int)trim($row['G']),
-                    'price' => (float)str_replace(',','.',$row['E']) * 27 * (1 + $this->markup / 100)
+                    'price' => (float)str_replace(',', '.', $row['E']) * 30 * (1 + $markup / 100)
                 ];
             }
         }

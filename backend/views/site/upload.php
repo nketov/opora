@@ -21,9 +21,9 @@ echo $form->field($model, 'shop')->dropDownList([
 
 echo $form->field($model, 'excelFile')->fileInput();
 
-echo $form->field($model, 'markup')->textInput([
-    'style'=>'text-align:right;width:92px;margin:0 auto; font: bold 1rem Tahoma;'
-]);
+//echo $form->field($model, 'markup')->textInput([
+//    'style'=>'text-align:right;width:92px;margin:0 auto; font: bold 1rem Tahoma;'
+//]);
 
 echo Button::widget([
     'label' => 'Загрузить данные из файла',

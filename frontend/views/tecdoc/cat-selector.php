@@ -25,6 +25,7 @@ foreach ($tree as $level_1) {
 echo Select2::widget([
     'data' => $td_levels,
     'name' => 'td_category',
+//    'value' => 10359,
     'options' => [
         'id' => 'td_category',
         'role' => "button-cursor",

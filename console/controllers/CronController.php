@@ -118,9 +118,7 @@ class CronController extends Controller
             }
 
             if(!empty($descr = self::getByTagName('Descr')))
-            $product->description = (string)$descr;
-
-
+            $product->description = str_replace("\n", '<br>', $descr);
 
             if(!$product->save()) var_dump($product->errors);
 

@@ -101,10 +101,10 @@ class ShopUploader extends Widget
             if (!empty($row['A'])) {
                 $markup = 30;
 
-                if (stripos($row['H'], 'масло') !== false || stripos($row['H'], 'аккумклятор') !== false) {
-                    $markup = 50;
-                } elseif ((float)str_replace(',', '.', $row['E']) < 1) {
+                if (stripos(mb_strtolower($row['H']), 'масло') !== false || stripos(mb_strtolower($row['H']), 'аккумулятор') !== false) {
                     $markup = 20;
+                } elseif ((float)str_replace(',', '.', $row['E']) < 1) {
+                    $markup = 50;
                 }
 
                 $rows[(string)trim($row['A'])] = [

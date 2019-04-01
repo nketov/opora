@@ -4,7 +4,6 @@ html, body {
     font-family: 'Century Gothic', sans-serif;
     /*background-color: #F0F5F6;*/
     background: linear-gradient(to bottom, #F0F7FA, #FAF7F0);
-
 }
 
 * {
@@ -242,9 +241,30 @@ li strong {
 
 .product-page{
     display: grid;
-    display: grid;
     grid-template-columns: auto 1fr;
     background: linear-gradient(to bottom, #F0F7FA, #FAF7F0);
+}
+
+.post-index{
+    padding: 10px 25px;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+.post-view {
+    padding: 10px 25px;
+}
+
+.post-view .well{
+    background: rgba(75,100,100,.1);
+}
+
+
+.post-view img{
+    max-width: 90%;
+    height: auto;
+    border-radius: 10px;
 }
 
 .main-content > .container-contact {
@@ -289,7 +309,6 @@ li strong {
 .main-content > .container-actions > .actions-first {
     grid-column-end: span 3;
 }
-
 
 
 .content-header {

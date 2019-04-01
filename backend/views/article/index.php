@@ -43,7 +43,7 @@ $this->title = 'Статьи';
 
                 ['attribute' => 'image',
                      'filter' => false,
-                    'format' => 'raw',
+                    'format' => 'html',
                     'contentOptions' => ['style' => 'min-width:75px;max-width:80px; text-align:center'],
                     'value' => function ($data) {
                         return '<img src="/images/articles/'. $data->image_name. '?rnd=' . time().'" alt="" style="height:75px;width: 75px">';                         ;

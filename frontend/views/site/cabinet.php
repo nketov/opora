@@ -8,15 +8,12 @@ $this->title = 'Мой кабинет';
 
 
 if (!Yii::$app->user->isGuest) {
-    $string = $user->phone;
-    $phone_string = '+38 (0' . $string[0] . $string[1] . ') ' . $string[2] . $string[3] . $string[4] . ' ' . $string[5] . $string[6] . ' ' . $string[7] . $string[8]
     ?>
-
     <div class="container-cabinet">
 
         <div>
             <h2>Мой номер телефона:</h2>
-            <h3><?= $phone_string ?> <a href="" title="Изменить">
+            <h3><?= Yii::$app->user->identity->getPhone() ?> <a href="" title="Изменить">
                     <i class="fa fa-pencil-square-o phone-change" aria-hidden="true"></i>
                 </a>
             </h3>

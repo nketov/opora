@@ -9,9 +9,11 @@ use common\models\ArticleSearch;
 use common\models\Category;
 use common\models\Content;
 use common\models\Order;
+use common\models\Post;
 use common\models\Product;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -182,12 +184,23 @@ class SiteController extends Controller
             $user->save();
         }
 
+        $postProvider = new ActiveDataProvider([
+            'query' => Post::find()->andWhere(['user_id'=> Yii::$app->getUser()->id]),
+            'sort'=>array(
+                'defaultOrder'=>['time' => SORT_DESC],
+            ),
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+
 //        $actions = Actions::getDiscounts();
 //        $lastOrders = Order::find()->where(['user_id' => $user->id])->orderBy(['date' => SORT_DESC])->limit(5)->all();
 
         return $this->render('cabinet', compact(
 //            'actions',
-            'user'
+            'user',
+            'postProvider'
 //            ,'lastOrders'
         ));
     }

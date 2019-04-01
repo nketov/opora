@@ -165,6 +165,11 @@ $(function () {
         }
     );
 
+    $('#post-image').change(function () {
+      $('.post-img').remove();
+    });
+
+
     $(document)
         .on('pjax:start', function () {
             $("#td_wheel-preloader").show(750);
@@ -233,6 +238,7 @@ $(function () {
 
     // $('#td_category').trigger('change');
     // $('#td_sub_cat').trigger('change');
+
 
 
 });

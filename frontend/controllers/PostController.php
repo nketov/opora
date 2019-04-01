@@ -35,19 +35,29 @@ class PostController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Post::find(),
+
+
+        $soldProvider = new ActiveDataProvider([
+            'query' => Post::find()->andWhere(['type'=>0]),
             'sort'=>array(
                 'defaultOrder'=>['time' => SORT_DESC],
             ),
             'pagination' => [
-                'pageSize' => 16,
+                'pageSize' => 12,
             ],
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
+        $buyProvider = new ActiveDataProvider([
+            'query' => Post::find()->andWhere(['type'=>1]),
+            'sort'=>array(
+                'defaultOrder'=>['time' => SORT_DESC],
+            ),
+            'pagination' => [
+                'pageSize' => 12,
+            ],
         ]);
+
+        return $this->render('index', compact('soldProvider', 'buyProvider'));
     }
 
     /**
@@ -76,8 +86,8 @@ class PostController extends Controller
             return $this->redirect(['/login']);
         }
 
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->upload()) {
+            Yii::$app->session->setFlash('success', 'Объявление создано');
             return $this->redirect(['index']);
         }
 
@@ -97,7 +107,8 @@ class PostController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->upload()) {
+            Yii::$app->session->setFlash('success', 'Объявление сохранено');
             return $this->redirect(['index']);
         }
 
@@ -117,6 +128,7 @@ class PostController extends Controller
     {
         $this->findModel($id)->delete();
 
+        Yii::$app->session->setFlash('success', 'Объявление удалено');
         return $this->redirect(['index']);
     }
 
@@ -135,4 +147,8 @@ class PostController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+
+
 }

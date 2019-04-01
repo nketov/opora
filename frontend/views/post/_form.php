@@ -7,10 +7,10 @@ use dosamigos\tinymce\TinyMce;
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
 /* @var $form yii\widgets\ActiveForm */
- if ($model->user_id != Yii::$app->getUser()->id) {
-     return '';
- }
- ?>
+if ($model->user_id != Yii::$app->getUser()->id) {
+    return '';
+}
+?>
 
 
 <div class="post-form">
@@ -28,16 +28,22 @@ use dosamigos\tinymce\TinyMce;
                 "searchreplace visualblocks code fullscreen",
                 "insertdatetime media table contextmenu paste image"
             ],
-            'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-
+            'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
         ]
     ]) ?>
 
+    <?= $form->field($model, 'type')->dropDownList($model::getTypes()) ?>
+
+    <?= $form->field($model, 'image')->fileInput() ?>
+
+    <img class='post-img' src="<?=  '/images/posts/'. $model->image_name. '?rnd=' . time()  ?>" alt="">
+
+    <br>
     <div>
-        <?= 'Мой телефон: <b>'.Html::a($model->user->getPhone(),'/cabinet').'</b>' ?>
+        <?= 'Мой телефон: <b>' . Html::a($model->user->getPhone(), '/cabinet') . '</b>' ?>
     </div>
 
-<!--    --><?//= $form->field($model, 'time')->textInput() ?>
+
 
     <div class="form-group pull-right">
         <?= Html::submitButton('Cохранить', ['class' => 'btn btn-success']) ?>

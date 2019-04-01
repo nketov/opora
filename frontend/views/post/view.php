@@ -13,24 +13,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-view">
 
-    <div class="content-header"><?= Html::encode($this->title) ?></div>
-    <hr>
-    <div class="well">
-        <?= $model->text ?>
-    </div>
-    <hr>
-    <h4 class="pull-left">
-        <?= '&nbsp;&nbsp;<span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;<b>' . $model->user->getPhone() . '</b>' ?>
-    </h4>
-
-    <div class="pull-right small">
-        <?= Yii::$app->formatter->asDatetime($model->time).'&nbsp;&nbsp;' ?>
-    </div>
-    <br>
-    <br>
-    <br>
     <?php if ($model->user_id == Yii::$app->getUser()->id) { ?>
-        <p class="pull-right">
+        <p class="pull-right" style="z-index: 100">
             <?= Html::a('Редактировать объявление', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
             <?= Html::a('Удалить объявление', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
@@ -41,5 +25,26 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
         </p>
     <?php } ?>
+
+    <div class="content-header"><?= Html::encode($this->title) ?></div>
+
+
+    <?php if ($model->image_name)
+        echo Html::img('/images/posts/' . $model->image_name, ['class' => 'post-img center-block']);
+    ?>
+
+    <br>
+    <div class="well">
+        <?= $model->text ?>
+    </div>
+
+    <hr>
+    <h4 class="pull-left">
+        <?= '&nbsp;&nbsp;<span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;<b>' . $model->user->getPhone() . '</b>' ?>
+    </h4>
+
+    <div class="pull-right small">
+        <?= Yii::$app->formatter->asDatetime($model->time) . '&nbsp;&nbsp;' ?>
+    </div>
 
 </div>

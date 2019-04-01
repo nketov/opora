@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use yii\web\UploadedFile;
 use Yii;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "post".
@@ -15,6 +17,9 @@ use Yii;
  */
 class Post extends \yii\db\ActiveRecord
 {
+
+    public $image;
+
     /**
      * {@inheritdoc}
      */
@@ -36,10 +41,11 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'text', 'user_id'], 'required'],
-            [['text'], 'string'],
-            [['user_id'], 'integer'],
+            [['text', 'image_name'], 'string'],
+            [['user_id','type'], 'integer'],
             [['time'], 'safe'],
             [['title'], 'string', 'max' => 150],
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg,jpeg', 'checkExtensionByMimeType' => false],
         ];
     }
 
@@ -54,6 +60,32 @@ class Post extends \yii\db\ActiveRecord
             'text' => 'Содержание',
             'user_id' => 'Пользователь',
             'time' => 'Время создания',
+            'image' => 'Изображение',
+            'type' => 'Тип объявления',
+
         ];
+    }
+
+    public static function getTypes()
+    {
+        return [
+            0 => 'Продажа',
+            1 => 'Покупка',
+        ];
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+            $this->image = UploadedFile::getInstance($this, 'image');
+            if ($this->image) {
+                $this->image_name = 'post' . $this->id . '.' . $this->image->extension;
+                $this->image->saveAs(Url::to('@frontend/web/images/posts/') . $this->image_name);
+            }
+            $this->save();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

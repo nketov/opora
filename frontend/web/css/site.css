@@ -43,7 +43,6 @@ a {
 
 }
 
-
 #header-contacts, #header-time {
     padding: 25px;
     color: white;
@@ -55,8 +54,6 @@ a {
 #header-time {
     font-size: .90vw;
 }
-
-
 
 .header-car {
     padding: 25px;
@@ -80,10 +77,6 @@ a {
     cursor: pointer;
 }
 
-
-
-
-
 #header_pjax_form, #header_text_form {
     display: grid;
     align-items: center;
@@ -96,7 +89,7 @@ a {
     transition: opacity .65s;
 }
 
-#tecdoc-content{
+#tecdoc-content {
     display: grid;
     grid-template-columns: 500px 1fr;
 }
@@ -118,12 +111,11 @@ a {
     height: 155px;
 }
 
-
-#select-preloader{
+#select-preloader {
     margin: 0 auto;
     top: -10px;
-    width:75px;
-    height:75px;
+    width: 75px;
+    height: 75px;
     background-image: url("/images/preloader.gif");
     background-size: cover;
     background-position: center;
@@ -138,21 +130,17 @@ li strong {
     font-family: Roboto !important;
 }
 
-#td-category-content{
+#td-category-content {
     display: grid;
     min-height: 535px;
 }
 
-
-
-#pjax_car_category{
+#pjax_car_category {
     padding: 15px;
     grid-area: 1/1/1/1;
 }
 
-
-
-#td_wheel-preloader{
+#td_wheel-preloader {
     padding-top: 50px;
     grid-area: 1/1/1/1;
     z-index: 10;
@@ -161,7 +149,6 @@ li strong {
     display: none;
     max-width: 300px;
 }
-
 
 .top-catalog {
     z-index: 0;
@@ -238,17 +225,17 @@ li strong {
     background: linear-gradient(to bottom, #CDF, #FFF);
 }
 
-
-.product-page{
+.product-page {
     display: grid;
     grid-template-columns: auto 1fr;
     background: linear-gradient(to bottom, #F0F7FA, #FAF7F0);
 }
 
-.post-index{
+.post-index {
     padding: 10px 25px;
-    max-width: 1000px;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 25px;
     font-weight: bold;
 }
 
@@ -256,16 +243,17 @@ li strong {
     padding: 10px 25px;
 }
 
-.post-view .well{
-    background: rgba(75,100,100,.1);
+.post-view .well {
+    background: rgba(75, 100, 100, .1);
 }
 
-
-.post-view img{
+.post-view img, .post-img {
     max-width: 90%;
     height: auto;
     border-radius: 10px;
+    margin: 10px auto;
 }
+
 
 .main-content > .container-contact {
     grid-column-end: span 2;
@@ -299,17 +287,16 @@ li strong {
     border-radius: 10px;
 }
 
-.main-content > .container-contact > div,
-.main-content > .container-actions > div,
-.main-content > .container-cabinet > div {
-    padding: 25px;
-    margin: 0 auto;
-}
+/*.main-content > .container-contact > div,*/
+/*.main-content > .container-actions > div,*/
+/*.main-content > .container-cabinet > div {*/
+    /*padding: 25px;*/
+    /*margin: 0 auto;*/
+/*}*/
 
-.main-content > .container-actions > .actions-first {
-    grid-column-end: span 3;
-}
-
+/*.main-content > .container-actions > .actions-first {*/
+    /*grid-column-end: span 3;*/
+/*}*/
 
 .content-header {
     font-family: "Century Gothic";
@@ -807,12 +794,11 @@ li strong {
 
     }
 
-
-    #header-contacts, #header-time{
+    #header-contacts, #header-time {
         font-size: 12px;
     }
 
-    .header-car{
+    .header-car {
         /*grid-column-end: span 2;*/
     }
 
@@ -844,6 +830,10 @@ li strong {
 
     .main-content > .container-actions > .actions-first {
         grid-column-end: span 1;
+    }
+
+    .post-index {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -905,19 +895,15 @@ li strong {
 
 @media screen and (max-width: 640px) {
 
-
     #site-header {
         min-height: 600px;
         grid-template-columns: 2fr;
     }
 
-
     #tecdoc-search-form {
         grid-template-columns: repeat(2, 1fr);
         grid-column-gap: 10px;
     }
-
-
 
     .main-content, .header-panel {
         grid-template-columns: 1fr;
@@ -984,7 +970,6 @@ li strong {
         grid-template-columns: repeat(1, 1fr);
         grid-column-gap: 5px;
     }
-
 
     .container-actions table tr > *:nth-child(5),
     .container-cabinet .actions tr > *:nth-child(5) {

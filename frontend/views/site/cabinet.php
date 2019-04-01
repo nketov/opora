@@ -3,21 +3,62 @@ use common\models\Order;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\MaskedInput;
+use yii\widgets\Pjax;
+use yii\grid\GridView;
 
 $this->title = 'Мой кабинет';
 
 
 if (!Yii::$app->user->isGuest) {
     ?>
+    <div>
+        <h3>Мой номер телефона:
+        <?= Yii::$app->user->identity->getPhone() ?> <a href="" title="Изменить">
+                <i class="fa fa-pencil-square-o phone-change" aria-hidden="true"></i>
+            </a>
+        </h3>
+    </div>
     <div class="container-cabinet">
-
         <div>
-            <h2>Мой номер телефона:</h2>
-            <h3><?= Yii::$app->user->identity->getPhone() ?> <a href="" title="Изменить">
-                    <i class="fa fa-pencil-square-o phone-change" aria-hidden="true"></i>
-                </a>
-            </h3>
+            <h2>Мои объявления:</h2>
+            <?php Pjax::begin(); ?>
+
+            <?= GridView::widget([
+                'dataProvider' => $postProvider,
+                'showHeader' => false,
+                'tableOptions' =>
+                    ['class' => 'table table-striped'],
+                'columns' => [
+//            ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'attribute' => 'title',
+                        'format' => 'raw',
+                        'contentOptions' => ['style' => 'width:70%'],
+                        'value' => function ($data) {
+                            return Html::a($data->title, '/post/' . $data->id);
+                        }
+                    ],
+
+                    [
+                        'attribute' => 'time',
+                        'contentOptions' => ['style' => 'text-align:right'],
+                        'value' => function ($data) {
+                            return Yii::$app->formatter->asDate($data->time);
+                        }
+                    ],
+
+//            ['class' => 'yii\grid\ActionColumn'],
+                ],
+                'layout' => '{items}{pager}',
+            ]); ?>
+            <?php Pjax::end(); ?>
+            <p>
+                <?= Html::a('Разместить объявление', ['/post/create'], ['class' => 'btn btn-success pull-right']) ?>
+            </p>
+
         </div>
+
+
 
         <?php if (!empty($lastOrders)) { ?>
             <div>
@@ -43,52 +84,53 @@ if (!Yii::$app->user->isGuest) {
                 </table>
             </div>
         <?php } ?>
+    </div>
 
 
-<!--        <div>-->
-<!--            <h2>Специальное предложение:</h2>-->
-<!--            <table class="table table-hover table-responsive table-striped actions">-->
-<!--                <thead class="thead-dark">-->
-<!--                <tr>-->
-<!--                    <th>Товар</th>-->
-<!--                    <th>Код</th>-->
-<!--                    <th>Цена</th>-->
-<!--                    <th>Скидка</th>-->
-<!--                    <th style="padding:10px;color: #00a157;text-align: right">Цена со скидкой</th>-->
-<!--                    <th></th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!---->
-<!--                --><?php
+    <!--        <div>-->
+    <!--            <h2>Специальное предложение:</h2>-->
+    <!--            <table class="table table-hover table-responsive table-striped actions">-->
+    <!--                <thead class="thead-dark">-->
+    <!--                <tr>-->
+    <!--                    <th>Товар</th>-->
+    <!--                    <th>Код</th>-->
+    <!--                    <th>Цена</th>-->
+    <!--                    <th>Скидка</th>-->
+    <!--                    <th style="padding:10px;color: #00a157;text-align: right">Цена со скидкой</th>-->
+    <!--                    <th></th>-->
+    <!--                </tr>-->
+    <!--                </thead>-->
+    <!---->
+    <!--                --><?php
 //                if (!empty($actions))
 //                    foreach ($actions as $key => $action) {
 //
 //                        $product = Product::findOne($key);
 //
 //                        if (!empty($product->price)) { ?>
-<!--                            <tr>-->
-<!--                                <td style="padding:10px">--><?//= $product->name ?><!--</td>-->
-<!--                                <td style="padding:10px">--><?//= $product->code ?><!--</td>-->
-<!--                                <td style="padding:10px">--><?//= $product->price . '&nbsp;грн' ?><!--</td>-->
-<!--                                <td style="padding:10px">--><?//= $action . '&nbsp;%' ?><!--</td>-->
-<!--                                <td style="padding:10px;color: #00a157;text-align: right">-->
-<!--                                    <b>--><?//= $product->getDiscountPrice() . '&nbsp;грн' ?><!--</b></td>-->
-<!--                                <td style="padding:10px">-->
-<!--                                    <button type="button" class="btn btn-primary btn-sm product-view"-->
-<!--                                            data-id="--><?//= $product->id ?><!--" title="Просмотр"><i-->
-<!--                                                class="fa fa-eye"></i>-->
-<!--                                    </button>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!---->
-<!--                            --><?php
+    <!--                            <tr>-->
+    <!--                                <td style="padding:10px">--><? //= $product->name ?><!--</td>-->
+    <!--                                <td style="padding:10px">--><? //= $product->code ?><!--</td>-->
+    <!--                                <td style="padding:10px">--><? //= $product->price . '&nbsp;грн' ?><!--</td>-->
+    <!--                                <td style="padding:10px">--><? //= $action . '&nbsp;%' ?><!--</td>-->
+    <!--                                <td style="padding:10px;color: #00a157;text-align: right">-->
+    <!--                                    <b>--><? //= $product->getDiscountPrice() . '&nbsp;грн' ?><!--</b></td>-->
+    <!--                                <td style="padding:10px">-->
+    <!--                                    <button type="button" class="btn btn-primary btn-sm product-view"-->
+    <!--                                            data-id="--><? //= $product->id ?><!--" title="Просмотр"><i-->
+    <!--                                                class="fa fa-eye"></i>-->
+    <!--                                    </button>-->
+    <!--                                </td>-->
+    <!--                            </tr>-->
+    <!---->
+    <!--                            --><?php
 //                        }
 //                    } ?>
-<!--            </table>-->
-<!--            --><?php //if (!empty($actions) && array_key_exists('', $actions)) echo '<h4 style="color: #0D3349">Скидка на все остальные товары: <span style="color:#1EBB30;font-size: 3rem ">' . $actions[''] . '%</span></h4>' ?>
-<!---->
-<!--        </div>-->
-<!--    </div>-->
+    <!--            </table>-->
+    <!--            --><?php //if (!empty($actions) && array_key_exists('', $actions)) echo '<h4 style="color: #0D3349">Скидка на все остальные товары: <span style="color:#1EBB30;font-size: 3rem ">' . $actions[''] . '%</span></h4>' ?>
+    <!---->
+    <!--        </div>-->
+    <!--    </div>-->
 
 
     <div id="phone-modal" class="modal" tabindex="-1" role="dialog">
@@ -118,6 +160,7 @@ if (!Yii::$app->user->isGuest) {
             </div>
         </div>
     </div>
+
 
 <?php } ?>
 				

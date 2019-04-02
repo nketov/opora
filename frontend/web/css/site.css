@@ -834,6 +834,11 @@ li strong {
         grid-template-columns: 1fr;
     }
 
+    .td_submit {
+        grid-column-end: span 2;
+        text-align: center;
+    }
+
     .image_container {
         margin-left: 5px;
         margin-right: 2px;
@@ -926,18 +931,6 @@ li strong {
 
 @media screen and (max-width: 640px) {
 
-    #tecdoc-search-form{
-        grid-gap: 2px;
-    }
-
-
-    #tecdoc-search-form .form-group
-    {
-        margin: 0 auto;
-        padding: 0;
-        width: 185px;
-    }
-
 
 
     #tecdoc-search-form {
@@ -946,6 +939,10 @@ li strong {
         grid-template-columns: 1fr;
         grid-column-gap: 10px;
         margin: 0 auto;
+    }
+
+    .td_submit {
+        grid-column-end: span 1;
     }
 
     #site-header {
@@ -1010,12 +1007,6 @@ li strong {
 }
 
 @media screen and (max-width: 395px) {
-
-    #tecdoc-search-form .form-group
-    {
-        margin: 0 auto;
-        width: 320px;
-    }
 
 
     .pagination {

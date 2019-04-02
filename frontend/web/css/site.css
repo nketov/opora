@@ -454,8 +454,8 @@ li strong {
     margin: 0 auto;
     height: 275px;
     cursor: pointer;
-    display: grid;
-    align-content: center;
+    line-height: 275px;
+    text-align: center;
 }
 
 .card-img {
@@ -467,7 +467,7 @@ li strong {
     background-repeat: round;
     border-radius: 5px;
     transition: 3s;
-    margin: 0 auto;
+    vertical-align: middle;
 }
 
 .image.empty {

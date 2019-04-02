@@ -105,6 +105,7 @@
     right: -10px;
     height: 28px;
     width: 28px;
+    max-width: 28px;
     background: #55BB16;
     color: #ffffAA;
     /*text-shadow: 0 0 1px #fff, 0 0 2px #ffe0c2;*/

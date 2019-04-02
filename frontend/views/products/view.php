@@ -10,8 +10,8 @@ $this->title = $model->name;
 
 
 ?>
+    <div class="content-header"><?= $model->name ?></div>
     <div class="product-page">
-        <div class="content-header"><?= $model->name ?></div>
         <div class="image_block">
             <div class="image_container">
                 <?php if ($model->getFirstImage()) {

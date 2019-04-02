@@ -4,7 +4,8 @@ use yii\helpers\Html;
 
 ?>
 <header id="site-header">
-    <img id="site-header-logo" class="img-rounded" src="/images/main/logo.jpg">
+
+    <img id="site-header-logo" class="img-rounded center-block" src="/images/main/logo.jpg">
 
     <?= "<div id='header-contacts'>
             " . $siteContent->address . "

@@ -37,7 +37,7 @@ class PostController extends Controller
     {
 
 
-        $soldProvider = new ActiveDataProvider([
+        $sellProvider = new ActiveDataProvider([
             'query' => Post::find()->andWhere(['type'=>0]),
             'sort'=>array(
                 'defaultOrder'=>['time' => SORT_DESC],
@@ -57,7 +57,7 @@ class PostController extends Controller
             ],
         ]);
 
-        return $this->render('index', compact('soldProvider', 'buyProvider'));
+        return $this->render('index', compact('sellProvider', 'buyProvider'));
     }
 
     /**

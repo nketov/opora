@@ -19,7 +19,7 @@ Yii::$app->formatter->locale = 'ru-RU'
     <h3>Продажа</h3>
 
     <?= GridView::widget([
-        'dataProvider' => $soldProvider,
+        'dataProvider' => $sellProvider,
         'showHeader' => false,
         'tableOptions' =>
             ['class' => 'table table-striped'],
@@ -84,5 +84,5 @@ Yii::$app->formatter->locale = 'ru-RU'
 </div>
 
 <p>
-    <?= Html::a('Разместить объявление', ['/post/create'], ['class' => 'btn btn-success pull-right']) ?>
+    <?= Html::a('Разместить объявление', ['/post/create'], ['class' => 'btn btn-success btn-lg pull-right']) ?>
 </p>

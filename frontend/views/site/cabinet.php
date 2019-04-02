@@ -11,13 +11,6 @@ $this->title = 'Мой кабинет';
 
 if (!Yii::$app->user->isGuest) {
     ?>
-    <div>
-        <h3>Мой номер телефона:
-        <?= Yii::$app->user->identity->getPhone() ?> <a href="" title="Изменить">
-                <i class="fa fa-pencil-square-o phone-change" aria-hidden="true"></i>
-            </a>
-        </h3>
-    </div>
     <div class="container-cabinet">
         <div>
             <h2>Мои объявления:</h2>
@@ -55,6 +48,13 @@ if (!Yii::$app->user->isGuest) {
             <p>
                 <?= Html::a('Разместить объявление', ['/post/create'], ['class' => 'btn btn-success pull-right']) ?>
             </p>
+            <div>
+                <h3 class="pull-left">Мой номер телефона:
+                    <?= Yii::$app->user->identity->getPhone() ?> <a href="" title="Изменить">
+                        <i class="fa fa-pencil-square-o phone-change" aria-hidden="true"></i>
+                    </a>
+                </h3>
+            </div>
 
         </div>
 

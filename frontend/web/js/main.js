@@ -23,28 +23,14 @@ $(function () {
     "use strict";
     // topCatalogResize();
 
-
-    $('body').on('change', 'input#prices', function () {
-        var prices = ($(this).val()).split(',');
-        $('.bage-min').text(prices[0] + ' грн');
-        $('.bage-max').text(prices[1] + ' грн');
-    });
-
-
-    $('body').on('change', '#left-filter-form input:not(#prices),#left-filter-form select', function () {
-        $(this).closest('form').submit();
-    });
-
-    $('body').on('click', '.card-img,.card-text', function () {
+    $('body').on('click', '.card-img-block,.card-text', function () {
         var product = $(this).closest('.card').data('key');
-
         // if ($('#pjax_car_category').length) {
         //     window.open('/product/' + product, '_blank');
         // }
         // else {
         //     location.href = '/product/' + product;
         // }
-
         location.href = '/product/' + product;
 
     });
@@ -165,9 +151,6 @@ $(function () {
         }
     );
 
-    $('#post-image').change(function () {
-      $('.post-img').remove();
-    });
 
 
     $(document)
@@ -206,15 +189,6 @@ $(function () {
     );
 
 
-    $('.cd-cart footer .btn-cart').on('click', function (e) {
-
-        console.log($(this).data('guest'));
-        if ($(this).data('guest') === 1) {
-            e.preventDefault();
-            $('#order-phone-modal').modal('show');
-        }
-    });
-
 
     $("#header_pjax_form").on("pjax:end", function () {
         $.pjax.reload({container: "#pjax_text_search", timeout: 5000});
@@ -229,6 +203,26 @@ $(function () {
         e.preventDefault();
         $('#request-password-reset-form').animate({height: "toggle", opacity: "toggle"}, 'slow');
         $(this).closest('form').animate({height: "toggle", opacity: "toggle"}, 'slow');
+    });
+
+
+    $('#post-image').change(function () {
+        $('.post-img').remove();
+    });
+
+    $('.image_container img').not(".empty").on('click',function () {
+        window.open($(this).attr('src'));
+
+    });
+
+
+    $('.cd-cart footer .btn-cart').on('click', function (e) {
+
+        console.log($(this).data('guest'));
+        if ($(this).data('guest') === 1) {
+            e.preventDefault();
+            $('#order-phone-modal').modal('show');
+        }
     });
 
 

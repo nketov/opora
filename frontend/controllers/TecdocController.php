@@ -26,23 +26,7 @@ class TecdocController extends \yii\web\Controller
     }
 
 
-    public function actionSearch()
-    {
 
-        if(!\Yii::$app->request->isAjax && !empty($_GET['category'])){
-            $this->redirect('car');
-        }
-
-        $tecdocSearch = new TecdocSearch();
-
-        if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
-            $tecdocSearch->load($car, '');
-            $tecdocSearch['category'] = $_GET['category'] ?? 0;
-        }
-
-
-        return $this->render('car', compact('tecdocSearch'));
-    }
 
 
     public function actionModels($mfa_id, $year = null)

@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Order;
 use common\models\ProductTextSearch;
+use common\models\TecdocSearch;
 use frontend\models\Cart;
 use frontend\models\UnregisteredUser;
 use Yii;
@@ -38,6 +39,24 @@ class ProductsController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('text_search', compact( 'searchModel', 'dataProvider'));
 
+    }
+
+    public function actionCarSearch()
+    {
+
+        if(!\Yii::$app->request->isAjax && !empty($_GET['category'])){
+            $this->redirect('car');
+        }
+
+        $tecdocSearch = new TecdocSearch();
+
+        if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
+            $tecdocSearch->load($car, '');
+            $tecdocSearch['category'] = $_GET['category'] ?? 0;
+        }
+
+
+        return $this->render('car', compact('tecdocSearch'));
     }
 
 

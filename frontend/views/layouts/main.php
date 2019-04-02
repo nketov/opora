@@ -25,10 +25,8 @@ $siteContent = Content::findOne(1);
 <?php $this->beginBody() ?>
 
 
-<? //= $this->render('_cart.php') ?>
+<?//= $this->render('_cart.php') ?>
 <?= $this->render('_header.php', compact('siteContent')) ?>
-<? //= $this->render('_top_catalog.php') ?>
-
 
 <main class="main-content">
     <?= Alert::widget() ?>

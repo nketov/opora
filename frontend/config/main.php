@@ -55,7 +55,7 @@ return [
                 '' => '/',
                 'search' => 'products/text-search',
                 'catalog' => 'products/category',
-                'car' => 'tecdoc/search',
+                'car' => 'products/car-search',
                 'product/<id:\d+>' => 'products/view',
                 'post/<id:\d+>' => 'post/view',
                 'article/<id:\d+>' => 'site/article-view',

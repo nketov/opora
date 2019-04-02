@@ -941,6 +941,10 @@ li strong {
         margin: 0 auto;
     }
 
+    .form-group{
+        width: 185px;
+    }
+
     .td_submit {
         grid-column-end: span 1;
     }
@@ -1008,6 +1012,10 @@ li strong {
 
 @media screen and (max-width: 395px) {
 
+    .form-group{
+        width: 300px;
+        margin: 0 auto;
+    }
 
     .pagination {
         font-size: 10px;

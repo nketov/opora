@@ -114,7 +114,6 @@ a {
 
 #select-preloader {
     margin: 0 auto;
-    top: -10px;
     width: 75px;
     height: 75px;
     background-image: url("/images/preloader.gif");

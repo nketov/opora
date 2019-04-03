@@ -6,8 +6,6 @@ use common\components\TecDoc;
 use common\models\Product;
 use common\models\TecdocSearch;
 use yii\data\ArrayDataProvider;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 use yii\helpers\Json;
 
 class TecdocController extends \yii\web\Controller

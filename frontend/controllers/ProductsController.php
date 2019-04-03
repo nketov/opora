@@ -7,6 +7,8 @@ use common\models\ProductTextSearch;
 use common\models\TecdocSearch;
 use frontend\models\Cart;
 use frontend\models\UnregisteredUser;
+use yii\helpers\Html;
+use yii\helpers\Json;
 use Yii;
 use common\models\Product;
 use common\models\ProductSearch;

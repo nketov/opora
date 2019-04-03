@@ -280,35 +280,6 @@ GROUP BY BRAND, NUMBER ;
     }
 
 
-    public
-    function actionAddCar()
-    {
-
-        unset($_COOKIE['car']);
-        setcookie('car', null, -1, '/');
-        $form = $_POST['TecdocSearch'];
-
-        setcookie("car", serialize($form), time() + 3600 * 24 * 100, '/');
-
-        $car_text = $form['car_name'];
-        if ($form['year']) {
-            $car_text .= ', ' . $form['year'] . ' г.в.';
-        }
-
-        $tecdocSearch= new TecdocSearch();
-        $tecdocSearch->load($form, '');
-
-
-
-//        return Html::a($car_text, '/car');
-        return Json::encode([
-            'car_name' => Html::a($car_text, '/car'),
-            'select_render' => $this->renderAjax('cat-selector',
-                                    compact('tecdocSearch'))
-        ]);
-    }
-
-
     public function actionCategoryDropDown()
     {
         $tecdocSearch= new TecdocSearch();

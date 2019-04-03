@@ -127,7 +127,7 @@ $(function () {
 
                 $('#td-category-panel').html('<div id="select-preloader"></div>');
                 $.ajax({
-                        url: '/tecdoc/add-car',
+                        url: '/product/add-car',
                         data: data,
                         type: 'post',
                         datatype: 'html',

@@ -36,6 +36,8 @@ if ($model->user_id != Yii::$app->getUser()->id) {
 
     <?= $form->field($model, 'new')->dropDownList($model::getNews()) ?>
 
+    <?= $form->field($model, 'category')->dropDownList($model::categoryNamesList()) ?>
+
     <?= $form->field($model, 'article')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'image')->fileInput() ?>

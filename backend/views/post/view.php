@@ -30,6 +30,12 @@ $this->title = 'Объявление: "' . $model->title . '"';
                     'attribute' => 'text',
                     'format' => 'raw'
                 ],
+                [
+                'attribute' => 'category',
+                    'value' => function ($data) {
+                        return Post::categoryName($data->category);
+                    }
+                ],
                 'user.email',
                 [
                     'attribute' => 'time',

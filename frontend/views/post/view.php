@@ -45,6 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="spec_name">Состояние:&nbsp;</div>
                 <div class="spec_value"><?= $model::getNews()[$model->new] ?></div>
             </div>
+            <?php if ($model->category > 0) { ?>
+                <div class="string">
+                    <div class="spec_name">Категория:&nbsp;</div>
+                    <div class="spec_value"><?= $model::categoryName($model->category) ?></div>
+                </div>
+            <?php } ?>
             <?php if (!empty($model->article)) { ?>
                 <div class="string">
                     <div class="spec_name">Артикул:&nbsp;</div>
@@ -57,6 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="spec_value"><?= Yii::$app->formatter->asDecimal($model->price) . '&nbsp;грн.' ?></div>
                 </div>
             <?php } ?>
+
         </div>
 
     </div>

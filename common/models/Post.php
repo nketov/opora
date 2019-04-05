@@ -29,6 +29,25 @@ class Post extends \yii\db\ActiveRecord
     }
 
 
+    private static $_categoryName = [
+        '0'=> 'Не указана',
+        '1' => 'Автосвет',
+        '2' => 'Аккумуляторы',
+        '3' => 'Газобаллонное оборудование (ГБО)',
+        '4' => 'Двигатель',
+        '5' => 'Фильтры',
+        '6' => 'Кузовные детали',
+        '7' => 'Подвеска',
+        '8' => 'Рулевое управление',
+        '9' => 'Салон',
+        '10' => 'Стёкла',
+        '11' => 'Топливная и выхлопная системы',
+        '12' => 'Тормозная система',
+        '13' => 'Трансмиссия и привод',
+        '14' => 'Электрооборудование'
+    ];
+
+
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
@@ -43,7 +62,7 @@ class Post extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['title', 'text', 'user_id'], 'required'],
             [['text', 'image_name'], 'string'],
-            [['user_id','type','new'], 'integer'],
+            [['user_id','type','new','category'], 'integer'],
             [['time'], 'safe'],
             [['title','article'], 'string', 'max' => 150],
             [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg,jpeg', 'checkExtensionByMimeType' => false],
@@ -66,16 +85,19 @@ class Post extends \yii\db\ActiveRecord
             'new' => 'Состояние',
             'article' => 'Артикул',
             'price'=> 'Цена,грн',
-            'status' => 'Статус'
+            'status' => 'Статус',
+            'category' => 'Категория'
         ];
     }
 
-    public static function getCategories()
+    public static function categoryNamesList()
     {
-        return [
-            0 => 'Новое',
-            1 => 'Б/у',
-        ];
+        return self::$_categoryName;
+    }
+
+    public static function categoryName($category)
+    {
+        return self::$_categoryName[$category];
     }
 
     public static function getTypes()

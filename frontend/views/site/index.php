@@ -1,7 +1,5 @@
-<div id="app">
-<!--    {{ message }}-->
-</div>
-<?php
 
+<?php
+//echo $html;
 ?>
 

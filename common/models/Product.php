@@ -70,7 +70,7 @@ class Product extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'code' => 'Код товара',
-            'article' => 'Артикль',
+            'article' => 'Артикул',
             'active' => 'Состояние',
             'category' => 'Категория',
             'name' => 'Наименование',

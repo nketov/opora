@@ -5,6 +5,7 @@ use yii\bootstrap\ActiveForm;
 use yii\widgets\MaskedInput;
 use yii\widgets\Pjax;
 use yii\grid\GridView;
+use common\models\Post;
 
 $this->title = 'Мой кабинет';
 
@@ -26,7 +27,7 @@ if (!Yii::$app->user->isGuest) {
                     [
                         'attribute' => 'title',
                         'format' => 'raw',
-                        'contentOptions' => ['style' => 'width:70%'],
+                        'contentOptions' => ['style' => 'width:50%'],
                         'value' => function ($data) {
                             return Html::a($data->title, '/post/' . $data->id);
                         }
@@ -37,6 +38,14 @@ if (!Yii::$app->user->isGuest) {
                         'contentOptions' => ['style' => 'text-align:right'],
                         'value' => function ($data) {
                             return Yii::$app->formatter->asDate($data->time);
+                        }
+                    ],
+                    [
+                        'attribute' => 'status',
+                        'format' => 'raw',
+                        'contentOptions' => ['style' => 'text-align:right'],
+                        'value' => function ($data) {
+                            return '<b>'.Post::getStatuses()[$data->status].'</b>';
                         }
                     ],
 

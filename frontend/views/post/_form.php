@@ -34,15 +34,22 @@ if ($model->user_id != Yii::$app->getUser()->id) {
 
     <?= $form->field($model, 'type')->dropDownList($model::getTypes()) ?>
 
+    <?= $form->field($model, 'new')->dropDownList($model::getNews()) ?>
+
+    <?= $form->field($model, 'article')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'image')->fileInput() ?>
 
-    <img class='post-img' src="<?=  '/images/posts/'. $model->image_name. '?rnd=' . time()  ?>" alt="">
+    <?= $form->field($model, 'price')->textInput(['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->price)],
+        'maxlength' => true]) ?>
 
+    <?php if($model->image_name){ ?>
+    <img class='post-img' src="<?= '/images/posts/' . $model->image_name . '?rnd=' . time() ?>" alt="">
+    <?php } ?>
     <br>
     <div>
         <?= 'Мой телефон: <b>' . Html::a($model->user->getPhone(), '/cabinet') . '</b>' ?>
     </div>
-
 
 
     <div class="form-group pull-right">

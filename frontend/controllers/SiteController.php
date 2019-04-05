@@ -11,6 +11,7 @@ use common\models\Content;
 use common\models\Order;
 use common\models\Post;
 use common\models\Product;
+use frontend\components\LiqPay;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
@@ -89,8 +90,20 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-//        $this->view->title = Content::findOne(1)->title;
-        return $this->render('index');
+
+
+        $liqpay = new LiqPay();
+        $html = $liqpay->cnb_form(array(
+            'action'         => 'pay',
+            'amount'         => '1.11',
+            'currency'       => 'UAH',
+            'description'    => 'Тестовый платёж',
+            'order_id'       => 'test_1',
+            'version'        => '3',
+
+        ));
+
+        return $this->render('index', compact('html'));
     }
 
 

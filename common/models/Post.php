@@ -40,11 +40,12 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['price'], 'number'],
             [['title', 'text', 'user_id'], 'required'],
             [['text', 'image_name'], 'string'],
-            [['user_id','type'], 'integer'],
+            [['user_id','type','new'], 'integer'],
             [['time'], 'safe'],
-            [['title'], 'string', 'max' => 150],
+            [['title','article'], 'string', 'max' => 150],
             [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg,jpeg', 'checkExtensionByMimeType' => false],
         ];
     }
@@ -62,7 +63,18 @@ class Post extends \yii\db\ActiveRecord
             'time' => 'Время создания',
             'image' => 'Изображение',
             'type' => 'Тип объявления',
+            'new' => 'Состояние',
+            'article' => 'Артикул',
+            'price'=> 'Цена,грн',
+            'status' => 'Статус'
+        ];
+    }
 
+    public static function getCategories()
+    {
+        return [
+            0 => 'Новое',
+            1 => 'Б/у',
         ];
     }
 
@@ -73,6 +85,24 @@ class Post extends \yii\db\ActiveRecord
             1 => 'Покупка',
         ];
     }
+
+    public static function getNews()
+    {
+        return [
+            0 => 'Новое',
+            1 => 'Б/у',
+        ];
+    }
+
+    public static function getStatuses()
+    {
+        return [
+            0 => 'Ожидание',
+            1 => 'Активно',
+            2 => 'Отклонёно'
+        ];
+    }
+
 
     public function upload()
     {

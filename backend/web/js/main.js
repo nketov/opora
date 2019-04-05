@@ -1,26 +1,3 @@
-function markDeactivated(product) {
-    "use strict";
-    var row_tr = $('tr[data-key="' + product + '"]');
-    var active = row_tr.find('select[name="active"]').val();
-    var row_tds = row_tr.find('td:not(.td-active)');
-    if (active == 1) {
-        row_tds.css('opacity', 1);
-        row_tds.css('color', '#222');
-    } else {
-        row_tds.css('opacity', 0.25);
-        row_tds.css('color', '#722');
-    }
-    return active;
-}
-
-function checkDeactivated() {
-    "use strict";
-    $('#products-table tbody tr').each(function () {
-        markDeactivated($(this).data('key'));
-    });
-}
-
-
 $(document).ready(function () {
     "use strict";
 
@@ -75,15 +52,33 @@ $(document).ready(function () {
     );
 
 
+    $('body').on('click', '#post-table tbody tr td:not(.td-status)',
+        function () {
+            var product = $(this).closest('tr').data('key');
+            location.href = '/admin/post/view?id=' + product;
+        }
+    );
 
+    $('body').on('change', '#post-table select[name="status"],#post-view select[name="status"]',
+        function () {
+        var post = 0;
+            if (parseInt($(this).closest('td').data('key'), 10) > 0) {
+               post = $(this).closest('td').data('key');
+            } else {
+               post = $(this).closest('tr').data('key');
+            }
+            var status = $(this).closest('tr').find('select[name="status"]').val();
+            $.ajax({
+                method: "POST",
+                url: '/admin/post/status',
+                data: {status: status, post: post}
+            })
+                .done(function (data) {
+                    console.log('Status Changed');
+                });
+        }
+    );
 
-
-    // $('body').on('click', '#products-table tbody tr td:not(.td-active)',
-    //     function () {
-    //         var product = $(this).closest('tr').data('key');
-    //         location.href = '/admin/products/update?id=' + product;
-    //     }
-    // );
 
     $('body').on('click', '#orders-table tbody tr td:not(.td-status)',
         function () {

@@ -257,6 +257,12 @@ li strong {
     margin: 10px auto;
 }
 
+.post-content{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 25px;
+}
+
 
 .main-content > .container-contact {
     grid-column-end: span 2;
@@ -568,6 +574,7 @@ li strong {
     text-align: justify;
     padding: 10px;
     font-family: Tahoma;
+
 }
 
 .view_description {
@@ -797,6 +804,10 @@ li strong {
 
 @media screen and (max-width: 1000px) {
 
+    .post-content{
+        grid-template-columns: 1fr;
+    }
+
     #site-header {
         min-height: 250px;
         grid-template-columns: 225px 1fr 1fr;
@@ -875,6 +886,7 @@ li strong {
 
 @media screen and (max-width: 767px) {
 
+
     .main-content > .container-contact {
         grid-template-columns: 1fr;
     }
@@ -929,7 +941,6 @@ li strong {
 }
 
 @media screen and (max-width: 640px) {
-
 
 
     #tecdoc-search-form {
@@ -1010,6 +1021,13 @@ li strong {
 }
 
 @media screen and (max-width: 395px) {
+
+
+    .view_spec {
+        padding-top: .5rem;
+        max-width: 300px;
+        overflow: hidden;
+    }
 
     .form-group{
         width: 275px;

@@ -34,9 +34,33 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
     <br>
-    <div class="well">
-        <?= $model->text ?>
+
+    <div class="post-content">
+        <div class="well">
+            <?= $model->text ?>
+        </div>
+
+        <div class="view_spec">
+            <div class="string">
+                <div class="spec_name">Состояние:&nbsp;</div>
+                <div class="spec_value"><?= $model::getNews()[$model->new] ?></div>
+            </div>
+            <?php if (!empty($model->article)) { ?>
+                <div class="string">
+                    <div class="spec_name">Артикул:&nbsp;</div>
+                    <div class="spec_value"><?= $model->article ?></div>
+                </div>
+            <?php } ?>
+            <?php if ($model->price > 0) { ?>
+                <div class="string">
+                    <div class="spec_name">Цена:&nbsp;</div>
+                    <div class="spec_value"><?= Yii::$app->formatter->asDecimal($model->price) . '&nbsp;грн.' ?></div>
+                </div>
+            <?php } ?>
+        </div>
+
     </div>
+
 
     <hr>
     <h4 class="pull-left">
@@ -46,5 +70,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="pull-right small">
         <?= Yii::$app->formatter->asDatetime($model->time) . '&nbsp;&nbsp;' ?>
     </div>
+
 
 </div>

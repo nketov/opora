@@ -38,7 +38,7 @@ class PostController extends Controller
 
 
         $sellProvider = new ActiveDataProvider([
-            'query' => Post::find()->andWhere(['type'=>0]),
+            'query' => Post::find()->andWhere(['type'=>0,'status'=>1]),
             'sort'=>array(
                 'defaultOrder'=>['time' => SORT_DESC],
             ),
@@ -48,7 +48,7 @@ class PostController extends Controller
         ]);
 
         $buyProvider = new ActiveDataProvider([
-            'query' => Post::find()->andWhere(['type'=>1]),
+            'query' => Post::find()->andWhere(['type'=>1,'status'=>1]),
             'sort'=>array(
                 'defaultOrder'=>['time' => SORT_DESC],
             ),

@@ -17,6 +17,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use common\models\User;
 
 /**
  * ProductsController implements the CRUD actions for Product model.
@@ -147,11 +148,11 @@ class ProductsController extends Controller
 
         if (Yii::$app->user->isGuest) {
             $order->user_id = 0;
-            $phone = $_REQUEST['UnregisteredUser']['phone'];
+            $phone = (new User)->getPhone($_REQUEST['UnregisteredUser']['phone']);
             $shop_text = '<p><b>Незарегистрированный пользователь</b> сделал заказ. Содержание заказа : </p>';
         } else {
             $order->user_id = Yii::$app->user->id;
-            $phone = Yii::$app->user->identity->phone;
+            $phone = Yii::$app->user->identity->getPhone();
             $shop_text = '<p>Пользователь  <b>' . Yii::$app->user->identity->email . '</b> сделал заказ. Содержание заказа : </p>';
         }
 
@@ -170,9 +171,6 @@ class ProductsController extends Controller
 
         $order_content .= '<p><b> Всего: ' . round($cart->getSumm(), 2) . ' грн</b></p>';
 
-        $string = $phone;
-        $phone = '+38 (0'.$string[0].$string[1].') '.$string[2].$string[3].$string[4].' '.$string[5].$string[6].' '.$string[7].$string[8];
-
          $order_content .= '<br> Телефон: <b>' .$phone.'</b>';
          $shop_text .= $order_content;
 
@@ -180,11 +178,22 @@ class ProductsController extends Controller
         $order->save();
 
         if (!Yii::$app->user->isGuest) {
-            $user_text = '<p>Вы сделали заказ на сайте <b>opora.dn.ua</b>. Содержание заказа : </p>' . $order_content;
-            mail(Yii::$app->user->identity->email, 'Заказ № ' . $order->id, $user_text, "Content-type:text/html;charset=UTF-8");
+            $user_text = '<p>Вы сделали заказ (№'.$order->id.') на сайте <b>opora.dn.ua</b>. Содержание заказа : </p>' . $order_content;
+
+            Yii::$app->mailer->compose()
+                ->setTo(Yii::$app->user->identity->email)
+                ->setFrom(['mail@opora.dn.ua' => 'Opora'])
+                ->setSubject('Заказ № ' . $order->id)
+                ->setHtmlBody($user_text)
+                ->send();
         }
 
-        mail('ketovnv@gmail.com', 'Заказ № ' . $order->id, $shop_text, "Content-type:text/html;charset=UTF-8");
+        Yii::$app->mailer->compose()
+            ->setTo('ketovnv@gmail.com')
+            ->setFrom(['mail@opora.dn.ua' => 'Opora'])
+            ->setSubject('Заказ № ' . $order->id)
+            ->setHtmlBody($shop_text)
+            ->send();
 
         $cart->resetCart();
         Yii::$app->session->setFlash('success', 'Ваш заказ отправлен!');

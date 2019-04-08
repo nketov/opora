@@ -95,12 +95,11 @@ class SiteController extends Controller
         $liqpay = new LiqPay();
         $html = $liqpay->cnb_form(array(
             'action'         => 'pay',
-            'amount'         => '1.11',
+            'amount'         => '0.55',
             'currency'       => 'UAH',
             'description'    => 'Тестовый платёж',
-            'order_id'       => 'test_1',
+            'order_id'       => 'test_3',
             'version'        => '3',
-
         ));
 
         return $this->render('index', compact('html'));
@@ -198,7 +197,7 @@ class SiteController extends Controller
         }
 
         $postProvider = new ActiveDataProvider([
-            'query' => Post::find()->andWhere(['user_id'=> Yii::$app->getUser()->id]),
+            'query' => Post::find()->andWhere(['user_id'=> $user->id]),
             'sort'=>array(
                 'defaultOrder'=>['time' => SORT_DESC],
             ),
@@ -208,13 +207,13 @@ class SiteController extends Controller
         ]);
 
 //        $actions = Actions::getDiscounts();
-//        $lastOrders = Order::find()->where(['user_id' => $user->id])->orderBy(['date' => SORT_DESC])->limit(5)->all();
+        $lastOrders = Order::find()->where(['user_id' => $user->id])->orderBy(['date' => SORT_DESC])->limit(5)->all();
 
         return $this->render('cabinet', compact(
 //            'actions',
             'user',
             'postProvider'
-//            ,'lastOrders'
+            ,'lastOrders'
         ));
     }
 

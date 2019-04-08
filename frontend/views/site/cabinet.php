@@ -73,18 +73,11 @@ if (!Yii::$app->user->isGuest) {
             <div>
                 <h2>Последние заказы:</h2>
                 <table class="table table-hover table-responsive table-striped">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th>Номер</th>
-                        <th>Дата</th>
-                        <th>Состояние</th>
-                    </tr>
-                    </thead>
                     <?php foreach ($lastOrders as $order) {
                         ?>
                         <tr>
                             <td style="padding:10px">№ <?= $order->id ?></td>
-                            <td style="padding:10px"><?= $order->date ?></td>
+                            <td style="padding:10px"><?= Yii::$app->formatter->asDate($order->date) ?></td>
                             <td style="padding:10px">
                                 <b><?= Order::getStatuses()[$order->status] ?></b></td>
                         </tr>

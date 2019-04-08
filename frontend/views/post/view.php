@@ -63,11 +63,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="spec_value"><?= Yii::$app->formatter->asDecimal($model->price) . '&nbsp;грн.' ?></div>
                 </div>
             <?php } ?>
-
         </div>
-
     </div>
-
 
     <hr>
     <h4 class="pull-left">

@@ -162,16 +162,21 @@ class ProductsController extends Controller
         $products = $cart->getCart();
         $order_content = '';
         $count = 1;
+
         foreach ($products as $id => $array) {
             $product = $this->findModel($id);
-            $order_content .= '<p>' . $count . '. ' . $product->name . ' (' . $product->code . ') ' . $array['qty'] . ' шт.  - ' . round($product->getDiscountPrice() * $array['qty'], 2) . ' грн</p>';
+            $car_text='';
+            if(!empty($array['car'])){
+            $car_text='<i>'.$array['car'].'</i><br>';
+            }
+            $order_content .= '<p><b>' . $count . '. ' . $product->name . '</b> (' . $product->code . ') <br>' .$car_text. $array['qty'] . ' шт.  - ' . round($product->getDiscountPrice() * $array['qty'], 2) . ' грн</p>';
             $count++;
         }
 
 
-        $order_content .= '<p><b> Всего: ' . round($cart->getSumm(), 2) . ' грн</b></p>';
+        $order_content .= '<h3> Всего: ' . round($cart->getSumm(), 2) . ' грн</h3>';
 
-         $order_content .= '<br> Телефон: <b>' .$phone.'</b>';
+         $order_content .= 'Телефон: <b>' .$phone.'</b>';
          $shop_text .= $order_content;
 
         $order->order_content = $order_content;

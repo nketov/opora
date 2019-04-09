@@ -25,6 +25,16 @@ class Cart extends Model
         $_SESSION['cart'][$id]['image'] = $data['image'];
         $_SESSION['cart'][$id]['price'] = $data['price'];
 
+
+        if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
+            $car_text = $car['car_name'];
+            if ($car['year']) {
+                $car_text .= ', ' . $car['year'] . ' г.в.';
+            }
+            $_SESSION['cart'][$id]['car'] = $car_text;
+        }
+
+
         $_SESSION['cart.qty'] = $qty + ($_SESSION['cart.qty'] ?? 0);
         $_SESSION['cart.sum'] = $qty * $data['price'] + ($_SESSION['cart.sum'] ?? 0);
         return true;

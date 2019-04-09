@@ -55,22 +55,7 @@ class PasswordResetRequestForm extends Model
             }
         }
 
-        /*
-         *  return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
-            ->setSubject('Password reset for ' . Yii::$app->name)
-            ->send();
-        */
         $url = Url::home(true);
-
-
-
 
 
         $html ='<h3>Здравствуйте!</h3>'
@@ -85,7 +70,6 @@ class PasswordResetRequestForm extends Model
         ->setSubject('Восстановление пароля opora.dn.ua')
         ->setHtmlBody($html)
         ->send();
-             
-//        return mail($this->email, 'Восстановление пароля svitlograd.in.ua ', $text) ;
+
     }
 }

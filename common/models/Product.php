@@ -56,6 +56,7 @@ class Product extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['code', 'article'], 'string', 'max' => 75],
             [['name'], 'string', 'max' => 200],
+            [['brand'], 'string', 'max' => 100],
             [['images', 'description'], 'string'],
             [['unit'], 'string', 'max' => 10],
             [['code'], 'unique'],

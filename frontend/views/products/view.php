@@ -52,6 +52,12 @@ $this->title = $model->name;
                         <div class="spec_value"><?= $model->categoryName() ?></div>
                     </div>
                 <?php } ?>
+                <?php if (!empty($model->brand)) { ?>
+                    <div class="string">
+                        <div class="spec_name">Производитель:&nbsp;</div>
+                        <div class="spec_value"><?= $model->brand ?></div>
+                    </div>
+                <?php } ?>
             </div>
 
             <div class="view_buttons">

@@ -96,6 +96,8 @@ class CronController extends Controller
 
             $product->article = (string)self::getByTagName('Article');
 
+            $product->brand = (string)self::getByTagName('Brand');
+
             $category=(string)self::getByTagName('ParentCode');
 
             $product->category = (int)Category::findOne(['code'=>$category])->id;

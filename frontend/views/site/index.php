@@ -1,6 +1,6 @@
 
 <?php
-
+//echo Yii::$app->formatter->asDatetime(time());
 //var_dump($np->getArea('','71508129-9b87-11de-822f-000c2965ae0e'));
 //var_dump($np->getCities());
 

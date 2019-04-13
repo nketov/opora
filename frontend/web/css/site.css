@@ -672,6 +672,11 @@ li strong {
     text-align: center;
 }
 
+
+.np-hide{
+    display: none;
+}
+
 #footer {
     background-color: #020505;
     color: white;
@@ -1014,6 +1019,14 @@ li strong {
 @media screen and (max-width: 395px) {
 
 
+    .main-content{
+        padding: 0;
+    }
+
+    .card{
+        padding: 2px;
+    }
+
     .view_spec {
         padding-top: .5rem;
         max-width: 300px;
@@ -1023,6 +1036,11 @@ li strong {
     .form-group{
         width: 275px;
         margin: 0 auto;
+    }
+
+    .form-control{
+        width: 95%;
+
     }
 
     .pagination {

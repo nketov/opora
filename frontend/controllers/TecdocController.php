@@ -296,6 +296,7 @@ GROUP BY BRAND, NUMBER ;
             $car = unserialize($_COOKIE['car'], ["allowed_classes" => false]);
             $tree = TecDoc::getTreeArray($car['type_id'])[0]['child'];
             foreach ($tree as $level_1) {
+                if(!empty($level_1['child']))
                 foreach ($level_1['child'] as $level_2) {
                     if ($level_2['STR_ID'] == $data['td_category']) {
                         if (isset($level_2['child']))

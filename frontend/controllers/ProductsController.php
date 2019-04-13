@@ -5,7 +5,9 @@ namespace frontend\controllers;
 use common\models\Order;
 use common\models\ProductTextSearch;
 use common\models\TecdocSearch;
+use frontend\components\NovaPoshta;
 use frontend\models\Cart;
+use frontend\models\OrderForm;
 use frontend\models\UnregisteredUser;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -40,14 +42,14 @@ class ProductsController extends Controller
     {
         $searchModel = new ProductTextSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('text_search', compact( 'searchModel', 'dataProvider'));
+        return $this->render('text_search', compact('searchModel', 'dataProvider'));
 
     }
 
     public function actionCarSearch()
     {
 
-        if(!\Yii::$app->request->isAjax && !empty($_GET['category'])){
+        if (!\Yii::$app->request->isAjax && !empty($_GET['category'])) {
             $this->redirect('car');
         }
 
@@ -78,9 +80,8 @@ class ProductsController extends Controller
             $car_text .= ', ' . $form['year'] . ' г.в.';
         }
 
-        $tecdocSearch= new TecdocSearch();
+        $tecdocSearch = new TecdocSearch();
         $tecdocSearch->load($form, '');
-
 
 
 //        return Html::a($car_text, '/car');
@@ -90,7 +91,6 @@ class ProductsController extends Controller
                 compact('tecdocSearch'))
         ]);
     }
-
 
 
     public function actionView($id)
@@ -145,45 +145,61 @@ class ProductsController extends Controller
 
         $cart = new Cart();
         $order = new Order();
+        $orderForm = new OrderForm();
+        $orderForm->load(\Yii::$app->request->post());
 
         if (Yii::$app->user->isGuest) {
             $order->user_id = 0;
-            $phone = (new User)->getPhone($_REQUEST['UnregisteredUser']['phone']);
-            $shop_text = '<p><b>Незарегистрированный пользователь</b> сделал заказ. Содержание заказа : </p>';
+            $shop_text = '<p style="font-size: 1.25em"><b>Незарегистрированный пользователь</b> сделал заказ. Содержание заказа : </p>';
         } else {
             $order->user_id = Yii::$app->user->id;
-            $phone = Yii::$app->user->identity->getPhone();
-            $shop_text = '<p>Пользователь  <b>' . Yii::$app->user->identity->email . '</b> сделал заказ. Содержание заказа : </p>';
+            $shop_text = '<p style="font-size: 1.25em">Пользователь  <b>' . Yii::$app->user->identity->email . '</b> сделал заказ. Содержание заказа : </p>';
         }
-
 
 
         $order->summ = $cart->getSumm();
         $products = $cart->getCart();
-        $order_content = '';
+        $order_content = '<div style="display: inline-block;background: linear-gradient(to bottom,#FAF7F0,#EEE); border-radius: 10px; padding: 15px">';
         $count = 1;
 
         foreach ($products as $id => $array) {
             $product = $this->findModel($id);
-            $car_text='';
-            if(!empty($array['car'])){
-            $car_text='<i>'.$array['car'].'</i><br>';
+            $car_text = '';
+            if (!empty($array['car'])) {
+                $car_text = '<i style="font-size: .7em">' . $array['car'] . '</i><br>';
             }
-            $order_content .= '<p><b>' . $count . '. ' . $product->name . '</b> (' . $product->code . ') <br>' .$car_text. $array['qty'] . ' шт.  - ' . round($product->getDiscountPrice() * $array['qty'], 2) . ' грн</p>';
+            $order_content .=
+                '<p><b>' . $count . '. <span color="#163">' . $product->name . '<span></b> (' . $product->code . ') <br>' .
+                $car_text . $array['qty'] . ' '.$product->unit.'  - <b>' . Yii::$app->formatter->asDecimal(round($product->getDiscountPrice() * $array['qty'], 2)) . '</b> грн</p>';
             $count++;
         }
 
+        $order_content .= '<h3 style="color:#9f191f"> Всего: ' . Yii::$app->formatter->asDecimal(round($cart->getSumm(), 2)) . ' грн</h3>';
+        $order_content .= 'Телефон: <b>' . (new User)->getPhone($orderForm->phone) . '</b><br>';
+        $order_content .= 'Ф.И.О.: <b>' . $orderForm->FIO . '</b><br>';
+        $order_content .= 'Способ доставки: <b>' . OrderForm::deliveryName($orderForm->delivery) . '</b><br>';
+        if ($orderForm->delivery == OrderForm::DELIVERY_NOVA_POSHTA) {
+            $order_content .= 'Область: <b>' . $orderForm->NP->getAreaNameRu($orderForm->region_id) . '</b><br>';
+            $order_content .= 'Город: <b>' . $orderForm->NP->getCityNameRu($orderForm->city_id) . '</b><br>';
+            $order_content .= 'Отделение: <b>' . $orderForm->NP->getWarehouseNameRu($orderForm->city_id, $orderForm->warehouse_id) . '</b><br>';
+        }
+        if ($orderForm->delivery == OrderForm::DELIVERY_COURIER) {
+            $order_content .= 'Адрес доставки: <b>' . $orderForm->courier_address . '</b><br>';
+        }
 
-        $order_content .= '<h3> Всего: ' . round($cart->getSumm(), 2) . ' грн</h3>';
+        $order_content .= '</div>';
+        $shop_text .= $order_content;
 
-         $order_content .= 'Телефон: <b>' .$phone.'</b>';
-         $shop_text .= $order_content;
+
+        echo $shop_text;
+        exit;
+
 
         $order->order_content = $order_content;
         $order->save();
 
         if (!Yii::$app->user->isGuest) {
-            $user_text = '<p>Вы сделали заказ (№'.$order->id.') на сайте <b>opora.dn.ua</b>. Содержание заказа : </p>' . $order_content;
+            $user_text = '<p style="font-size: 1.25em">Вы сделали заказ (№' . $order->id . ') на сайте <b>opora.dn.ua</b>. Содержание заказа : </p>' . $order_content;
 
             Yii::$app->mailer->compose()
                 ->setTo(Yii::$app->user->identity->email)
@@ -204,6 +220,42 @@ class ProductsController extends Controller
         Yii::$app->session->setFlash('success', 'Ваш заказ отправлен!');
         $this->redirect(Url::to(['/']));
 
+    }
+
+
+    //    ---------------------ORDER_DROPDOWNs-----------------
+
+
+    public function actionNpCityDropDown()
+    {
+
+        $data = $_POST['depdrop_all_params'];
+
+        $np = new NovaPoshta();
+        $list = $np->getCitiesByArea($data['np_region']);
+        $out = [];
+        foreach ($list as $item) {
+            $out[] = ['id' => $item['Ref'], 'name' => $item['DescriptionRu']];
+        }
+
+        return Json::encode(['output' => $out, 'selected' => $_GET['city_id']]);
+    }
+
+    public function actionNpWarehouseDropDown()
+    {
+
+        $data = $_POST['depdrop_all_params'];
+
+        $np = new NovaPoshta();
+
+        $out = [];
+        if (!empty($data['np_city'])) {
+            $list = $np->getWarehouses($data['np_city'])['data'];
+            foreach ($list as $item) {
+                $out[] = ['id' => $item['Ref'], 'name' => $item['DescriptionRu']];
+            }
+        }
+        return Json::encode(['output' => $out, 'selected' => $_GET['warehouse_id']]);
     }
 
 

@@ -11,7 +11,10 @@ use common\models\Content;
 use common\models\Order;
 use common\models\Post;
 use common\models\Product;
+use common\models\User;
 use frontend\components\LiqPay;
+use frontend\components\NovaPoshta;
+use frontend\components\NovaPoshtaApi2;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
@@ -91,18 +94,21 @@ class SiteController extends Controller
     {
 
 
+//        $liqpay = new LiqPay();
+//        $html = $liqpay->cnb_form(array(
+//            'action'         => 'pay',
+//            'amount'         => '0.55',
+//            'currency'       => 'UAH',
+//            'description'    => 'Тестовый платёж',
+//            'order_id'       => 'test_3',
+//            'version'        => '3',
+//        ));
 
-        $liqpay = new LiqPay();
-        $html = $liqpay->cnb_form(array(
-            'action'         => 'pay',
-            'amount'         => '0.55',
-            'currency'       => 'UAH',
-            'description'    => 'Тестовый платёж',
-            'order_id'       => 'test_3',
-            'version'        => '3',
-        ));
 
-        return $this->render('index', compact('html'));
+        $np = new NovaPoshta();
+
+
+        return $this->render('index', compact('np'));
     }
 
 
@@ -127,7 +133,7 @@ class SiteController extends Controller
                 echo "<div style='
                 margin-left:" . ($level * 50) . "px; 
                 font-size:" . (30 - $level * 2) . "px;
-                color: rgb(" . (255 - $level * 25) . ",".(0 + $level * 35). ",".(100 + $level * 25).");
+                color: rgb(" . (255 - $level * 25) . "," . (0 + $level * 35) . "," . (100 + $level * 25) . ");
                 '>" . $value->name . "</div>";
                 $level++;
                 $this->outTree($value->code, $level);
@@ -189,17 +195,16 @@ class SiteController extends Controller
 
     public function actionCabinet()
     {
-        $user = Yii::$app->user->identity;
+        if(!$user = Yii::$app->user->getIdentity())
+            return $this->redirect('/login');
 
-        if (!empty($phone = Yii::$app->request->post('User')['phone'])) {
-            $user->phone = $phone;
-            $user->save();
-        }
+        $user->load(Yii::$app->request->post());
+        $user->save();
 
         $postProvider = new ActiveDataProvider([
-            'query' => Post::find()->andWhere(['user_id'=> $user->id]),
-            'sort'=>array(
-                'defaultOrder'=>['time' => SORT_DESC],
+            'query' => Post::find()->andWhere(['user_id' => $user->id]),
+            'sort' => array(
+                'defaultOrder' => ['time' => SORT_DESC],
             ),
             'pagination' => [
                 'pageSize' => 5,
@@ -213,7 +218,7 @@ class SiteController extends Controller
 //            'actions',
             'user',
             'postProvider'
-            ,'lastOrders'
+            , 'lastOrders'
         ));
     }
 

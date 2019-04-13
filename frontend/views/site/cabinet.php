@@ -45,7 +45,7 @@ if (!Yii::$app->user->isGuest) {
                         'format' => 'raw',
                         'contentOptions' => ['style' => 'text-align:right'],
                         'value' => function ($data) {
-                            return '<b>'.Post::getStatuses()[$data->status].'</b>';
+                            return '<b>' . Post::getStatuses()[$data->status] . '</b>';
                         }
                     ],
 
@@ -58,15 +58,21 @@ if (!Yii::$app->user->isGuest) {
                 <?= Html::a('Разместить объявление', ['/post/create'], ['class' => 'btn btn-success pull-right']) ?>
             </p>
             <div>
-                <h3 class="pull-left">Мой номер телефона:
+                <h2>Мой номер телефона:</h2>
+                <h3 style="padding-left:25px">
                     <?= Yii::$app->user->identity->getPhone() ?> <a href="" title="Изменить">
+                        <i class="fa fa-pencil-square-o phone-change" aria-hidden="true"></i>
+                    </a>
+                </h3>
+                <h2>Ф.И.О.:</h2>
+                <h3 style="padding-left:25px">
+                    <?= Yii::$app->user->identity->FIO ?> <a href="" title="Изменить">
                         <i class="fa fa-pencil-square-o phone-change" aria-hidden="true"></i>
                     </a>
                 </h3>
             </div>
 
         </div>
-
 
 
         <?php if (!empty($lastOrders)) { ?>
@@ -142,17 +148,20 @@ if (!Yii::$app->user->isGuest) {
                     'enableClientValidation' => true,
                 ]); ?>
                 <div class="modal-header" style="text-align: center">
-                    <h3 class="modal-title">Укажите номер телефона</h3>
+                    <h2 class="modal-title">Мой номер телефона и Ф.И.О.</h2>
                 </div>
-                <div class="modal-body" style="text-align: center; height: 70px;font-weight:  bold">
-                    <?php
-                    echo $form->field($user, 'phone')->label(false)->widget(\yii\widgets\MaskedInput::className(), [
+                <div class="modal-body" style="font-weight:  bold">
+                    <?= $form->field($user, 'phone')->label(false)->widget(\yii\widgets\MaskedInput::className(), [
                         'mask' => '+38 (099) 999 99 99',
                         'clientOptions' => [
                             'removeMaskOnSubmit' => true,
                         ]
                     ])->textInput(['style' => 'width:165px;margin: 0 auto;']);
                     ?>
+                    <?= $form->field($user, 'FIO')->textInput([
+                        'placeholder' => 'Фамилия Имя Отчество',
+                        'style' => 'width:325px;margin: 0 auto; text-align:center'
+                    ])->label(false) ?>
                 </div>
                 <div class="modal-footer" style="text-align: center">
                     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
@@ -162,7 +171,6 @@ if (!Yii::$app->user->isGuest) {
             </div>
         </div>
     </div>
-
 
 <?php } ?>
 				

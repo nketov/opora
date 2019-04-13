@@ -54,6 +54,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [['FIO'], 'string', 'max' => 150],
             ['phone', 'string', 'length' => 9, 'message' => 'Неверный номер'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
@@ -67,6 +68,7 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => 'E-mail',
             'phone' => 'Телефон',
             'created_at' => 'Зарегистрирован',
+            'FIO' => 'Ф.И.О.'
         ];
     }
     
@@ -208,6 +210,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function getPhone($phone=null)
     {
         $string = $phone ?? $this->phone;
-        return '+38 (0' . $string[0] . $string[1] . ')' . $string[2] . $string[3] . $string[4] . ' ' . $string[5] . $string[6] . ' ' . $string[7] . $string[8];
+        return '+38 (0' . $string[0] . $string[1] . ') ' . $string[2] . $string[3] . $string[4] . ' ' . $string[5] . $string[6] . ' ' . $string[7] . $string[8];
     }
 }

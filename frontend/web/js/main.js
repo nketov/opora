@@ -215,16 +215,18 @@ $(function () {
 
     });
 
+    $('#orderform-delivery').change(function () {
 
-    $('.cd-cart footer .btn-cart').on('click', function (e) {
+        $('.np-hide').css('display','none');
 
-        console.log($(this).data('guest'));
-        if ($(this).data('guest') === 1) {
-            e.preventDefault();
-            $('#order-phone-modal').modal('show');
+        if($(this).val() == 1){
+            $('.nova-poshta-block').css('display','block');
         }
-    });
+        if($(this).val() == 2){
+            $('.nova-courier-address').css('display','block');
+        }
 
+    });
 
     $(window).resize(function () {
         // topCatalogResize();

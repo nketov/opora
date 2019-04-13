@@ -59,11 +59,6 @@ $this->title = 'Товары';
                     'contentOptions' => ['style' => 'width:225px;text-align:center'],
                 ],
 
-                [
-                    'attribute' => 'category',
-                    'contentOptions' => ['style' => 'width:225px;text-align:center'],
-                ],
-
                 ['attribute' => 'price',
                     'contentOptions' => ['style' => 'width:125px;text-align:right'],
                     'filter' => false,

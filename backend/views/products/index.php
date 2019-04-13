@@ -41,17 +41,16 @@ $this->title = 'Товары';
 
 //                'id',
                 [
+                    'attribute' => 'code',
+                    'contentOptions' => ['style' => 'width:150px;text-align:center'],
+                ],
+                [
                     'attribute' => 'name',
                     'contentOptions' => ['style' => 'width:275px;max-width:300px'],
                     'value' => function ($data) {
 
                         return StringHelper::truncate($data->name, 36);
                     }
-                ],
-
-                [
-                    'attribute' => 'code',
-                    'contentOptions' => ['style' => 'width:225px;text-align:center'],
                 ],
 
                 [

@@ -503,7 +503,6 @@ class NovaPoshtaApi2
             array(
                 'success' => empty($error),
                 'data' => $data,
-                'errors' => (array)$error,
                 'warnings' => array(),
                 'info' => array(),
             )

@@ -55,12 +55,7 @@ $this->title = 'Клиенты';
                     },
                     'filter' => false
                 ],
-                ['attribute' => 'FIO',
-                    'value' => function ($data) {
-                        $string = $data->phone;
-                        return '+38 (0' . $string[0] . $string[1] . ') ' . $string[2] . $string[3] . $string[4] . ' ' . $string[5] . $string[6] . ' ' . $string[7] . $string[8];
-                    },
-                ],
+                'FIO',
                 [
                     'attribute' => 'created_at',
                     'value' => function ($data) {

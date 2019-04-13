@@ -190,11 +190,6 @@ class ProductsController extends Controller
         $order_content .= '</div>';
         $shop_text .= $order_content;
 
-
-        echo $shop_text;
-        exit;
-
-
         $order->order_content = $order_content;
         $order->save();
 

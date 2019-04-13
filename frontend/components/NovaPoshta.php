@@ -25,7 +25,6 @@ class NovaPoshta extends NovaPoshtaApi2
         $areas_refs = ArrayHelper::getColumn($this->getAreas()['data'], 'Ref');
         $listRu = [];
         foreach ($areas_refs as $ref) {
-            if ($ref == '71508128-9b87-11de-822f-000c2965ae0e') continue; // крым
             $listRu[$ref] = $this->getAreaNameRu($ref);
         }
         return $listRu;

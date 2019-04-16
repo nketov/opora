@@ -57,6 +57,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="spec_value"><?= $model->article ?></div>
                 </div>
             <?php } ?>
+            <?php if (!empty($model->region_id)) { ?>
+                <div class="string">
+                    <div class="spec_name">Область:&nbsp;</div>
+                    <div class="spec_value"><?= $model->NP->getAreaNameRu($model->region_id) ?></div>
+                </div>
+            <?php } ?>
+
+            <?php if (!empty($model->city_id)) { ?>
+                <div class="string">
+                    <div class="spec_name">Город:&nbsp;</div>
+                    <div class="spec_value"><?= $model->NP->getCityNameRu($model->city_id) ?></div>
+                </div>
+            <?php } ?>
             <?php if ($model->price > 0) { ?>
                 <div class="string">
                     <div class="spec_name">Цена:&nbsp;</div>

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use frontend\components\NovaPoshta;
 use yii\web\UploadedFile;
 use Yii;
 use yii\helpers\Url;
@@ -19,6 +20,7 @@ class Post extends \yii\db\ActiveRecord
 {
 
     public $image;
+    public $NP;
 
     /**
      * {@inheritdoc}
@@ -28,6 +30,12 @@ class Post extends \yii\db\ActiveRecord
         return 'post';
     }
 
+
+    public function __construct()
+    {
+        $this->NP = new NovaPoshta();
+        return parent::__construct();
+    }
 
     private static $_categoryName = [
         '0'=> 'Не указана',
@@ -63,7 +71,7 @@ class Post extends \yii\db\ActiveRecord
             [['title', 'text', 'user_id'], 'required'],
             [['text', 'image_name'], 'string'],
             [['user_id','type','new','category'], 'integer'],
-            [['time'], 'safe'],
+            [['time', 'region_id', 'city_id'], 'safe'],
             [['title','article'], 'string', 'max' => 150],
             [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg,jpeg', 'checkExtensionByMimeType' => false],
         ];
@@ -86,7 +94,9 @@ class Post extends \yii\db\ActiveRecord
             'article' => 'Артикул',
             'price'=> 'Цена,грн',
             'status' => 'Статус',
-            'category' => 'Категория'
+            'category' => 'Категория',
+            'city_id' => 'Город',
+            'region_id' => 'Область',
         ];
     }
 

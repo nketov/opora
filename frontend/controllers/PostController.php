@@ -2,9 +2,11 @@
 
 namespace frontend\controllers;
 
+use frontend\components\NovaPoshta;
 use Yii;
 use common\models\Post;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,7 +16,8 @@ use yii\filters\VerbFilter;
  */
 class PostController extends Controller
 {
-    /**
+
+     /**
      * {@inheritdoc}
      */
     public function behaviors()
@@ -28,6 +31,8 @@ class PostController extends Controller
             ],
         ];
     }
+
+
 
     /**
      * Lists all Post models.
@@ -115,6 +120,21 @@ class PostController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionNpCityDropDown()
+    {
+
+        $data = $_POST['depdrop_all_params'];
+
+        $np = new NovaPoshta();
+        $list = $np->getCitiesByArea($data['post_region']);
+        $out = [];
+        foreach ($list as $item) {
+            $out[] = ['id' => $item['Ref'], 'name' => $item['DescriptionRu']];
+        }
+
+        return Json::encode(['output' => $out, 'selected' => $_GET['city_id']]);
     }
 
     /**

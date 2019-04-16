@@ -1,4 +1,12 @@
 @font-face {
+    font-family: 'Monotype Corsiva';
+    src: url('../fonts/Monotype-Corsiva.TTF') format('truetype');
+    font-weight: normal;
+    font-weight: normal;
+}
+
+
+@font-face {
     font-family: 'Acrom Bold';
     src: url('../fonts/Acrom-Bold.ttf') format('truetype');
     font-weight: normal;

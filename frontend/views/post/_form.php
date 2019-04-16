@@ -3,6 +3,10 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\tinymce\TinyMce;
+use kartik\select2\Select2;
+use kartik\depdrop\DepDrop;
+use yii\helpers\Url;
+use frontend\components\NovaPoshta;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
@@ -15,7 +19,9 @@ if ($model->user_id != Yii::$app->getUser()->id) {
 
 <div class="post-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'image')->fileInput() ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -40,7 +46,37 @@ if ($model->user_id != Yii::$app->getUser()->id) {
 
     <?= $form->field($model, 'article')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'image')->fileInput() ?>
+    <?= $form->field($model, 'region_id')->widget(Select2::className(), [
+        'data' => $model->NP->getAreasListRu(),
+        'options' => [
+            'id' => 'post_region',
+            'role' => "button-cursor",
+            'placeholder' => 'Выберите область',
+        ],
+        'theme' => Select2::THEME_BOOTSTRAP
+    ]) ?>
+
+    <?= $form->field($model, 'city_id')->widget(DepDrop::classname(), [
+        'options' => [
+            'tabindex' => 1,
+            'role' => 'button-cursor',
+            'id' => 'post_city'
+        ],
+        'type' => DepDrop::TYPE_SELECT2,
+        'select2Options' => [
+            'theme' => Select2::THEME_BOOTSTRAP
+        ],
+        'pluginOptions' => [
+            'depends' => ['post_region'],
+            'url' => Url::to(['/post/np-city-drop-down?city_id=' . $model->city_id]),
+            'loadingText' => 'Загрузка ...',
+            'placeholder' => 'Выберите город',
+            'allowClear' => true,
+            'initialize' => true,
+        ],
+
+    ]);
+    ?>
 
     <?= $form->field($model, 'price')->textInput(['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->price)],
         'maxlength' => true]) ?>

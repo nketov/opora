@@ -61,6 +61,14 @@ a {
     font-family: "Rockwell Extra Bold";
 }
 
+.header-car-delete{
+    border-radius:50%;
+    padding:5px;
+    transform: scale(.42);
+    top:-5px;
+    left:-5px;
+}
+
 .header-user {
     color: black !important;
     padding-top: 25px;

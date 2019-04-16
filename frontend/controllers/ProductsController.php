@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use app\models\UserCars;
 use common\models\Order;
 use common\models\ProductTextSearch;
 use common\models\TecdocSearch;
@@ -84,12 +85,89 @@ class ProductsController extends Controller
         $tecdocSearch->load($form, '');
 
 
-//        return Html::a($car_text, '/car');
         return Json::encode([
-            'car_name' => Html::a($car_text, '/car'),
+            'car_name' => $car_text,
             'select_render' => $this->renderAjax('cat-selector',
                 compact('tecdocSearch'))
         ]);
+    }
+
+    public
+    function actionDeleteCar()
+    {
+        unset($_COOKIE['car']);
+        setcookie('car', null, -1, '/');
+        return $this->redirect('/car');
+    }
+
+    public
+    function actionAddGarage($position)
+    {
+        $user_id = \Yii::$app->getUser()->id;
+        $res = 'NULL';
+        if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
+
+            if (!$user_car = UserCars::find()->where([
+                'position' => $position,
+                'user_id' => $user_id
+            ])->one()) {
+                $user_car = new UserCars();
+                $user_car->user_id = $user_id;
+                $user_car->position = $position;
+            }
+
+            $user_car->load($car, '');
+
+            if ($user_car->save()) {
+                if ($car['year']) {
+                    $car['car_name'] .= ', ' . $car['year'] . ' г.в.';
+                }
+                $res = Html::a($car['car_name'], '/', ['class' => 'choose-garage']);
+            }
+        }
+
+        return Json::encode([
+            'link' => $res,
+            'delete' => Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash']), ['/'], ['class' => 'btn btn-black delete-garage', 'title' => 'Удалить автомобиль'])
+        ]);
+
+    }
+
+    public
+    function actionDeleteGarage($position)
+    {
+        $user_id = \Yii::$app->getUser()->id;
+
+        $user_car = UserCars::find()->where([
+            'position' => $position,
+            'user_id' => $user_id
+        ])->one();
+
+        $user_car->delete();
+
+        return Html::a('Добавить текущий автомобиль', '', ['class' => 'add-garage']);
+
+    }
+
+    public
+    function actionChooseGarage($position)
+    {
+
+        unset($_COOKIE['car']);
+        setcookie('car', null, -1, '/');
+        $user_id = \Yii::$app->getUser()->id;
+
+        $user_car = UserCars::find()->where([
+            'position' => $position,
+            'user_id' => $user_id
+        ])->one();
+
+        setcookie("car", serialize($user_car->attributes), time() + 3600 * 24 * 100, '/');
+
+        if ($user_car->year) {
+            $user_car->car_name .= ', ' . $user_car->year . ' г.в.';
+        }
+        return $user_car->car_name;
     }
 
 
@@ -170,7 +248,7 @@ class ProductsController extends Controller
             }
             $order_content .=
                 '<p><b>' . $count . '. <span color="#163">' . $product->name . '<span></b> (' . $product->code . ') <br>' .
-                $car_text . $array['qty'] . ' '.$product->unit.'  - <b>' . Yii::$app->formatter->asDecimal(round($product->getDiscountPrice() * $array['qty'], 2)) . '</b> грн</p>';
+                $car_text . $array['qty'] . ' ' . $product->unit . '  - <b>' . Yii::$app->formatter->asDecimal(round($product->getDiscountPrice() * $array['qty'], 2)) . '</b> грн</p>';
             $count++;
         }
 

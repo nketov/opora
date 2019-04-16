@@ -25,14 +25,7 @@ $(function () {
 
     $('body').on('click', '.card-img-block,.card-text', function () {
         var product = $(this).closest('.card').data('key');
-        // if ($('#pjax_car_category').length) {
-        //     window.open('/product/' + product, '_blank');
-        // }
-        // else {
-        //     location.href = '/product/' + product;
-        // }
         location.href = '/product/' + product;
-
     });
 
     $('body').on('click', '#site-header-logo', function () {
@@ -99,6 +92,75 @@ $(function () {
         }
     );
 
+    $('.header-car-delete').on('click', function (e) {
+        location.href = '/products/delete-car';
+    });
+
+    $('body').on('click', '.add-garage', function (e) {
+        e.preventDefault();
+        var position = $(this).closest('tr').data('key');
+        var td = $(this).closest('td');
+
+        $.ajax({
+                url: '/products/add-garage?position=' + position,
+                success: function (response) {
+                    if (response == 'NULL') {
+                        alert('Текущий автомобиль не выбран!');
+                    } else {
+                        var res = JSON.parse(response);
+                        td.html(res.link);
+                        td.next('td').html(res.delete);
+                    }
+                },
+                error: function (e) {
+                    console.log(e.responseText);
+                }
+            }
+        );
+    });
+
+    $('body').on('click', '.choose-garage', function (e) {
+        e.preventDefault();
+        var position = $(this).closest('tr').data('key');
+        var td = $(this).closest('td');
+
+        $.ajax({
+                url: '/products/choose-garage?position=' + position,
+                success: function (response) {
+                   $('#site-header .header-car a').html(response);
+                },
+                error: function (e) {
+                    console.log(e.responseText);
+                }
+            }
+        );
+
+
+
+
+
+    });
+
+    $('body').on('click', '.delete-garage', function (e) {
+        e.preventDefault();
+        if (confirm("Удалить автомобиль?")) {
+            var position = $(this).closest('tr').data('key');
+            var td = $(this).closest('td');
+            $.ajax({
+                    url: '/products/delete-garage?position=' + position,
+                    success: function (response) {
+                            td.html('');
+                            td.prev('td').html(response);
+                    },
+                    error: function (e) {
+                        console.log(e.responseText);
+                    }
+                }
+            );
+        }
+    });
+
+
     $('#td_type_id').on('change',
         function () {
             if (parseInt($(this).val(), 10) > 0) {
@@ -135,7 +197,7 @@ $(function () {
                         success: function (response) {
                             var res = JSON.parse(response);
                             console.log(res.select_render);
-                            $('#site-header .header-car').html(res.car_name);
+                            $('#site-header .header-car a').html(res.car_name);
                             $('#td-category-panel').html(res.select_render);
                             $('#td-category-panel .select2').slideUp(0).slideDown(1000);
 
@@ -150,7 +212,6 @@ $(function () {
 
         }
     );
-
 
 
     $(document)
@@ -189,7 +250,6 @@ $(function () {
     );
 
 
-
     $("#header_pjax_form").on("pjax:end", function () {
         $.pjax.reload({container: "#pjax_text_search", timeout: 5000});
     });
@@ -210,20 +270,20 @@ $(function () {
         $('.post-img').remove();
     });
 
-    $('.image_container img').not(".empty").on('click',function () {
+    $('.image_container img').not(".empty").on('click', function () {
         window.open($(this).attr('src'));
 
     });
 
     $('#orderform-delivery').change(function () {
 
-        $('.np-hide').css('display','none');
+        $('.np-hide').css('display', 'none');
 
-        if($(this).val() == 1){
-            $('.nova-poshta-block').css('display','block');
+        if ($(this).val() == 1) {
+            $('.nova-poshta-block').css('display', 'block');
         }
-        if($(this).val() == 2){
-            $('.nova-courier-address').css('display','block');
+        if ($(this).val() == 2) {
+            $('.nova-courier-address').css('display', 'block');
         }
 
     });
@@ -234,7 +294,6 @@ $(function () {
 
     // $('#td_category').trigger('change');
     // $('#td_sub_cat').trigger('change');
-
 
 
 });

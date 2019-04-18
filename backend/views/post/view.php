@@ -54,7 +54,7 @@ $this->title = 'Объявление: "' . $model->title . '"';
                     'format' => 'raw',
                     'label' => 'Изображение',
                     'value' => function ($data) {
-                        return $data->image_name ? Html::img('/images/posts/' . $data->image_name) : "";
+                        return $data->image_name ? Html::img('/images/posts/' . $data->image_name,['style'=> 'max-width:70vw']) : "";
                     }
                 ],
                 'price',

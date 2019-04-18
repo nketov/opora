@@ -104,10 +104,10 @@ $(function () {
         $.ajax({
                 url: '/products/add-garage?position=' + position,
                 success: function (response) {
-                    if (response == 'NULL') {
+                    var res = JSON.parse(response);
+                    if (res.link == 'NULL') {
                         alert('Текущий автомобиль не выбран!');
                     } else {
-                        var res = JSON.parse(response);
                         td.html(res.link);
                         td.next('td').html(res.delete);
                     }

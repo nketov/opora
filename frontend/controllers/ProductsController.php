@@ -220,18 +220,25 @@ class ProductsController extends Controller
     public function actionOrder()
     {
 
-
         $cart = new Cart();
         $order = new Order();
         $orderForm = new OrderForm();
         $orderForm->load(\Yii::$app->request->post());
 
+
+        $xml = new \DOMDocument('1.0', 'windows-1251');
+        $xml_order = $xml->appendChild($xml->createElement('Order'));
+        $xml_order_id = $xml_order->appendChild($xml->createElement('Id'));
+        $xml_user = $xml_order->appendChild($xml->createElement('User'));
+
         if (Yii::$app->user->isGuest) {
             $order->user_id = 0;
             $shop_text = '<p style="font-size: 1.25em"><b>Незарегистрированный пользователь</b> сделал заказ. Содержание заказа : </p>';
+            $xml_user->appendChild($xml->createTextNode('Незарегистрированный пользователь'));
         } else {
             $order->user_id = Yii::$app->user->id;
             $shop_text = '<p style="font-size: 1.25em">Пользователь  <b>' . Yii::$app->user->identity->email . '</b> сделал заказ. Содержание заказа : </p>';
+            $xml_user->appendChild($xml->createTextNode(Yii::$app->user->identity->email));
         }
 
 
@@ -240,29 +247,71 @@ class ProductsController extends Controller
         $order_content = '<div style="display: inline-block;background: linear-gradient(to bottom,#FAF7F0,#EEE); border-radius: 10px; padding: 15px">';
         $count = 1;
 
+
+        $xml_products = $xml_order->appendChild($xml->createElement('Products'));
         foreach ($products as $id => $array) {
+            $xml_product = $xml_products->appendChild($xml->createElement('Product'));
             $product = $this->findModel($id);
+
+
+            $xml_product_name = $xml_product->appendChild($xml->createElement('Name'));
+            $xml_product_name->appendChild($xml->createTextNode($product->name));
+            $xml_product_code = $xml_product->appendChild($xml->createElement('Code'));
+            $xml_product_code->appendChild($xml->createTextNode($product->code));
+            $xml_product_qty = $xml_product->appendChild($xml->createElement('Quantity'));
+            $xml_product_qty->appendChild($xml->createTextNode($array['qty']));
+            $xml_product_price = $xml_product->appendChild($xml->createElement('Price'));
+            $xml_product_price->appendChild($xml->createTextNode(round($product->getDiscountPrice() * $array['qty'], 2)));
+
+
             $car_text = '';
             if (!empty($array['car'])) {
                 $car_text = '<i style="font-size: .7em">' . $array['car'] . '</i><br>';
+                $xml_product_car = $xml_product->appendChild($xml->createElement('Car'));
+                $xml_product_car->appendChild($xml->createTextNode($array['car']));
             }
+
             $order_content .=
                 '<p><b>' . $count . '. <span color="#163">' . $product->name . '<span></b> (' . $product->code . ') <br>' .
                 $car_text . $array['qty'] . ' ' . $product->unit . '  - <b>' . Yii::$app->formatter->asDecimal(round($product->getDiscountPrice() * $array['qty'], 2)) . '</b> грн</p>';
             $count++;
         }
 
+        $xml_total_price = $xml_order->appendChild($xml->createElement('TotalPrice'));
+        $xml_total_price->appendChild($xml->createTextNode(round($cart->getSumm(), 2)));
+
+        $xml_phone = $xml_order->appendChild($xml->createElement('Phone'));
+        $xml_phone->appendChild($xml->createTextNode('0'.$orderForm->phone));
+        $xml_FIO = $xml_order->appendChild($xml->createElement('FIO'));
+        $xml_FIO->appendChild($xml->createTextNode($orderForm->FIO));
+        $xml_delivery = $xml_order->appendChild($xml->createElement('Delivery'));
+        $xml_delivery->appendChild($xml->createTextNode(OrderForm::deliveryName($orderForm->delivery)));
+
         $order_content .= '<h3 style="color:#9f191f"> Всего: ' . Yii::$app->formatter->asDecimal(round($cart->getSumm(), 2)) . ' грн</h3>';
         $order_content .= 'Телефон: <b>' . (new User)->getPhone($orderForm->phone) . '</b><br>';
         $order_content .= 'Ф.И.О.: <b>' . $orderForm->FIO . '</b><br>';
         $order_content .= 'Способ доставки: <b>' . OrderForm::deliveryName($orderForm->delivery) . '</b><br>';
         if ($orderForm->delivery == OrderForm::DELIVERY_NOVA_POSHTA) {
-            $order_content .= 'Область: <b>' . $orderForm->NP->getAreaNameRu($orderForm->region_id) . '</b><br>';
-            $order_content .= 'Город: <b>' . $orderForm->NP->getCityNameRu($orderForm->city_id) . '</b><br>';
-            $order_content .= 'Отделение: <b>' . $orderForm->NP->getWarehouseNameRu($orderForm->city_id, $orderForm->warehouse_id) . '</b><br>';
+
+            $region=$orderForm->NP->getAreaNameRu($orderForm->region_id);
+            $city=$orderForm->NP->getCityNameRu($orderForm->city_id);
+            $wh= $orderForm->NP->getWarehouseNameRu($orderForm->city_id, $orderForm->warehouse_id);
+
+            $order_content .= 'Область: <b>' .$region  . '</b><br>';
+            $order_content .= 'Город: <b>' .$city  . '</b><br>';
+            $order_content .= 'Отделение: <b>' .$wh . '</b><br>';
+
+            $xml_region = $xml_order->appendChild($xml->createElement('Region'));
+            $xml_region->appendChild($xml->createTextNode($region));
+            $xml_city = $xml_order->appendChild($xml->createElement('City'));
+            $xml_city->appendChild($xml->createTextNode($city));
+            $xml_wh = $xml_order->appendChild($xml->createElement('Warehouse'));            $xml_wh->appendChild($xml->createTextNode($wh));
+
         }
         if ($orderForm->delivery == OrderForm::DELIVERY_COURIER) {
             $order_content .= 'Адрес доставки: <b>' . $orderForm->courier_address . '</b><br>';
+            $xml_address = $xml_order->appendChild($xml->createElement('Address'));
+            $xml_address->appendChild($xml->createTextNode($orderForm->courier_address));
         }
 
         $order_content .= '</div>';
@@ -270,6 +319,15 @@ class ProductsController extends Controller
 
         $order->order_content = $order_content;
         $order->save();
+
+        $xml_order_id->appendChild(
+            $xml->createTextNode($order->id));
+
+        $xml->formatOutput = true;
+        $content = $xml->saveXML();
+        $xml->save(Url::to('@backend/1C_files/orders/order_'.$order->id.'.xml'));
+
+
 
         if (!Yii::$app->user->isGuest) {
             $user_text = '<p style="font-size: 1.25em">Вы сделали заказ (№' . $order->id . ') на сайте <b>opora.dn.ua</b>. Содержание заказа : </p>' . $order_content;

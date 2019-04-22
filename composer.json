@@ -23,7 +23,8 @@
         "phpoffice/phpspreadsheet": "^1.5",
         "kartik-v/yii2-widget-select2": "@dev",
         "2amigos/yii2-tinymce-widget": "*",
-        "kartik-v/yii2-widget-depdrop": "@dev"
+        "kartik-v/yii2-widget-depdrop": "@dev",
+        "kartik-v/yii2-widget-activeform": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

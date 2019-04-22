@@ -91,6 +91,7 @@ a {
     padding: 25px;
 }
 
+
 .td_submit {
     height: 35px;
     opacity: 0;
@@ -965,7 +966,7 @@ li strong {
 
     #site-header {
         display: block;
-        min-height: 395px;
+        min-height: 425px;
     }
 
     #site-header>*{

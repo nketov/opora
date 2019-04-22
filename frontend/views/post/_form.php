@@ -21,7 +21,11 @@ if ($model->user_id != Yii::$app->getUser()->id) {
 
         <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'image')->fileInput() ?>
+    <?= $form->field($model, 'image')->label('<h2>'.Html::tag('span', '', ['class' => 'glyphicon glyphicon-picture']).'&nbsp;Выберите изображение</h2>')->fileInput() ?>
+
+    <?php if($model->image_name){ ?>
+        <img class='post-img' src="<?= '/images/posts/' . $model->image_name . '?rnd=' . time() ?>" alt="">
+    <?php } ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -81,9 +85,7 @@ if ($model->user_id != Yii::$app->getUser()->id) {
     <?= $form->field($model, 'price')->textInput(['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->price)],
         'maxlength' => true]) ?>
 
-    <?php if($model->image_name){ ?>
-    <img class='post-img' src="<?= '/images/posts/' . $model->image_name . '?rnd=' . time() ?>" alt="">
-    <?php } ?>
+
     <br>
     <div>
         <?= 'Мой телефон: <b>' . Html::a($model->user->getPhone(), '/cabinet') . '</b>' ?>

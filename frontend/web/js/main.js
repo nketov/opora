@@ -33,6 +33,10 @@ $(function () {
         location.href = '/';
     });
 
+    // $('body').on('click', '.btn-search', function () {
+    //     $('#header-search-form').submit();
+    // });
+
     $('.image_icon').on('click', function () {
             $('.image_icon').css('border', 'none');
             $(this).css('border', '#C3A solid 3px');
@@ -134,12 +138,8 @@ $(function () {
                 }
             }
         );
-
-
-
-
-
     });
+
 
     $('body').on('click', '.delete-garage', function (e) {
         e.preventDefault();

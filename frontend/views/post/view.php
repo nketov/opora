@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?php if ($model->image_name)
-        echo Html::img('/images/posts/' . $model->image_name, ['class' => 'post-img center-block']);
+        echo Html::img('/images/posts/' . $model->image_name.'?rnd=' . time(), ['class' => 'post-img center-block']);
     ?>
 
     <br>

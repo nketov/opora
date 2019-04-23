@@ -2,10 +2,12 @@
 
 namespace common\models;
 
+use frontend\components\Tree_1C;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Product;
+use common\models\Category;
 
 /**
  * ProductSearch represents the model behind the search form of `common\models\Product`.
@@ -14,6 +16,7 @@ class ProductSearch extends Product
 {
 
 
+   public $category;
 
     /**
      * {@inheritdoc}
@@ -89,10 +92,22 @@ class ProductSearch extends Product
 
         $this->load($params);
 
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+
+        if(!empty($params['category'])){
+            $this->category = Category::find()->where(['like','code', $params['category']])->one();
+            $tree = new Tree_1C();
+            $cats = $tree->getChildesIds($this->category->code);
+            $this->category=$this->category->id;
+            $query->andFilterWhere([
+                'in','category',$cats
+            ]);
         }
 
         // grid filtering conditions
@@ -105,8 +120,7 @@ class ProductSearch extends Product
 
         $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'article', $this->article])
-            ->andFilterWhere(['like', 'category', $this->category]) ;
+            ->andFilterWhere(['like', 'article', $this->article])             ;
 
         return $dataProvider;
     }

@@ -1,52 +1,37 @@
 <?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+use frontend\components\Tree_1C;
 use yii\widgets\Pjax;
-use yii\bootstrap\ActiveForm;
-use kartik\slider\Slider;
-use common\models\Product;
 
 Pjax::begin(['id' => 'pjax_form']);
-$form = ActiveForm::begin([
-    'method' => 'get',
-    'action' => $formTarget,
-    'id' => 'left-filter-form',
-    'options' => [
-        'data-pjax' => 1
-    ],
-]) ?>
+$tree=new Tree_1C();
 
-<h3 style="font-weight: bold">Подбор по параметрам:</h3>
+?>
 
-<?= $form->field($searchModel, 'shop')->label('Производитель')->dropDownList(Product::shopNamesList(),['prompt' => 'Любой']) ?>
 
-<div class="form-group field-productsearch-prices">
-    <label class="control-label">Цена</label><br>
-    <?php
-    echo Slider::widget([
-            'id' => 'prices',
-            'name' => 'ProductSearch[prices]',
-            'value' => $searchModel->prices[0] . ',' . $searchModel->prices[1],
-            'sliderColor' => Slider::TYPE_PRIMARY,
-            'pluginOptions' => [
-                'min' => $searchModel->minPrice,
-                'max' => $searchModel->maxPrice,
-                'step' => 1,
-                'range' => true
-            ],
-            'pluginEvents' => [
-                "slideStop" => "function() { $(this).closest('form').submit(); }",
-            ]
-        ]) . '<div class="slider-text">oт <b class="badge bage-min">' . $searchModel->prices[0] . ' грн</b> до <b class="badge bage-max">' . $searchModel->prices[1] . ' грн</b></div>';
-    ?>
-</div>
+<nav class="left-catalog">
+    <?php foreach ($tree->getCategories() as $category) { ?>
+        <div style="padding: 2px;margin:2px">
+            <?= Html::a($category->name,
+                Url::toRoute(['/category/' . $category->code]),
+                ['title' => $category->name])
+            ?>
 
-<?= $form->field($searchModel, 'withoutPricesShow')->checkbox(); ?>
 
-<?= $form->field($searchModel, 'color')->dropDownList(Product::colorsNamesList(),['prompt' => 'Любой']) ?>
+            <div class="sub-menu">
+                <?php
+                $subcats=[];
+                if (!empty($subcats = $tree->getSubCategories($category->code)))
+                    foreach ($subcats as $sub_cat) echo
+                        '<div style="padding: 2px;margin:2px">'.Html::a($sub_cat->name,
+                            Url::toRoute(['/category/' . $sub_cat->code]),
+                            ['title' => $sub_cat->name]). '</div>' ?>
+            </div>
+        </div>
 
-<?= $form->field($searchModel, 'material')->dropDownList(Product::materialsNamesList(),['prompt' => 'Любой']) ?>
+    <?php } ?>
 
-<?= $form->field($searchModel, 'withoutImageShow')->checkbox(); ?>
-
-<?php ActiveForm::end();
-Pjax::end();
+</nav>
+<?php Pjax::end();
 ?>

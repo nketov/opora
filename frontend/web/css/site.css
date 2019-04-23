@@ -92,6 +92,7 @@ a {
 }
 
 
+
 .td_submit {
     height: 35px;
     opacity: 0;
@@ -159,56 +160,64 @@ li strong {
     max-width: 300px;
 }
 
-.top-catalog {
+.left-catalog {
     z-index: 0;
-    background: #171918;
-    grid-area: content;
-    align-content: start;
-    justify-self: center;
-    width: 90%;
-    opacity: 0;
-    height: 925px;
+    background: linear-gradient(to right, #FFF, #C0D0F9);
+    /*margin: 0 auto;*/
+    width: 300px;
+    opacity: 0.75;
     transition: opacity .2s;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-    grid-gap: 20px;
-    padding: 20px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    /*display: grid;*/
+    /*grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));*/
+    /*grid-gap: 20px;*/
+    padding: 2px;
+    border-radius: 10px;
     box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.5);
 }
 
-.top-catalog div:hover svg {
-    transform: rotateY(360deg);
+
+.left-catalog>div:hover,.sub-menu>div:hover {
+    background: linear-gradient(to right, #111, #C0D0F9);
+    border-radius: 2px;
 }
 
-.top-catalog div {
-    display: grid;
-    grid-template-columns: 75px 1fr;
-    grid-gap: 2px;
-}
 
-.top-catalog svg {
-    align-self: center;
-    transition: transform 2s;
-    transform-style: preserve-3d;
-    width: 65px;
-    height: 65px;
-}
-
-.top-catalog span {
-    align-self: center;
-}
-
-.top-catalog a {
-    align-self: center;
+.left-catalog a:hover {
     color: white;
+    text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff, 0 0 4px #ffe0c2, 0 0 5px #ffe0c2;
+
 }
 
-.top-catalog a:hover {
-    color: yellow;
-    text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff, 0 0 4px #ffe0c2, 0 0 5px #ffe0c2;
+.left-catalog a:active {
+    color: black;
+    text-shadow: none;
 }
+
+.sub-menu{
+    position: absolute;
+    z-index: 10;
+    left:275px;
+    top:-15px;
+    min-width: 175px;
+    background: linear-gradient(to right, #FFF, #C0D0F9);
+    border-radius: 7px;
+    padding: 5px 12px;
+    display: none;
+    box-shadow: 7px 3px 3px rgba(0, 0, 0, 0.5);
+}
+
+.sub-menu div{
+    display: block;
+    font-size: 0.9em;
+    padding: 2px;
+}
+
+.category-page {
+    display: grid;
+    grid-template-columns: 500px 1fr;
+    align-content: center;
+}
+
 
 .main-content {
     grid-area: content;
@@ -1021,6 +1030,11 @@ li strong {
     .container-actions table tr > *:nth-child(3),
     .container-cabinet .actions tr > *:nth-child(3) {
         display: none;
+    }
+
+    .sub-menu{
+        left:0;
+        top: 25px;
     }
 
 }

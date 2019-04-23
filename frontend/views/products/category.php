@@ -1,27 +1,36 @@
 <?php
 use common\models\Product;
+use common\models\Category;
+use frontend\components\Tree_1C;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
 
+
 if (isset($searchModel->category)) {
-    $this->title = Product::categoryName($searchModel->category);
-    $formTarget = '/category/' . (int)$searchModel->category;
+    $category= Category::findOne($searchModel->category);
+    $this->title = 'Категория: '.$category->name;
+    $formTarget = '/category/' . (int)$category->code;
 } else {
     $this->title = 'Все категории';
     $formTarget = '/catalog';
-} ?>
+}
+
+?>
+
+
 
 <div class="content-header"><?= $this->title ?></div>
-
-<aside class="left">
-    <?php echo $this->render('_search', compact('searchModel')); ?>
-</aside>
+<!--<div class="category-page">-->
+<!--<aside class="left">-->
+<!--    --><?php //echo $this->render('_search', compact('searchModel')); ?>
+<!--</aside>-->
 
 <?php Pjax::begin(['id' => 'pjax_list','timeout' => false]); ?>
 <?= ListView::widget([
     'dataProvider' => $dataProvider,
     'options' => [
+        'action' => $formTarget,
         'tag' => 'section',
         'class' => 'list-wrapper',
         'id' => 'category-list-wrapper',
@@ -39,5 +48,6 @@ if (isset($searchModel->category)) {
     'itemView' => '_card'
 ]) ?>
 <?php Pjax::end(); ?>
+<!--</div>-->
 
 

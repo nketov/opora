@@ -33,9 +33,27 @@ $(function () {
         location.href = '/';
     });
 
-    // $('body').on('click', '.btn-search', function () {
-    //     $('#header-search-form').submit();
-    // });
+    $('.left-catalog > div').hover(function () {
+        if ($('.sub-menu a', this).length < 1) return;
+        clearTimeout($.data(this, 'timer'));
+        $('.sub-menu', this).stop(true, true).slideDown(350);
+    }, function () {
+        $.data(this, 'timer', setTimeout($.proxy(function () {
+            $('.sub-menu', this).stop(true, true).slideUp(100);
+        }, this), 150));
+    });
+
+    $('.left-catalog > div').on('taphold',function () {
+        if ($('.sub-menu a', this).length < 1) return;
+        clearTimeout($.data(this, 'timer'));
+        $('.sub-menu', this).stop(true, true).slideDown(350);
+    }, function () {
+        $.data(this, 'timer', setTimeout($.proxy(function () {
+            $('.sub-menu', this).stop(true, true).slideUp(100);
+        }, this), 150));
+    });
+
+
 
     $('.image_icon').on('click', function () {
             $('.image_icon').css('border', 'none');

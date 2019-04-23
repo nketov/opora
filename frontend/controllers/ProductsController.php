@@ -31,6 +31,9 @@ class ProductsController extends Controller
 
     public function actionCategory()
     {
+
+
+
         $searchModel = new ProductSearch();
         $searchModel->setAttribute('active', 1);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

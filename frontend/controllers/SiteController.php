@@ -15,6 +15,7 @@ use common\models\User;
 use frontend\components\LiqPay;
 use frontend\components\NovaPoshta;
 use frontend\components\NovaPoshtaApi2;
+use frontend\components\Tree_1C;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
@@ -36,7 +37,7 @@ use frontend\models\ContactForm;
 class SiteController extends Controller
 {
 
-    private $_category_arr = [];
+
 
     /**
      *      * {@inheritdoc}
@@ -105,42 +106,22 @@ class SiteController extends Controller
 //        ));
 
 
-        $np = new NovaPoshta();
+//        $np = new NovaPoshta();
 
 
-        return $this->render('index', compact('np'));
+
+        return $this->render('index');
     }
 
 
     public function action1cTree()
     {
-
-        $all_cats = Category::find()->all();
-        foreach ($all_cats as $cat) {
-            $this->_category_arr[$cat['parent_code']][] = $cat;
-        }
-
-        $this->outTree('', 0);
-
+        $tree=new Tree_1C();
+        echo $tree->renderTree();
         exit;
-
     }
 
-    private function outTree($parent_id, $level)
-    {
-        if (isset($this->_category_arr[$parent_id])) {
-            foreach ($this->_category_arr[$parent_id] as $value) {
-                echo "<div style='
-                margin-left:" . ($level * 50) . "px; 
-                font-size:" . (30 - $level * 2) . "px;
-                color: rgb(" . (255 - $level * 25) . "," . (0 + $level * 35) . "," . (100 + $level * 25) . ");
-                '>" . $value->name . "</div>";
-                $level++;
-                $this->outTree($value->code, $level);
-                $level--;
-            }
-        }
-    }
+
 
 
     public function actionView()

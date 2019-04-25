@@ -25,16 +25,11 @@ use yii\helpers\Html;
     <?php
     $car_text = 'Выберите свой автомобиль';
     $car_delete ='';
-    if (!empty($car = \Yii::$app->user->identity->car)) {
-        $car_text = $car['car_name'];
-        if ($car['year']) {
-            $car_text .= ', ' . $car['year'] . ' г.в.';
-        }
-
+    if (\Yii::$app->user->identity && !empty($car = \Yii::$app->user->identity->car)) {
         $car_delete = Html::button("&#10060",['title'=>"Убрать автомобиль",'class'=>'header-car-delete']);
     }
 
-    echo "<h4 class='header-car'>" . Html::a($car_text, '/car').$car_delete."</h4>";
+    echo "<h4 class='header-car'>" . Html::a($car['car_text'] ?? 'Выберите свой автомобиль', '/car').$car_delete."</h4>";
 
 
     ?>

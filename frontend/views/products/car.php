@@ -111,8 +111,12 @@ $form = ActiveForm::begin(['id' => 'tecdoc-search-form']); ?>
 
 <?php ActiveForm::end(); ?>
 
-
-<!--<h2>--><?//=$user->car ?><!--</h2>-->
+<div class="car-info">
+<?php if ($user = \Yii::$app->user->identity && !empty($user->car)){ ?>
+    <h2><?= $user->$car['car_text'] ?></h2>
+    <?=TecDoc::getTypeInfo($car['mod_id'],$car['year'],$car['type_id'])?>
+<?php } ?>
+</div>
 
 <hr>
 <div id="tecdoc-content">

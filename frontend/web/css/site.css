@@ -176,7 +176,7 @@ li strong {
 }
 
 
-.left-catalog>div:hover,.sub-menu>div:hover {
+.left-catalog>div:hover,.sub-menu>div:hover,.sub-submenu>div:hover {
     background: linear-gradient(to right, #111, #C0D0F9);
     border-radius: 2px;
 }
@@ -193,7 +193,7 @@ li strong {
     text-shadow: none;
 }
 
-.sub-menu{
+.sub-menu,.sub-submenu{
     position: absolute;
     z-index: 10;
     left:275px;
@@ -206,9 +206,19 @@ li strong {
     box-shadow: 7px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
-.sub-menu div{
+.sub-submenu{
+    left: 150px;
+    top:0;
+}
+
+.sub-menu>div{
     display: block;
-    font-size: 0.9em;
+    font-size: 0.85em;
+    padding: 2px;
+}
+
+.sub-submenu>div{
+    font-size: 0.85em;
     padding: 2px;
 }
 
@@ -600,10 +610,24 @@ li strong {
     padding-top: 2rem;
 }
 
-.view_spec .string {
+.car_spec{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 5px;
+}
+
+.view_spec .string{
     display: flex;
     justify-content: space-between;
     margin: .7rem auto;
+    font-family: "Roboto", sans-serif;
+}
+
+.car_spec .string{
+    display: flex;
+    width: 75%;
+    justify-content: space-between;
+    margin:  auto;
     font-family: "Roboto", sans-serif;
 }
 
@@ -1032,7 +1056,7 @@ li strong {
         display: none;
     }
 
-    .sub-menu{
+    .sub-menu,.sub-submenu{
         left:0;
         top: 25px;
     }

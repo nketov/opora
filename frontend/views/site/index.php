@@ -20,7 +20,7 @@ use frontend\components\Tree_1C;
 //foreach ($np->getWarehouses('db5c8927-391c-11dd-90d9-001a92567626')['data'] as $warehouse){
 //    var_dump($warehouse);
 //};
-$tree=new Tree_1C();
+$tree = new Tree_1C();
 
 ?>
 
@@ -34,13 +34,28 @@ $tree=new Tree_1C();
             ?>
             <div class="sub-menu">
                 <?php
-                $subcats=[];
+                $subcats = [];
                 if (!empty($subcats = $tree->getSubCategories($category->code)))
-                    foreach ($subcats as $sub_cat) echo
-                    '<div style="padding: 2px;margin:2px">'.Html::a($sub_cat->name,
+                foreach ($subcats
+
+                as $sub_cat) {
+                echo
+                    '<div style="padding: 2px;margin:2px">' . Html::a($sub_cat->name,
                         Url::toRoute(['/category/' . $sub_cat->code]),
-                        ['title' => $sub_cat->name]). '</div>' ?>
+                        ['title' => $sub_cat->name]) ?>
+
+                <div class="sub-submenu">
+                    <?php
+                    $sub_sub_cats = [];
+                    if (!empty($sub_sub_cats = $tree->getSubCategories($sub_cat->code)))
+                        foreach ($sub_sub_cats as $sub_sub_cat) echo
+                            '<div style="padding: 2px;margin:2px">' . Html::a($sub_sub_cat->name,
+                                Url::toRoute(['/category/' . $sub_sub_cat->code]),
+                                ['title' => $sub_sub_cat->name]) . '</div>' ?>
+                </div>
             </div>
+        <?php } ?>
+        </div>
         </div>
     <?php } ?>
 </nav>

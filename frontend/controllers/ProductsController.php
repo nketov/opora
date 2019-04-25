@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use app\models\UserCars;
+use common\components\TecDoc;
 use common\models\Order;
 use common\models\ProductTextSearch;
 use common\models\TecdocSearch;
@@ -60,7 +61,7 @@ class ProductsController extends Controller
         $tecdocSearch = new TecdocSearch();
         $user=\Yii::$app->user->identity;
 
-        if (!empty($car=$user->car)) {
+        if ($user && !empty($car=$user->car)) {
             $tecdocSearch->load($car, '');
             $tecdocSearch['category'] = $_GET['category'] ?? 0;
         }
@@ -88,9 +89,12 @@ class ProductsController extends Controller
         $tecdocSearch = new TecdocSearch();
         $tecdocSearch->load($form, '');
 
+        $car_render = '<h2>'. $car_text.'</h2>';
+        $car_render .= TecDoc::getTypeInfo($form['mod_id'],$form['year'],$form['type_id']);
 
         return Json::encode([
             'car_name' => $car_text,
+            'car_render' => $car_render,
             'select_render' => $this->renderAjax('cat-selector',
                 compact('tecdocSearch'))
         ]);
@@ -109,7 +113,9 @@ class ProductsController extends Controller
     {
         $user = \Yii::$app->user->identity;
         $res = 'NULL';
-        if ( !empty($car = $user->car)) {
+
+
+        if ($user) {
 
             if (!$user_car = UserCars::find()->where([
                 'position' => $position,
@@ -117,16 +123,17 @@ class ProductsController extends Controller
             ])->one()) {
                 $user_car = new UserCars();
                 $user_car->user_id = $user->id;
-                $user_car->position = $position;
             }
 
-            $user_car->load($car, '');
+
+            $user_car->load($user->car, '');
+            $user_car->position = $position;
 
             if ($user_car->save()) {
-                if ($car['year']) {
-                    $car['car_name'] .= ', ' . $car['year'] . ' г.в.';
+                if ($user->car['year']) {
+                    $user->car['car_name'] .= ', ' . $user->car['year'] . ' г.в.';
                 }
-                $res = Html::a($car['car_name'], '/', ['class' => 'choose-garage']);
+                $res = Html::a($user->car['car_name'], '/', ['class' => 'choose-garage']);
             }
         }
 

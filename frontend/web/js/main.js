@@ -43,6 +43,7 @@ $(function () {
         }, this), 150));
     });
 
+
     $('.left-catalog > div').on('taphold',function () {
         if ($('.sub-menu a', this).length < 1) return;
         clearTimeout($.data(this, 'timer'));
@@ -52,6 +53,29 @@ $(function () {
             $('.sub-menu', this).stop(true, true).slideUp(100);
         }, this), 150));
     });
+
+    $('.sub-menu > div').hover(function () {
+        if ($('.sub-submenu a', this).length < 1) return;
+        clearTimeout($.data(this, 'timer'));
+        $('.sub-submenu', this).stop(true, true).slideDown(350);
+    }, function () {
+        $.data(this, 'timer', setTimeout($.proxy(function () {
+            $('.sub-submenu', this).stop(true, true).slideUp(100);
+        }, this), 150));
+    });
+
+
+    $('.sub-menu > div').on('taphold',function () {
+        if ($('.sub-submenu a', this).length < 1) return;
+        clearTimeout($.data(this, 'timer'));
+        $('.sub-submenu', this).stop(true, true).slideDown(350);
+    }, function () {
+        $.data(this, 'timer', setTimeout($.proxy(function () {
+            $('.sub-submenu', this).stop(true, true).slideUp(100);
+        }, this), 150));
+    });
+
+
 
 
 
@@ -126,6 +150,7 @@ $(function () {
         $.ajax({
                 url: '/products/add-garage?position=' + position,
                 success: function (response) {
+                    console.log(response);
                     var res = JSON.parse(response);
                     if (res.link == 'NULL') {
                         alert('Текущий автомобиль не выбран!');
@@ -217,6 +242,7 @@ $(function () {
                             console.log(res.select_render);
                             $('#site-header .header-car a').html(res.car_name);
                             $('#td-category-panel').html(res.select_render);
+                            $('.car-info').html(res.car_render);
                             $('#td-category-panel .select2').slideUp(0).slideDown(1000);
 
                         },
@@ -232,8 +258,7 @@ $(function () {
     );
 
 
-    $(document)
-        .on('pjax:start', function () {
+    $(document).on('pjax:start', function () {
             $("#td_wheel-preloader").show(750);
             $('.list-wrapper').slideUp(1000);
             $('.main-content').css('min-height', $('.main-content').css('height'));
@@ -246,7 +271,7 @@ $(function () {
 
     $('body').on('change', '#td_category,#td_sub_cat', function (e) {
 
-            let category = parseInt($(this).val(), 10);
+            var category = parseInt($(this).val(), 10);
 
             if (!(category > 0)) return;
             console.log(category);

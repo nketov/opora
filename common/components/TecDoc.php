@@ -97,16 +97,22 @@ class TecDoc extends Component
     }
 
 
-    public static function getTypes($mod_id, $year = null)
+    public static function getTypes($mod_id, $year = null, $type_id = null)
     {
 
-        $data = \Yii::$app->cache->getOrSet('mod_' . $mod_id . '_year_' . $year,
-            function () use ($mod_id, $year) {
+        $data = \Yii::$app->cache->getOrSet('mod_' . $mod_id . '_year_' . $year . '_type_' . $type_id,
+            function () use ($mod_id, $year, $type_id) {
 
                 $year_sql = ' ';
                 if ($year) {
                     $year_sql = ' AND (TYP_PCON_START <= ' . $year . '00 OR TYP_PCON_START IS NULL) 
             AND (TYP_PCON_END >= ' . $year . '12 OR TYP_PCON_END IS NULL)';
+                }
+
+
+                $type_sql = ' ';
+                if ($type_id) {
+                    $type_sql = ' AND TYP_ID=' . $type_id . ' ';
                 }
 
                 return \Yii::$app->db->createCommand('SELECT DISTINCT  	
@@ -130,7 +136,7 @@ LEFT JOIN DESIGNATIONS AS DESIGNATIONS4 ON DESIGNATIONS4.DES_ID = TYP_KV_MODEL_D
 LEFT JOIN DES_TEXTS AS DES_TEXTS5 ON DES_TEXTS5.TEX_ID = DESIGNATIONS4.DES_TEX_ID
 LEFT JOIN DESIGNATIONS AS DESIGNATIONS5 ON DESIGNATIONS5.DES_ID = TYP_KV_AXLE_DES_ID AND DESIGNATIONS5.DES_LNG_ID = 16
 LEFT JOIN DES_TEXTS AS DES_TEXTS6 ON DES_TEXTS6.TEX_ID = DESIGNATIONS5.DES_TEX_ID
-WHERE	TYP_MOD_ID = ' . $mod_id . $year_sql . '
+WHERE	TYP_MOD_ID = ' . $mod_id . $year_sql . $type_sql . '
 GROUP BY TYP_ID
 ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM;')->queryAll();
 
@@ -139,6 +145,39 @@ ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM;')->quer
 
     }
 
+    public static function getTypeInfo($mod_id, $year = null, $type_id)
+    {
+
+
+        $info = self::getTypes($mod_id, $year, $type_id)[0];
+
+        $render = '<div class="car_spec">';
+        $render .= '<div class="string"><div class="spec_name">Объём двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_CCM'] . '&nbsp;см<sup>2</sup> </div></div>';
+        $power_upto = $info['TYP_HP_UPTO'] ? '-' . $info['TYP_HP_UPTO'] : '';
+        $render .= '<div class="string"><div class="spec_name">Мощность двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_HP_FROM'] .$power_upto. '&nbsp;л.с.</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Количество цилиндров:&nbsp;</div><div class="spec_value">' . $info['TYP_CYLINDERS'] . '&nbsp;шт.</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Код двигателя:&nbsp;</div><div class="spec_value">' . $info['ENG_CODE'] .'</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Тип двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_ENGINE_DES_TEXT'] .'</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Тип топлива:&nbsp;</div><div class="spec_value">' . $info['TYP_FUEL_DES_TEXT'] .'</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Вид сборки:&nbsp;</div><div class="spec_value">' . $info['TYP_BODY_DES_TEXT'] .'</div></div>';
+        if (!empty($info['TYP_AXLE_DES_TEXT']))
+        $render .= '<div class="string"><div class="spec_name">Конструкция оси:&nbsp;</div><div class="spec_value">' . $info['TYP_AXLE_DES_TEXT'] .'</div></div>';
+        if (!empty($info['TYP_MAX_WEIGHT']))
+        $render .= '<div class="string"><div class="spec_name">Тоннаж:&nbsp;</div><div class="spec_value">' . $info['TYP_MAX_WEIGHT'] .'</div></div>';
+        $render .= '</div>';
+
+        return $render;
+    }
+
+
+    public static function getTest($mod_id, $year = null, $type_id)
+    {
+
+
+        return self::getTypes($mod_id, $year, $type_id)[0];
+
+
+    }
 
     public static function getCategory($category, $type)
     {
@@ -184,7 +223,7 @@ SELECT
         $ids = (new Query())
             ->select(['ART_ID'])
             ->from('ARTICLES')
-            ->where(['like','ART_ARTICLE_NR', $article])
+            ->where(['like', 'ART_ARTICLE_NR', $article])
             ->all();
         $result = [];
 

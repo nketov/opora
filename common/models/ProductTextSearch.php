@@ -35,7 +35,7 @@ class ProductTextSearch extends Product
     public function search($params)
     {
 
-        $query = Product::find();
+        $query = Product::find()->active();
 
         // add conditions that should always apply here
 

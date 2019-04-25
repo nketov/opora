@@ -58,17 +58,24 @@ $this->title = $model->name;
                         <div class="spec_value"><?= $model->brand ?></div>
                     </div>
                 <?php } ?>
+                    <div class="string">
+                        <div class="spec_name">В наличии:&nbsp;</div>
+                        <div class="spec_value"><?= $model->remains >0 ? $model->remains.'&nbsp;'.$model->unit : 'НЕТ' ?></div>
+                    </div>
+
             </div>
 
             <div class="view_buttons">
                 <div class="view_price"><?= $model->price > 0 ? number_format($model->getDiscountPrice(), 2, ',', '&nbsp;') . ' грн' : 'Цена не указана' ?></div>
-                <?php if ($model->price > 0) { ?>
+                <?php if ($model->price > 0 && $model->remains>0) { ?>
                     <p style="color: #00a65a">Есть в наличии</p>
                     <button
                             class="btn btn-primary btn-lg cd-add-to-cart"
                             data-id="<?= $model->id ?>"
                             data-price="<?= $model->getDiscountPrice() ?>"
                             data-name="<?= $model->name ?>"
+                            data-remains="<?= $model->remains ?>"
+                            data-unit="<?= $model->unit ?>"
                             data-image="<?= $src ?>">
                         ДОБАВИТЬ В КОРЗИНУ
                     </button>

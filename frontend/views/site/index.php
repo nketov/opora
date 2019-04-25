@@ -32,8 +32,6 @@ $tree=new Tree_1C();
                 Url::toRoute(['/category/' . $category->code]),
                 ['title' => $category->name])
             ?>
-
-
             <div class="sub-menu">
                 <?php
                 $subcats=[];
@@ -44,9 +42,7 @@ $tree=new Tree_1C();
                         ['title' => $sub_cat->name]). '</div>' ?>
             </div>
         </div>
-
     <?php } ?>
-
 </nav>
 
 

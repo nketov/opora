@@ -18,9 +18,11 @@ jQuery(document).ready(function ($) {
             event.preventDefault();
 
             var qty = Number($('#cd-product-' + $(this).data('id')).val());
+            var remains = Number($(this).data('remains'));
+            var unit = $(this).data('unit');
 
-            if (qty === 9) {
-                alert('Максимальное количество одного продукта 9 единиц');
+            if (qty === remains) {
+                alert('Максимальное количество данного продукта '+remains+' '+unit);
                 return;
             }
 
@@ -159,13 +161,13 @@ jQuery(document).ready(function ($) {
             var deleteLink = '<a href="#0" class="delete-item">Удалить</a>';
 
             var selectOptions = '';
-            for (var i = 1; i < 10; i++) {
+            for (var i = 1; i <= data.remains; i++) {
                 selectOptions += '<option value="' + i + '">' + i + '</option>'
             }
 
             var selectSpan = '<span class="select"><select id="cd-product-' + data.id + '" name="quantity" >' + selectOptions + '</select></span>';
 
-            var quantityBlock = '<div class="quantity"><label for="cd-product-' + data.id + '">Количество</label>' + selectSpan + '</div>';
+            var quantityBlock = '<div class="quantity"><label for="cd-product-' + data.id + '">Количество</label>' + selectSpan + '&nbsp;&nbsp;'+data.unit+'</div>';
 
             var spanPrice = '<span class="price">' + summ + ' грн</span>';
 

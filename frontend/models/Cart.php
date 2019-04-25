@@ -24,6 +24,8 @@ class Cart extends Model
         $_SESSION['cart'][$id]['name'] = $data['name'];
         $_SESSION['cart'][$id]['image'] = $data['image'];
         $_SESSION['cart'][$id]['price'] = $data['price'];
+        $_SESSION['cart'][$id]['remains'] = $data['remains'];
+        $_SESSION['cart'][$id]['unit'] = $data['unit'];
 
 
         if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {

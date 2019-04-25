@@ -27,6 +27,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 10;
 
     public $actions = [];
+    public $car = [];
 
 
     /**

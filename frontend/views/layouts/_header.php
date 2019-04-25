@@ -25,7 +25,7 @@ use yii\helpers\Html;
     <?php
     $car_text = 'Выберите свой автомобиль';
     $car_delete ='';
-    if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
+    if (!empty($car = \Yii::$app->user->identity->car)) {
         $car_text = $car['car_name'];
         if ($car['year']) {
             $car_text .= ', ' . $car['year'] . ' г.в.';

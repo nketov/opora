@@ -12,7 +12,7 @@ return [
     'language' => 'ru-RU',
     'bootstrap' => [
         'log',
-        'frontend\components\UsersActions'
+        'frontend\components\UserData'
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

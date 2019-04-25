@@ -58,8 +58,9 @@ class ProductsController extends Controller
         }
 
         $tecdocSearch = new TecdocSearch();
+        $user=\Yii::$app->user->identity;
 
-        if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
+        if (!empty($car=$user->car)) {
             $tecdocSearch->load($car, '');
             $tecdocSearch['category'] = $_GET['category'] ?? 0;
         }
@@ -106,16 +107,16 @@ class ProductsController extends Controller
     public
     function actionAddGarage($position)
     {
-        $user_id = \Yii::$app->getUser()->id;
+        $user = \Yii::$app->user->identity;
         $res = 'NULL';
-        if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
+        if ( !empty($car = $user->car)) {
 
             if (!$user_car = UserCars::find()->where([
                 'position' => $position,
-                'user_id' => $user_id
+                'user_id' => $user->id
             ])->one()) {
                 $user_car = new UserCars();
-                $user_car->user_id = $user_id;
+                $user_car->user_id = $user->id;
                 $user_car->position = $position;
             }
 

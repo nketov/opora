@@ -94,7 +94,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-
 //        $liqpay = new LiqPay();
 //        $html = $liqpay->cnb_form(array(
 //            'action'         => 'pay',

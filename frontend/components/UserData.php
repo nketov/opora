@@ -7,12 +7,16 @@ use common\models\Actions;
 use yii\base\BaseObject;
 
 
-class UsersActions extends BaseObject
+class UserData extends BaseObject
 {
 
     public function init()
     {
-        if (isset(\Yii::$app->user->identity) && $id = \Yii::$app->user->identity->id) {
+        if (isset(\Yii::$app->user->identity) && $user = \Yii::$app->user->identity) {
+
+            if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
+                $user->car=$car;
+            }
 
 //            $actions=Actions::findAll(['user_id'=>\Yii::$app->user->identity->id]);
 //

@@ -28,7 +28,7 @@ class Cart extends Model
         $_SESSION['cart'][$id]['unit'] = $data['unit'];
 
 
-        if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {
+        if (!empty($car = \Yii::$app->user->identity->car)) {
             $car_text = $car['car_name'];
             if ($car['year']) {
                 $car_text .= ', ' . $car['year'] . ' г.в.';

@@ -111,6 +111,9 @@ $form = ActiveForm::begin(['id' => 'tecdoc-search-form']); ?>
 
 <?php ActiveForm::end(); ?>
 
+
+<!--<h2>--><?//=$user->car ?><!--</h2>-->
+
 <hr>
 <div id="tecdoc-content">
 

@@ -48,7 +48,7 @@ class ArticleSearch extends Article
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 2,
             ],
             'sort'=> ['defaultOrder' => ['id'=>SORT_DESC]]
         ]);

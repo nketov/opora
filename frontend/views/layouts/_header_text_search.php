@@ -17,7 +17,7 @@ $form = ActiveForm::begin([
     'action' => '/search',
     'id' => 'header-search-form',
     'options' => [
-        'data-pjax' => 1
+        'data-pjax' => 0
     ],
 ]);
 

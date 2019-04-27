@@ -44,7 +44,7 @@ $(function () {
     });
 
 
-    $('.left-catalog > div').on('taphold',function () {
+    $('.left-catalog > div').on('taphold', function () {
         if ($('.sub-menu a', this).length < 1) return;
         clearTimeout($.data(this, 'timer'));
         $('.sub-menu', this).stop(true, true).slideDown(350);
@@ -65,7 +65,7 @@ $(function () {
     });
 
 
-    $('.sub-menu > div').on('taphold',function () {
+    $('.sub-menu > div').on('taphold', function () {
         if ($('.sub-submenu a', this).length < 1) return;
         clearTimeout($.data(this, 'timer'));
         $('.sub-submenu', this).stop(true, true).slideDown(350);
@@ -74,9 +74,6 @@ $(function () {
             $('.sub-submenu', this).stop(true, true).slideUp(100);
         }, this), 150));
     });
-
-
-
 
 
     $('.image_icon').on('click', function () {
@@ -174,7 +171,7 @@ $(function () {
         $.ajax({
                 url: '/products/choose-garage?position=' + position,
                 success: function (response) {
-                   $('#site-header .header-car a').html(response);
+                    $('#site-header .header-car a').html(response);
                 },
                 error: function (e) {
                     console.log(e.responseText);
@@ -192,8 +189,8 @@ $(function () {
             $.ajax({
                     url: '/products/delete-garage?position=' + position,
                     success: function (response) {
-                            td.html('');
-                            td.prev('td').html(response);
+                        td.html('');
+                        td.prev('td').html(response);
                     },
                     error: function (e) {
                         console.log(e.responseText);
@@ -259,10 +256,10 @@ $(function () {
 
 
     $(document).on('pjax:start', function () {
-            $("#td_wheel-preloader").show(750);
-            $('.list-wrapper').slideUp(1000);
-            $('.main-content').css('min-height', $('.main-content').css('height'));
-        })
+        $("#td_wheel-preloader").show(750);
+        $('.list-wrapper').slideUp(1000);
+        $('.main-content').css('min-height', $('.main-content').css('height'));
+    })
         .on('pjax:end', function () {
             $("#td_wheel-preloader").hide(750);
             $('.list-wrapper').slideUp(0).slideDown(1000);
@@ -294,7 +291,13 @@ $(function () {
 
 
     $("#header_pjax_form").on("pjax:end", function () {
-        $.pjax.reload({container: "#pjax_text_search", timeout: 5000});
+
+        if ($('#pjax_text_search').length > 0) {
+            $.pjax.reload({container: "#pjax_text_search", timeout: 5000});
+        }
+        else {
+            location.href = 'search?ProductTextSearch%5Btext%5D=' + $(this).find('input').val();
+        }
     });
 
     $('.form-footer-text.toggle').click(function (e) {

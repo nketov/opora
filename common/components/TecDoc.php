@@ -154,16 +154,16 @@ ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM;')->quer
         $render = '<div class="car_spec">';
         $render .= '<div class="string"><div class="spec_name">Объём двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_CCM'] . '&nbsp;см<sup>2</sup> </div></div>';
         $power_upto = $info['TYP_HP_UPTO'] ? '-' . $info['TYP_HP_UPTO'] : '';
-        $render .= '<div class="string"><div class="spec_name">Мощность двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_HP_FROM'] .$power_upto. '&nbsp;л.с.</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Мощность двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_HP_FROM'] . $power_upto . '&nbsp;л.с.</div></div>';
         $render .= '<div class="string"><div class="spec_name">Количество цилиндров:&nbsp;</div><div class="spec_value">' . $info['TYP_CYLINDERS'] . '&nbsp;шт.</div></div>';
-        $render .= '<div class="string"><div class="spec_name">Код двигателя:&nbsp;</div><div class="spec_value">' . $info['ENG_CODE'] .'</div></div>';
-        $render .= '<div class="string"><div class="spec_name">Тип двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_ENGINE_DES_TEXT'] .'</div></div>';
-        $render .= '<div class="string"><div class="spec_name">Тип топлива:&nbsp;</div><div class="spec_value">' . $info['TYP_FUEL_DES_TEXT'] .'</div></div>';
-        $render .= '<div class="string"><div class="spec_name">Вид сборки:&nbsp;</div><div class="spec_value">' . $info['TYP_BODY_DES_TEXT'] .'</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Код двигателя:&nbsp;</div><div class="spec_value">' . $info['ENG_CODE'] . '</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Тип двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_ENGINE_DES_TEXT'] . '</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Тип топлива:&nbsp;</div><div class="spec_value">' . $info['TYP_FUEL_DES_TEXT'] . '</div></div>';
+        $render .= '<div class="string"><div class="spec_name">Вид сборки:&nbsp;</div><div class="spec_value">' . $info['TYP_BODY_DES_TEXT'] . '</div></div>';
         if (!empty($info['TYP_AXLE_DES_TEXT']))
-        $render .= '<div class="string"><div class="spec_name">Конструкция оси:&nbsp;</div><div class="spec_value">' . $info['TYP_AXLE_DES_TEXT'] .'</div></div>';
+            $render .= '<div class="string"><div class="spec_name">Конструкция оси:&nbsp;</div><div class="spec_value">' . $info['TYP_AXLE_DES_TEXT'] . '</div></div>';
         if (!empty($info['TYP_MAX_WEIGHT']))
-        $render .= '<div class="string"><div class="spec_name">Тоннаж:&nbsp;</div><div class="spec_value">' . $info['TYP_MAX_WEIGHT'] .'</div></div>';
+            $render .= '<div class="string"><div class="spec_name">Тоннаж:&nbsp;</div><div class="spec_value">' . $info['TYP_MAX_WEIGHT'] . '</div></div>';
         $render .= '</div>';
 
         return $render;
@@ -390,6 +390,17 @@ WHERE
             });
         return $data;
 
+    }
+
+
+    public
+    static function getCookieCar()
+    {
+        $car = [];
+        $car = unserialize($_COOKIE['car'], ["allowed_classes" => false]);
+        $car['car_text'] = $car['year'] ? $car['car_name'] . ', ' . $car['year'] . ' г.в.' : $car['car_name'];
+
+        return $car;
     }
 
 

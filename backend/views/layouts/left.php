@@ -38,7 +38,7 @@
                     ['label' => 'Товары', 'icon' => 'shopping-bag', 'url' => ['/products'],],
                     ['label' => 'Содержание сайта', 'icon' => 'tv', 'url' => ['/content'],],
 //                    ['label' => 'Содержание акций', 'icon' => 'gift', 'url' => ['/actions-content'],],
-//                    ['label' => 'Статьи', 'icon' => 'map', 'url' => ['/article'],],
+                    ['label' => 'Статьи', 'icon' => 'map', 'url' => ['/article'],],
                     ['label' => 'Загрузка данных', 'icon' => 'upload', 'url' => ['/upload'],],
                     ['label' => 'Синонимы поиска', 'icon' => 'refresh', 'url' => ['/synonym'],],
                     ['label' => 'Объявления', 'icon' => 'newspaper-o', 'url' => ['/post'],],

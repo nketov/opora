@@ -59,9 +59,9 @@ class ProductsController extends Controller
         }
 
         $tecdocSearch = new TecdocSearch();
-        $user=\Yii::$app->user->identity;
 
-        if ($user && !empty($car=$user->car)) {
+
+        if (!empty($car=TecDoc::getCookieCar())) {
             $tecdocSearch->load($car, '');
             $tecdocSearch['category'] = $_GET['category'] ?? 0;
         }
@@ -115,7 +115,6 @@ class ProductsController extends Controller
         $res = 'NULL';
 
 
-        if ($user) {
 
             if (!$user_car = UserCars::find()->where([
                 'position' => $position,
@@ -126,7 +125,7 @@ class ProductsController extends Controller
             }
 
 
-            $user_car->load($user->car, '');
+            $user_car->load(TecDoc::getCookieCar(), '');
             $user_car->position = $position;
 
             if ($user_car->save()) {
@@ -135,7 +134,7 @@ class ProductsController extends Controller
                 }
                 $res = Html::a($user->car['car_name'], '/', ['class' => 'choose-garage']);
             }
-        }
+
 
         return Json::encode([
             'link' => $res,

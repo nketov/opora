@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\components\TecDoc;
 use common\models\Product;
 use yii\base\Model;
 
@@ -28,7 +29,7 @@ class Cart extends Model
         $_SESSION['cart'][$id]['unit'] = $data['unit'];
 
 
-        if (!empty($car = \Yii::$app->user->identity->car)) {
+        if (!empty($car = TecDoc::getCookieCar())) {
             $car_text = $car['car_name'];
             if ($car['year']) {
                 $car_text .= ', ' . $car['year'] . ' г.в.';

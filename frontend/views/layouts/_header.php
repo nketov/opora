@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use common\components\TecDoc;
 
 ?>
 <header id="site-header">
@@ -25,7 +26,7 @@ use yii\helpers\Html;
     <?php
     $car_text = 'Выберите свой автомобиль';
     $car_delete ='';
-    if (\Yii::$app->user->identity && !empty($car = \Yii::$app->user->identity->car)) {
+    if (!empty($car = TecDoc::getCookieCar())) {
         $car_delete = Html::button("&#10060",['title'=>"Убрать автомобиль",'class'=>'header-car-delete']);
     }
 

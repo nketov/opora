@@ -281,9 +281,8 @@ GROUP BY BRAND, NUMBER ;
     public function actionCategoryDropDown()
     {
         $tecdocSearch= new TecdocSearch();
-        if ( !empty($car = \Yii::$app->user->identity->car)) {
-            $tecdocSearch->load($car, '');
-        }
+
+        $tecdocSearch->load(TecDoc::getCookieCar(), '');
 
         return $this->renderAjax('cat-selector', compact('tecdocSearch'));
     }
@@ -293,7 +292,7 @@ GROUP BY BRAND, NUMBER ;
         $data = $_POST['depdrop_all_params'];
         $out = [];
         if ((int)$data['td_category']) {
-            $car = \Yii::$app->user->identity->car;
+            $car = TecDoc::getCookieCar();
             $tree = TecDoc::getTreeArray($car['type_id'])[0]['child'];
             foreach ($tree as $level_1) {
                 if(!empty($level_1['child']))

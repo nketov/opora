@@ -14,9 +14,9 @@ html, body {
     text-decoration: none !important;
 }
 
-ol, ul {
-list-style: none;
-}
+/*ol, ul {*/
+/*list-style: none;*/
+/*}*/
 
 a {
     cursor: pointer;
@@ -34,12 +34,12 @@ a {
     grid-area: header;
     background: rgba(50, 125, 150, .5);
     /*background-repeat: round;*/
-    height: 162px;
+    height: auto;
     z-index: 1;
     border-radius: 10px;
     margin: 8px;
     display: grid;
-    grid-template-columns: 225px 1fr auto 1fr 1fr;
+    grid-template-columns: 10% 1fr auto 2fr 2fr;
 
 }
 
@@ -79,18 +79,21 @@ a {
 }
 
 #site-header-logo {
-    width: 150px;
+    width: 100%;
     margin: 6px;
     box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.5);
     cursor: pointer;
 }
 
-#header_pjax_form, #header_text_form {
-    display: grid;
-    align-items: center;
-    padding: 25px;
+
+#header-search-form {
+    display: inline-block;
+    margin: 25px;
 }
 
+.form-group{
+    max-width: 300px;
+}
 
 
 .td_submit {
@@ -162,7 +165,7 @@ li strong {
 
 .left-catalog {
     z-index: 0;
-    background: linear-gradient(to right, #FFF, #C0D0F9);
+    background: linear-gradient(to right, #FFF, #92B9C7);
     /*margin: 0 auto;*/
     width: 300px;
     opacity: 0.75;
@@ -177,7 +180,7 @@ li strong {
 
 
 .left-catalog>div:hover,.sub-menu>div:hover,.sub-submenu>div:hover {
-    background: linear-gradient(to right, #111, #C0D0F9);
+    background: linear-gradient(to right, #111, #92B9C7);
     border-radius: 2px;
 }
 
@@ -199,7 +202,7 @@ li strong {
     left:275px;
     top:-15px;
     min-width: 175px;
-    background: linear-gradient(to right, #FFF, #C0D0F9);
+    background: linear-gradient(to right, #FFF, #92B9C7);
     border-radius: 7px;
     padding: 5px 12px;
     display: none;
@@ -314,7 +317,25 @@ li strong {
 .main-content > .container-article-view {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-gap: 15px;
+    grid-gap: 25px;
+}
+
+.main-content > .container-article-view img{
+    border-radius: 10px;
+    max-width: 50vw;
+    height: auto;
+    margin: 0 !important;
+    margin-top: 20px !important;
+    margin-lefr: 20px !important;
+}
+
+.article-view,.article-preview{
+    padding: 15px;
+    /*text-indent: 1.5rem;*/
+}
+
+.article-view p{
+    padding: 15px;
 }
 
 .main-content > .container-cabinet {
@@ -404,15 +425,24 @@ li strong {
 }
 
 #articles-list-wrapper {
-    width: 75%;
+    width: 90%;
     margin: 50px auto;
 }
 
 .article {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-gap: 15px;
+    grid-gap: 25px;
     margin: 15px auto;
+}
+
+.article-preview {
+    padding: 15px;
+}
+
+.article img{
+    border-radius: 10px;
+    top: 35px;
 }
 
 .cards-block {
@@ -847,7 +877,6 @@ li strong {
     }
 
     #site-header {
-        min-height: 250px;
         grid-template-columns: 225px 1fr 1fr;
     }
 
@@ -907,10 +936,12 @@ li strong {
     .main-content > .container-cabinet,
     .main-content > .container-article-view {
         grid-template-columns: 1fr;
+        grid-gap: 10px;
     }
 
     .main-content > .container-article-view img {
-        margin: 0 !important;
+        /*margin: 15px !important;*/
+        max-width: 85vw;
     }
 
     .main-content > .container-actions > .actions-first {
@@ -989,7 +1020,7 @@ li strong {
         margin: 0 auto;
     }
 
-    .form-group{
+    #tecdoc-search-form .form-group{
         width: 185px;
     }
 
@@ -999,7 +1030,10 @@ li strong {
 
     #site-header {
         display: block;
-        min-height: 425px;
+    }
+
+    #site-header-logo{
+        width: 50%;
     }
 
     #site-header>*{
@@ -1080,9 +1114,10 @@ li strong {
         overflow: hidden;
     }
 
-    .form-group{
+    #tecdoc-search-form .form-group{
         width: 275px;
         margin: 0 auto;
+        text-align: center;
     }
 
     .form-control{
@@ -1095,7 +1130,6 @@ li strong {
     }
 
     #site-header {
-        height: 320px;
         grid-template-columns: 1fr;
     }
 

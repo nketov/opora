@@ -397,9 +397,10 @@ WHERE
     static function getCookieCar()
     {
         $car = [];
-        $car = unserialize($_COOKIE['car'], ["allowed_classes" => false]);
-        $car['car_text'] = $car['year'] ? $car['car_name'] . ', ' . $car['year'] . ' г.в.' : $car['car_name'];
-
+        if(isset($_COOKIE['car'])) {
+            $car = unserialize($_COOKIE['car'], ["allowed_classes" => false]);
+            $car['car_text'] = $car['year'] ? $car['car_name'] . ', ' . $car['year'] . ' г.в.' : $car['car_name'];
+        }
         return $car;
     }
 

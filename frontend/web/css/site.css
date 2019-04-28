@@ -32,7 +32,7 @@ a {
 
 #site-header {
     grid-area: header;
-    background: rgba(50, 125, 150, .5);
+    background: #5D22AC;
     /*background-repeat: round;*/
     height: auto;
     z-index: 1;
@@ -80,6 +80,7 @@ a {
 
 #site-header-logo {
     width: 100%;
+    max-width: 300px;
     margin: 6px;
     box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.5);
     cursor: pointer;
@@ -163,7 +164,7 @@ li strong {
 
 .left-catalog {
     z-index: 0;
-    background: linear-gradient(to right, #FFF, #92B9C7);
+    background: linear-gradient(to right, #FFF, #5D22AC);
     /*margin: 0 auto;*/
     width: 300px;
     opacity: 0.75;
@@ -177,7 +178,7 @@ li strong {
 }
 
 .left-catalog > div:hover, .sub-menu > div:hover, .sub-submenu > div:hover {
-    background: linear-gradient(to right, #111, #92B9C7);
+    background: linear-gradient(to right, #111, #5D22AC);
     border-radius: 2px;
 }
 
@@ -198,7 +199,7 @@ li strong {
     left: 275px;
     top: -15px;
     min-width: 175px;
-    background: linear-gradient(to right, #FFF, #92B9C7);
+    background: linear-gradient(to right, #FFF, #5D22AC);
     border-radius: 7px;
     padding: 5px 12px;
     display: none;

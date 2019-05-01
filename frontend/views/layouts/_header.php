@@ -5,6 +5,9 @@ use common\components\TecDoc;
 
 ?>
 <header id="site-header">
+    <a href="#" class="menu-btn btn btn-overlay">
+        <span></span>
+    </a>
     <div class="menu-overlay">
         <?= Html::a('О нас', '/about', ['class' => 'btn']) ?>
         <?= Html::a('Акции', '/actions', ['class' => 'btn']) ?>
@@ -32,15 +35,9 @@ use common\components\TecDoc;
     <h4 class='header-user'>
         <?php if (Yii::$app->user->isGuest) { ?>
             <a class="btn" href="/login">Вход</a>
-            <a href="#" class="menu-btn btn btn-overlay">
-                <span></span>
-            </a>
         <?php } else { ?>
-            <a class="btn" href="/site/logout"></i>Выход</a>
-            <a href="#" class="menu-btn btn btn-overlay">
-                <span></span>
-            </a>
-            <a class="btn" style="grid-column-end: span 2;align-self: start;" href="/cabinet"><i class="fa fa-user"></i>&nbsp;<?= Yii::$app->user->identity->email ?>
+            <a class="btn"  href="/cabinet"><i class="fa fa-user"></i>&nbsp;<?= Yii::$app->user->identity->email ?>
+                <a class="btn" href="/site/logout"></i>Выход</a>
             </a>
         <?php } ?>
     </h4>

@@ -156,12 +156,12 @@ class Product extends \yii\db\ActiveRecord
                 $images[] = '/images/1C_images/' . $img;
             }
         } else {
-            if($td_images = TecDoc::getImages($this->article)){
-                foreach ($td_images as $img) {
-                    if($img['PATH'])
-                    $images[] = '/images/Foto/' . $img['PATH'];
-                }
-            }
+//            if($td_images = TecDoc::getImages($this->article)){
+//                foreach ($td_images as $img) {
+//                    if($img['PATH'])
+//                    $images[] = '/images/Foto/' . $img['PATH'];
+//                }
+//            }
         }
 
         return $images;

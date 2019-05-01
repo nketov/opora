@@ -148,15 +148,28 @@ a {
     align-content: center;
 }
 
+.leyka img{
+    max-width: 95%;
+}
+
 .header-user {
     grid-column-end: span 2;
     grid-row-end: span 4;
     padding: 25px;
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    justify-content: center;
+    display: flex;
+    justify-content: flex-end;
+    left: -50px;
+    top: 10px;
 }
 
+
+.header-user .btn {
+    max-width: 300px !important;
+    overflow: hidden;
+    max-height: 37px;
+    font-size: .8vw !important;
+    align-self: flex-end;
+}
 
 .btn{
     background: linear-gradient(to left, #5D22AC, #E337B9);
@@ -205,15 +218,6 @@ a {
 }
 
 
-.header-user .btn {
-    padding: 5px;
-    max-width: 300px !important;
-    overflow: hidden;
-    max-height: 37px;
-    font-size: .8vw !important;
-    align-self: end;
-    justify-self: end;
-}
 
 /*BURGER START*/
 .menu-btn {
@@ -300,6 +304,12 @@ a {
 
 /*BURGER END*/
 
+.btn-overlay{
+    position: absolute;
+    top: .5vw;
+    right: .75vw;
+}
+
 .menu-overlay {
     position: absolute;
     background: #7035C0;
@@ -341,6 +351,7 @@ a {
     background: #7035C0;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
+    box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.5);
 }
 
 #header-search-form .form-group, .top-category h3 {
@@ -359,7 +370,7 @@ a {
     top: 0;
     /*background: linear-gradient(to right, #FFF, #5D22AC);*/
     background: #7035C0;
-    width: 300px;
+    width: 320px;
     padding: 2px;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
@@ -1274,6 +1285,7 @@ li strong {
     #header-search-form {
         z-index: 15;
         background: none;
+        box-shadow: none;
         justify-self: end;
         top: -15px;
         left: -17px;
@@ -1406,6 +1418,10 @@ li strong {
         max-width: 20vw !important;
         width: 20vw !important;
         font-size: 2.5vw !important;
+    }
+
+    .left-catalog{
+        padding-left: 25px;
     }
 
 

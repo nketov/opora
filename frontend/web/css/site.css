@@ -451,7 +451,6 @@ a {
     transform: scale(.42);
     top: -5px;
     left: -5px;
-    z-index: 100;
 }
 
 .td_submit {
@@ -1410,7 +1409,6 @@ li strong {
 @media screen and (max-width: 640px) {
 
     .menu-overlay {
-        grid-template-columns: repeat(2,1fr);
         align-content: end;
     }
 
@@ -1418,7 +1416,65 @@ li strong {
         max-width: 20vw !important;
         width: 20vw !important;
         font-size: 2.5vw !important;
+        height: 7.5vw !important;
+
     }
+
+    #site-header {
+        grid-template-columns: repeat(4,1fr);
+        grid-template-rows: repeat(7,1fr);
+    }
+
+    #site-header-logo {
+        grid-column-end: span 2;
+        grid-row-end: span 4;
+    }
+
+    #site-header .btn, .top-category .btn {
+        height: 10vw;
+        font-size: 2.5vw !important;
+
+    }
+
+    .header-user .btn {
+        font-size: 2.6vw !important;
+        height: 7vw !important;
+    }
+
+    #site-header-name {
+        grid-column-end: span 2;
+        grid-row-end: span 2;
+        font-size: 5vw;
+        text-align: center;
+        padding-top: 50px;
+        padding-left: 12px;
+
+    }
+
+    #site-header-icons {
+        grid-column-end: span 2;
+        grid-row-end: span 2;
+    }
+
+    .header-user {
+        left: -10px;
+        padding: 0;
+        grid-column-end: span 4;
+        grid-row-end: span 1;
+        justify-content: center;
+    }
+
+    #header-phones {
+        grid-column-end: span 2;
+        grid-row-end: span 2;
+        font-size: 3vw ;
+    }
+
+    #header-buttons {
+        grid-column-end: span 2;
+        grid-row-end: span 2;
+    }
+
 
     .left-catalog{
         padding-left: 25px;
@@ -1441,28 +1497,15 @@ li strong {
         grid-column-end: span 1;
     }
 
-    #site-header {
-        display: block;
-    }
-
-    #site-header-logo {
-        width: 50%;
-    }
-
-    #site-header > * {
-        padding: 0;
-        margin: 6px auto;
-        text-align: center;
-    }
 
     #tecdoc-search-form {
         grid-template-columns: repeat(2, 1fr);
         grid-column-gap: 10px;
     }
 
-    .main-content, .header-panel {
+    .main-content{
         grid-template-columns: 1fr;
-        margin: 1px;
+        margin: 0;
     }
 
     .main-content > .main-page {
@@ -1481,9 +1524,6 @@ li strong {
         width: calc(99vw);
     }
 
-    .header-phone img {
-        transform: scale(.8);
-    }
 
     .view_info {
         margin: 0;
@@ -1514,10 +1554,44 @@ li strong {
 @media screen and (max-width: 395px) {
 
 
-    .menu-overlay .btn{
-        max-width: 35vw !important;
-        width: 35vw !important;
-        font-size: 3.5vw !important;
+    .menu-overlay {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+
+    #site-header .menu-overlay .btn{
+        max-width: 42vw !important;
+        width: 42vw !important;
+        height: 11vw !important;
+        font-size: 5vw !important;
+    }
+
+    #site-header .btn, .top-category .btn {
+        height: 12vw;
+        font-size: 4vw !important;
+        max-width:25vw !important;
+
+    }
+
+    #site-header .header-user .btn {
+        max-width: 60vw !important;
+        height: 8vw !important;
+        font-size: 5vw !important;
+
+    }
+
+
+
+    #header-phones {
+        grid-column-end: span 4;
+        grid-row-end: span 2;
+        font-size: 5vw ;
+
+    }
+
+    #header-buttons {
+        grid-column-end: span 4;
+        grid-row-end: span 2;
     }
 
     .main-content {
@@ -1547,10 +1621,6 @@ li strong {
 
     .pagination {
         font-size: 10px;
-    }
-
-    #site-header {
-        grid-template-columns: 1fr;
     }
 
     #tecdoc-search-form {

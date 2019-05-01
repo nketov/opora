@@ -33,6 +33,12 @@ $(function () {
         location.href = '/';
     });
 
+    $('.leyka').mousedown(function () {
+        $(this).find('img').attr('src', '/images/leyka_yellow.png');
+    }).mouseup( function () {
+        $(this).find('img').attr('src', '/images/leyka_white.png');
+    });
+
     $('.left-catalog > div').hover(function () {
         if ($('.sub-menu a', this).length < 1) return;
         clearTimeout($.data(this, 'timer'));
@@ -171,7 +177,7 @@ $(function () {
         $.ajax({
                 url: '/products/choose-garage?position=' + position,
                 success: function (response) {
-                    $('#site-header .header-car a').html(response);
+                    $('.header-car a').html(response);
                 },
                 error: function (e) {
                     console.log(e.responseText);
@@ -237,7 +243,7 @@ $(function () {
                         success: function (response) {
                             var res = JSON.parse(response);
                             console.log(res.select_render);
-                            $('#site-header .header-car a').html(res.car_name);
+                            $('.header-car a').html(res.car_name);
                             $('#td-category-panel').html(res.select_render);
                             $('.car-info').html(res.car_render);
                             $('#td-category-panel .select2').slideUp(0).slideDown(1000);
@@ -288,6 +294,41 @@ $(function () {
 
         }
     );
+
+    /*BURGER*/
+    $('.btn-overlay').on('click', function (e) {
+        e.preventDefault;
+        $(this).toggleClass('menu-btn_active');
+
+        var overlay = '.menu-overlay';
+
+        if ($(overlay).css('display') === 'none') {
+            $(overlay).css('display', 'grid');
+            animateCSS(overlay, 'slideInDown');
+        } else {
+            animateCSS(overlay, 'slideOutUp', function () {
+                $(overlay).css('display', 'none');
+            });
+        }
+    });
+
+    $('.btn-category').on('click', function (e) {
+        e.preventDefault;
+        $(this).toggleClass('menu-btn_active');
+        $('.main-content').css('min-height', '1000px');
+        var category = '.left-catalog';
+
+        if ($(category).css('display') === 'none') {
+            $(category).css('display', 'grid');
+            animateCSS(category, 'slideInLeft');
+            animateCSS('.top-panel h3', 'fadeOutUp');
+        } else {
+            animateCSS('.top-panel h3', 'fadeInDown');
+            animateCSS(category, 'slideOutLeft', function () {
+                $(category).css('display', 'none');
+            });
+        }
+    });
 
 
     $("#header_pjax_form").on("pjax:end", function () {

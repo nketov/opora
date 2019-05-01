@@ -14,11 +14,10 @@ $this->title = 'Вопросы';
 ?>
 
 <div class="container-contact">
-
     <div>
         <h3>
-            <center>Если у вас есть деловые вопросы или другие вопросы, пожалуйста, заполните следующую форму, чтобы
-                связаться с нами. Спасибо.
+            <center>Если у вас есть деловые вопросы или другие вопросы,<br> пожалуйста, заполните следующую форму,<br> чтобы
+                связаться с нами. <br>Спасибо.
             </center>
         </h3>
 
@@ -57,7 +56,7 @@ $this->title = 'Вопросы';
 
         <p><img src="/images/icons/email.png" alt=""> mail@opora.dn.ua</p>
         <p><img src="/images/icons/icq.png" alt=""> <?= $content->icq ?></p>
-        <p><img src="/images/phone32.png" alt=""> <br><?= str_replace(',','<br>',$content->phones_header).'<br>'.$content->phone_footer ?></p>
+        <p><img src="/images/phone32.png" alt=""> <br><?= str_replace(',','<br>',$content->phones_header) ?></p>
 
 
 

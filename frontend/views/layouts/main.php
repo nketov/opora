@@ -29,6 +29,7 @@ $siteContent = Content::findOne(1);
 <?= $this->render('_header.php', compact('siteContent')) ?>
 
 <main class="main-content">
+    <?= $this->render('_top_panel'); ?>
     <?= Alert::widget() ?>
     <?= $content ?>
 </main>

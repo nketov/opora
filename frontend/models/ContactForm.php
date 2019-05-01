@@ -63,7 +63,12 @@ class ContactForm extends Model
         $text .= '<p>Телефон : '. $this->phone.'</p>';
         $text .= '<p>Вопрос : '. $this->body.'</p>';
 
-        mail('ketovnv@gmail.com', 'Вопрос  от '. $this->name , $text ,"Content-type:text/html;charset=UTF-8");
+        Yii::$app->mailer->compose()
+            ->setTo('ketovnv@gmail.com')
+            ->setFrom(['mail@opora.dn.ua' => 'Opora'])
+            ->setSubject('Вопрос  от '. $this->name)
+            ->setHtmlBody($text)
+            ->send();
 
         return true;
     }

@@ -92,7 +92,7 @@ if ($model->user_id != Yii::$app->getUser()->id) {
     </div>
 
 
-    <div class="form-group pull-right">
+    <div class="form-group center-block">
         <?= Html::submitButton('Cохранить', ['class' => 'btn btn-success']) ?>
     </div>
 

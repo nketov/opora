@@ -19,8 +19,7 @@ class AppAsset extends AssetBundle
         'css/style.css'
     ];
     public $js = [
-        'js/vue.js',
-
+//        'js/vue.js',
         'js/cart.js',
         'js/main.js',
 

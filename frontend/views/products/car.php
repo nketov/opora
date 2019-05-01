@@ -110,16 +110,17 @@ $form = ActiveForm::begin(['id' => 'tecdoc-search-form']); ?>
 <?= Html::submitButton('Выбрать авто', ['class' => 'btn btn-primary td_submit']) ?>
 
 <?php ActiveForm::end(); ?>
-
+<hr>
+<hr>
 <div class="car-info">
 <?php
-$user =\Yii::$app->user->identity;
-if ($user && !empty($user->car)){ ?>
-    <h2><?= $user->car['car_text'] ?></h2>
-    <?=TecDoc::getTypeInfo($user->car['mod_id'],$user->car['year'],$user->car['type_id'])?>
+if (!empty($car = TecDoc::getCookieCar())){ ?>
+    <h2><?= $car['car_text'] ?></h2>
+    <?=TecDoc::getTypeInfo($car['mod_id'],$car['year'],$car['type_id'])?>
 <?php } ?>
 </div>
 
+<hr>
 <hr>
 <div id="tecdoc-content">
 

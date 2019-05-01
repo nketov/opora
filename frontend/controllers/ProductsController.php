@@ -129,10 +129,10 @@ class ProductsController extends Controller
             $user_car->position = $position;
 
             if ($user_car->save()) {
-                if ($user->car['year']) {
-                    $user->car['car_name'] .= ', ' . $user->car['year'] . ' г.в.';
+                if ($user_car->year) {
+                    $user_car->car_name .= ', ' . $user_car->year . ' г.в.';
                 }
-                $res = Html::a($user->car['car_name'], '/', ['class' => 'choose-garage']);
+                $res = Html::a($user_car->car_name, '/', ['class' => 'choose-garage']);
             }
 
 

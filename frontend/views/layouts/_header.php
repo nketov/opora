@@ -5,53 +5,59 @@ use common\components\TecDoc;
 
 ?>
 <header id="site-header">
+    <div class="menu-overlay">
+        <?= Html::a('О нас', '/about', ['class' => 'btn']) ?>
+        <?= Html::a('Акции', '/actions', ['class' => 'btn']) ?>
+        <?= Html::a('Объявления', '/post', ['class' => 'btn']) ?>
+        <?= Html::a('Статьи', '/articles', ['class' => 'btn']) ?>
+        <?= Html::a('Контакты', '/contact', ['class' => 'btn']) ?>
+        <?= Html::a('Доставка', '/delivery', ['class' => 'btn']) ?>
+        <?= Html::a('Оплата', '/payment', ['class' => 'btn']) ?>
+        <?= Html::a('Гарантия', '/payment', ['class' => 'btn']) ?>
+        <?= Html::a('Договора', '/guarantee ', ['class' => 'btn']) ?>
+        <?= Html::a('Вакансии', '/vacancies', ['class' => 'btn']) ?>
+
+    </div>
 
     <img id="site-header-logo" class="img-rounded center-block" src="/images/main/logo.jpg">
+    <div id="site-header-name">А в т о м а г а з и н &nbsp;&nbsp;&nbsp; О П О Р А</div>
+    <div id="site-header-icons">
+            <a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+            <a href=""  class="facebook"><i class="fa fa-facebook"></i></a>
+            <a href="" class="google"><i class="fa fa-google-plus"></i></a>
 
-    <?= "<div id='header-contacts'>
-            " . $siteContent->address . "
-            <br>           
-            Телефоны:<br>" . $siteContent->phones_header . "
-            </div>";
-    ?>
-
-    <?= "<div id='header-time'>
-            Мы работаем без выходных:<br>
-            Понедельник - пятница: с 8-30 до 18-00<br>
-            Суббота: с 8-30 до 16-00<br>
-            Воскресенье: с 10-00 до 14-00<br>          
-            </div>";
-    ?>
-
-    <?php
-    $car_text = 'Выберите свой автомобиль';
-    $car_delete ='';
-    if (!empty($car = TecDoc::getCookieCar())) {
-        $car_delete = Html::button("&#10060",['title'=>"Убрать автомобиль",'class'=>'header-car-delete']);
-    }
-
-    echo "<h4 class='header-car'>" . Html::a($car['car_text'] ?? 'Выберите свой автомобиль', '/car').$car_delete."</h4>";
-
-
-    ?>
+<!--        --><?//= Html::img('/images/icons/kyivstar.png') . Html::img('/images/icons/kyivstar.png') . Html::img('/images/icons/kyivstar.png')  ?>
+    </div>
 
     <h4 class='header-user'>
         <?php if (Yii::$app->user->isGuest) { ?>
-
-            <a href="/login">Вход</a>
+            <a class="btn" href="/login">Вход</a>
+            <a href="#" class="menu-btn btn btn-overlay">
+                <span></span>
+            </a>
         <?php } else { ?>
-            <a href="/cabinet"><i class="fa fa-user"></i>&nbsp;<?= Yii::$app->user->identity->email ?></a>
-            <br>
-            <a href="/site/logout">Выход</a>
+            <a class="btn" href="/site/logout"></i>Выход</a>
+            <a href="#" class="menu-btn btn btn-overlay">
+                <span></span>
+            </a>
+            <a class="btn" style="grid-column-end: span 2;align-self: start;" href="/cabinet"><i class="fa fa-user"></i>&nbsp;<?= Yii::$app->user->identity->email ?>
+            </a>
         <?php } ?>
-        <?=$this->render('_header_text_search');?>
     </h4>
 
 
+    <?= "<div id='header-phones'><span>"
+    . Html::img('/images/icons/kyivstar.png') .
+    "&nbsp;+38 (067) 580 97 61</span><span>"
+    . Html::img('/images/icons/voodafone.png') .
+    "&nbsp;+38 (066) 529 12 88
+            </span></div>"; ?>
+
+
+    <?= "<div id='header-buttons'>" ?>
+    <?= Html::a('Продать</br>запчасть', '/post/create', ['class' => 'btn']) ?>
+    <?= Html::a(Html::img('/images/leyka_white.png'), '/car', ['class' => 'btn leyka']) ?>
+    <?= Html::a('Сделать </br> заказ', '/contact', ['class' => 'btn']) ?>
+    <?= "</div>"; ?>
 
 </header>
-
-
-
-
-

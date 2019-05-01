@@ -6,28 +6,28 @@ var app = new Vue({
         isFirstLoad: true,
         slides: [
             {
-                headlineFirstLine: "ЗАГОЛОВОК №1",
-                headlineSecondLine: "подЗАГОЛОВОК №2",
-                sublineFirstLine: "Главная",
-                sublineSecondLine: "О нас",
-                bgImg: "/images/vue/about-bg.jpg",
-                rectImg: "/images/vue/leadership_hero_feature.jpg"
+                headlineFirstLine: "У вас авто",
+                headlineSecondLine: "У нас детали",
+                sublineFirstLine: "ИНТЕРНЕТ-МАГАЗИН",
+                sublineSecondLine: "OPORA.DN.UA",
+                bgImg: "images/vue/car-skyline_p.png",
+                rectImg: "images/vue/purple.png"
             },
             {
-                headlineFirstLine: "ЗАГОЛОВОК №2",
-                headlineSecondLine: "подЗАГОЛОВОК №2",
-                sublineFirstLine: "О нас",
-                sublineSecondLine: "Проекты",
-                bgImg: "/images/vue/ukrdeveloperbackgroundfullhd.jpg",
-                rectImg: "/images/vue/skyfalling.jpg"
+                headlineFirstLine: "Качество",
+                headlineSecondLine: "Гарантия",
+                sublineFirstLine: "ДОСТАВКА",
+                sublineSecondLine: "ОПЛАТА",
+                bgImg: "images/vue/salon.png",
+                rectImg: "images/vue/purple.png"
             },
             {
-                headlineFirstLine: "ЗАГОЛОВОК №3",
-                headlineSecondLine: "подЗАГОЛОВОК №3",
-                sublineFirstLine: "О нас",
-                sublineSecondLine: "Стоимость разработки",
-                bgImg: "/images/vue/about.jpg",
-                rectImg: "/images/vue/sly10.jpg"
+                headlineFirstLine: "Консультация",
+                headlineSecondLine: "Страхование",
+                sublineFirstLine: "ДОСКА ОБЪЯВЛЕНИЙ",
+                sublineSecondLine: "ПОИСК",
+                bgImg: "images/vue/carmanufactures.png",
+                rectImg: "images/vue/purple.png"
             }
         ]
     },

@@ -8,6 +8,10 @@
     font-size: .5rem;
 }
 
+.cd-cart-container ol,.cd-cart-container ul {
+list-style: none;
+}
+
 .cd-cart-container::before {
     /* dark bg layer visible when the cart is open */
     content: '';

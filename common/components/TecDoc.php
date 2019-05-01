@@ -153,8 +153,10 @@ ORDER BY	MFA_BRAND,	MOD_CDS_TEXT,	TYP_CDS_TEXT,	TYP_PCON_START,	TYP_CCM;')->quer
 
         $render = '<div class="car_spec">';
         $render .= '<div class="string"><div class="spec_name">Объём двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_CCM'] . '&nbsp;см<sup>2</sup> </div></div>';
-        $power_upto = $info['TYP_HP_UPTO'] ? '-' . $info['TYP_HP_UPTO'] : '';
-        $render .= '<div class="string"><div class="spec_name">Мощность двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_HP_FROM'] . $power_upto . '&nbsp;л.с.</div></div>';
+        $power_upto = $info['TYP_HP_UPTO'] ? '&nbsp;-&nbsp;' . $info['TYP_HP_UPTO'] : '';
+        $power_upto_kw = $info['TYP_KW_UPTO'] ? '&nbsp;-&nbsp;' . $info['TYP_KW_UPTO'] : '';
+        $render .= '<div class="string"><div class="spec_name">Мощность двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_HP_FROM'] . $power_upto . '&nbsp;л.с.<br>'. $info['TYP_KW_FROM'] . $power_upto_kw . '&nbsp;кВт</div></div>';
+        if (!empty($info['TYP_CYLINDERS']))
         $render .= '<div class="string"><div class="spec_name">Количество цилиндров:&nbsp;</div><div class="spec_value">' . $info['TYP_CYLINDERS'] . '&nbsp;шт.</div></div>';
         $render .= '<div class="string"><div class="spec_name">Код двигателя:&nbsp;</div><div class="spec_value">' . $info['ENG_CODE'] . '</div></div>';
         $render .= '<div class="string"><div class="spec_name">Тип двигателя:&nbsp;</div><div class="spec_value">' . $info['TYP_ENGINE_DES_TEXT'] . '</div></div>';

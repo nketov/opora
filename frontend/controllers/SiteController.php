@@ -9,6 +9,7 @@ use common\models\ArticleSearch;
 use common\models\Category;
 use common\models\Content;
 use common\models\Order;
+use common\models\PageContent;
 use common\models\Post;
 use common\models\Product;
 use common\models\User;
@@ -39,6 +40,8 @@ class SiteController extends Controller
 
 
 
+    private $pages;
+
     /**
      *      * {@inheritdoc}
      */
@@ -68,6 +71,12 @@ class SiteController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function init()
+    {
+        parent::init();
+        $this->pages = PageContent::getPages();
     }
 
     /**
@@ -205,12 +214,43 @@ class SiteController extends Controller
 
     public function actionActions()
     {
-
-        $contents = ActionsContent::find()->all();
-        $actions = Actions::getDiscounts();
-
-        return $this->render('actions', compact('actions', 'contents'));
+//        $contents = ActionsContent::find()->all();
+//        $actions = Actions::getDiscounts();
+        $content = $this->pages->actions;
+        return $this->render('actions', compact( 'content'));
     }
+
+
+    public function actionDelivery()
+    {
+        $content = $this->pages->delivery;
+        return $this->render('delivery', compact( 'content'));
+    }
+
+    public function actionPayment()
+    {
+        $content = $this->pages->payment;
+        return $this->render('payment', compact( 'content'));
+    }
+
+    public function actionGuarantee()
+    {
+        $content = $this->pages->guarantee;
+        return $this->render('guarantee', compact( 'content'));
+    }
+
+    public function actionAgreements()
+    {
+        $content = $this->pages->agreements;
+        return $this->render('agreements', compact( 'content'));
+    }
+
+    public function actionVacancies()
+    {
+        $content = $this->pages->vacancies;
+        return $this->render('vacancies', compact( 'content'));
+    }
+
 
 
     public function actionArticles()

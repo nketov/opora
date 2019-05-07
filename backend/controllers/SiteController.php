@@ -7,6 +7,7 @@ use backend\components\ShopUploader;
 use common\models\ActionsContent;
 use common\models\Content;
 use common\models\MainPage;
+use common\models\PageContent;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use Yii;
@@ -34,7 +35,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'content', 'upload', 'main-page','actions-content'],
+                        'actions' => ['logout', 'content', 'upload', 'main-page','actions-content', 'pages-content'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -131,6 +132,19 @@ class SiteController extends Controller
                 'title' => 'Содержание сайта']);
         } else {
             return $this->render('content', compact(['model']));
+        }
+    }
+
+    public function actionPagesContent()
+    {
+
+        $model = PageContent::getPages();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->render('success', ['message' => '<div class="box"><div class="box-body" style="color: green">Данные успешно сохранены!</div></div>',
+                'title' => 'Содержание страниц']);
+        } else {
+            return $this->render('pages-content', compact(['model']));
         }
     }
 

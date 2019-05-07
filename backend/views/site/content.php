@@ -10,9 +10,8 @@ $this->title = 'Содержание сайта'; ?>
     <div class="box" style="width: 552px">
         <div class="box-body">
             <?php $form = ActiveForm::begin(['id' => 'content-form']); ?>
-<!--            --><?//= $form->field($model, 'address')->textInput() ?>
 
-            <?= $form->field($model, 'phones_header')->textInput() ?>
+<!--            --><?//= $form->field($model, 'phones_header')->textInput() ?>
 
             <?= $form->field($model, 'address')->textInput() ?>
 

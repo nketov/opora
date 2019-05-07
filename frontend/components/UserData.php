@@ -20,7 +20,6 @@ class UserData extends BaseObject
 //                $user->car['car_text']=$car['year'] ? $car['car_name'].', ' . $car['year'] .' г.в.' : $car['car_name'];
 //
 //            }
-
 //            $actions=Actions::findAll(['user_id'=>\Yii::$app->user->identity->id]);
 //
 //            foreach ($actions as $action){

@@ -98,6 +98,17 @@ table .summary {
 margin: 25px;
 }
 
+#pages-content-form{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 3vw;
+    padding: 2vw;
+    align-items: center;
+    justify-items: center;
+}
+
+
+
 #form-product-update .form-grid {
     padding: 10px 25px;
     display: grid;
@@ -302,7 +313,12 @@ margin: 25px;
 
 #main-page-modal  {
     font-family: "Roboto", sans-serif;
+}
 
+.pages-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 3vw;
 }
 
 /*.main-footer {*/
@@ -325,6 +341,13 @@ margin: 25px;
     #products-table tr > *:nth-child(5) {
         display: none;
     }
+
+    #pages-content-form{
+        grid-template-columns: 1fr;
+        grid-gap: 1vw;
+
+    }
+
 }
 
 @media screen and (max-width: 1225px) {

@@ -351,7 +351,7 @@ class ProductsController extends Controller
         }
 
         Yii::$app->mailer->compose()
-            ->setTo('ketovnv@gmail.com')
+            ->setTo(['ketovnv@gmail.com','mail@opora.dn.ua'])
             ->setFrom(['mail@opora.dn.ua' => 'Opora'])
             ->setSubject('Заказ № ' . $order->id)
             ->setHtmlBody($shop_text)

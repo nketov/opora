@@ -39,7 +39,6 @@ class SiteController extends Controller
 {
 
 
-
     private $pages;
 
     /**
@@ -117,19 +116,16 @@ class SiteController extends Controller
 //        $np = new NovaPoshta();
 
 
-
         return $this->render('index');
     }
 
 
     public function action1cTree()
     {
-        $tree=new Tree_1C();
+        $tree = new Tree_1C();
         echo $tree->renderTree();
         exit;
     }
-
-
 
 
     public function actionView()
@@ -184,7 +180,7 @@ class SiteController extends Controller
 
     public function actionCabinet()
     {
-        if(!$user = Yii::$app->user->getIdentity())
+        if (!$user = Yii::$app->user->getIdentity())
             return $this->redirect('/login');
 
         $user->load(Yii::$app->request->post());
@@ -212,45 +208,55 @@ class SiteController extends Controller
     }
 
 
+    public function actionOrderView($id)
+    {
+
+        $model = Order::find()->where(['id' => $id, 'user_id' => Yii::$app->user->getIdentity()->id])->one();
+        if ($model) {
+            return $this->render('order-view', compact('model'));
+        } else {
+            return $this->redirect('/cabinet');
+        }
+    }
+
     public function actionActions()
     {
 //        $contents = ActionsContent::find()->all();
 //        $actions = Actions::getDiscounts();
         $content = $this->pages->actions;
-        return $this->render('actions', compact( 'content'));
+        return $this->render('actions', compact('content'));
     }
 
 
     public function actionDelivery()
     {
         $content = $this->pages->delivery;
-        return $this->render('delivery', compact( 'content'));
+        return $this->render('delivery', compact('content'));
     }
 
     public function actionPayment()
     {
         $content = $this->pages->payment;
-        return $this->render('payment', compact( 'content'));
+        return $this->render('payment', compact('content'));
     }
 
     public function actionGuarantee()
     {
         $content = $this->pages->guarantee;
-        return $this->render('guarantee', compact( 'content'));
+        return $this->render('guarantee', compact('content'));
     }
 
     public function actionAgreements()
     {
         $content = $this->pages->agreements;
-        return $this->render('agreements', compact( 'content'));
+        return $this->render('agreements', compact('content'));
     }
 
     public function actionVacancies()
     {
         $content = $this->pages->vacancies;
-        return $this->render('vacancies', compact( 'content'));
+        return $this->render('vacancies', compact('content'));
     }
-
 
 
     public function actionArticles()

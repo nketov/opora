@@ -59,6 +59,7 @@ return [
                 'product/<id:\d+>' => 'products/view',
                 'post/<id:\d+>' => 'post/view',
                 'article/<id:\d+>' => 'site/article-view',
+                'order-view/<id:\d+>' => 'site/order-view',
                 'tecdoc/year/<year:\d+>' => 'tecdoc/index',
                 'tecdoc/models/<mfa_id:\d+>/year/<year:\d+>' => 'tecdoc/models',
                 'tecdoc/models/<mfa_id:\d+>' => 'tecdoc/models',

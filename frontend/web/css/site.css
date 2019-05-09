@@ -531,7 +531,6 @@ li strong {
     grid-area: content;
     padding: 5vw;
     padding-top: 0 !important;
-    background:  linear-gradient(to bottom, rgba(255,255,255,.20), rgba(255,255,255,1)) ;
 }
 
 .main-footer-links{
@@ -1217,7 +1216,7 @@ li strong {
 
 @media screen and (max-width: 1000px) {
 
-    .post-content {
+      .post-content {
         grid-template-columns: 1fr;
     }
 
@@ -1347,6 +1346,10 @@ li strong {
 
 @media screen and (max-width: 767px) {
 
+    .post-index table tr > *:nth-child(4)
+    {
+        display: none;
+    }
 
     .main-content > .container-contact {
         grid-template-columns: 1fr;
@@ -1615,7 +1618,9 @@ li strong {
     }
 
     .container-actions table tr > *:nth-child(5),
-    .container-cabinet .actions tr > *:nth-child(5) {
+    .container-cabinet .actions tr > *:nth-child(5),
+    .post-index table tr > *:nth-child(3)
+    {
         display: none;
     }
 }

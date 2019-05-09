@@ -83,8 +83,8 @@ if (!Yii::$app->user->isGuest) {
                 <?php foreach ($lastOrders as $order) {
                     ?>
                     <tr>
-                        <td style="padding:10px">№ <?= $order->id ?></td>
-                        <td style="padding:10px"><?= Yii::$app->formatter->asDate($order->date) ?></td>
+                        <td style="padding:10px"><?= Html::a('№ '.$order->id, '/order-view/'.$order->id) ?></td>
+                        <td style="padding:10px"><?= Html::a(Yii::$app->formatter->asDate($order->date), '/order-view/'.$order->id) ?></td>
                         <td style="padding:10px">
                             <b><?= Order::getStatuses()[$order->status] ?></b></td>
                     </tr>

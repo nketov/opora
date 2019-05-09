@@ -1,5 +1,6 @@
 <?php
 
+use frontend\components\NovaPoshta;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -25,12 +26,31 @@ Yii::$app->formatter->locale = 'ru-RU'
             ['class' => 'table table-striped'],
         'columns' => [
 //            ['class' => 'yii\grid\SerialColumn'],
+
+            [
+                'attribute' => 'image',
+                'format' => 'raw',
+                'contentOptions' => ['style' => 'width: 32px'],
+                'value' => function ($data) {
+                    return $data->image_name ? Html::img('/images/posts/' . $data->image_name . '?rnd=' . time(),
+                                    ['style'=> 'width:30px; height:auto']) : '' ;
+                }
+            ],
             [
                 'attribute' => 'title',
                 'format' => 'raw',
-                'contentOptions' => ['style' => 'width:70%'],
+                'contentOptions' => ['style' => 'width:35%'],
                 'value' => function ($data) {
                     return Html::a($data->title, '/post/' . $data->id);
+                }
+            ],
+
+            [
+                'attribute' => 'city_id',
+                'format' => 'raw',
+                'contentOptions' => ['style' => 'width:15%; color: grey; text-align:center; font-style: italic; font-size: .77em'],
+                'value' => function ($data) {
+                    return $data->city_id  ? (new NovaPoshta())->getCityNameRu($data->city_id).',<br>'.(new NovaPoshta())->getAreaNameRu($data->region_id). '&nbsp;обл.' : '';
                 }
             ],
 
@@ -39,6 +59,13 @@ Yii::$app->formatter->locale = 'ru-RU'
                 'contentOptions' => ['style' => 'text-align:right'],
                 'value' => function ($data) {
                     return Yii::$app->formatter->asDate($data->time);
+                }
+            ],
+            [
+                'attribute' => 'price',
+                'contentOptions' => ['style' => 'text-align:right; color: green'],
+                'value' => function ($data) {
+                    return $data->price >0 ? Yii::$app->formatter->asDecimal($data->price).' грн.' : '';
                 }
             ],
 
@@ -60,19 +87,46 @@ Yii::$app->formatter->locale = 'ru-RU'
         'columns' => [
 //            ['class' => 'yii\grid\SerialColumn'],
             [
+                'attribute' => 'image',
+                'format' => 'raw',
+                'contentOptions' => ['style' => 'width: 32px'],
+                'value' => function ($data) {
+                    return $data->image_name ? Html::img('/images/posts/' . $data->image_name . '?rnd=' . time(),
+                        ['style'=> 'width:30px; height:auto']) : '' ;
+                }
+            ],
+            [
                 'attribute' => 'title',
                 'format' => 'raw',
-                'contentOptions' => ['style' => 'width:70%'],
+                'contentOptions' => ['style' => 'width:50%'],
                 'value' => function ($data) {
                     return Html::a($data->title, '/post/' . $data->id);
                 }
             ],
 
             [
+                'attribute' => 'city_id',
+                'format' => 'raw',
+                'contentOptions' => ['style' => 'width:15%; color: grey; text-align:center; font-style: italic; font-size: .77em'],
+                'value' => function ($data) {
+                    return $data->city_id  ? (new NovaPoshta())->getCityNameRu($data->city_id).',<br>'.(new NovaPoshta())->getAreaNameRu($data->region_id). '&nbsp;обл.' : '';
+                }
+            ],
+
+
+
+            [
                 'attribute' => 'time',
                 'contentOptions' => ['style' => 'text-align:right'],
                 'value' => function ($data) {
                     return Yii::$app->formatter->asDate($data->time);
+                }
+            ],
+            [
+                'attribute' => 'price',
+                'contentOptions' => ['style' => 'text-align:right'],
+                'value' => function ($data) {
+                    return $data->price >0 ? Yii::$app->formatter->asDecimal($data->price).' грн.' : '';
                 }
             ],
 

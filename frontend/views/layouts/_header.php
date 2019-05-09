@@ -22,7 +22,7 @@ use common\components\TecDoc;
 
     </div>
 
-    <img id="site-header-logo" class="img-rounded center-block" src="/images/main/logo.jpg">
+    <img id="site-header-logo" class="img-rounded center-block" src="/images/main/logo.png">
     <div id="site-header-name">А&nbsp;в&nbsp;т&nbsp;о&nbsp;м&nbsp;а&nbsp;г&nbsp;а&nbsp;з&nbsp;и&nbsp;н &nbsp;&nbsp;&nbsp; О&nbsp;П&nbsp;О&nbsp;Р&nbsp;А</div>
     <div id="site-header-icons">
             <a href="" class="twitter"><i class="fa fa-twitter"></i></a>

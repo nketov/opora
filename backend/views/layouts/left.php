@@ -37,6 +37,7 @@
 //                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     ['label' => 'Товары', 'icon' => 'shopping-bag', 'url' => ['/products'],],
                     ['label' => 'Содержание сайта', 'icon' => 'tv', 'url' => ['/content'],],
+                    ['label' => 'Содержание страниц', 'icon' => 'square-o', 'url' => ['/pages-content'],],
 //                    ['label' => 'Содержание акций', 'icon' => 'gift', 'url' => ['/actions-content'],],
                     ['label' => 'Статьи', 'icon' => 'map', 'url' => ['/article'],],
                     ['label' => 'Загрузка данных', 'icon' => 'upload', 'url' => ['/upload'],],

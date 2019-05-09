@@ -303,7 +303,7 @@ $(function () {
         var overlay = '.menu-overlay';
 
         if ($(overlay).css('display') === 'none') {
-            $(overlay).css('display', 'grid');
+            $(overlay).css('display', 'inline-block');
             animateCSS(overlay, 'slideInDown');
         } else {
             animateCSS(overlay, 'slideOutUp', function () {

@@ -59,7 +59,7 @@ class ProductsController extends Controller
         }
 
         $tecdocSearch = new TecdocSearch();
-
+        $tecdocSearch->load(Yii::$app->request->queryParams);
 
         if (!empty($car=TecDoc::getCookieCar())) {
             $tecdocSearch->load($car, '');

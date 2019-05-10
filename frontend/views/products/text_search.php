@@ -3,10 +3,15 @@
 use common\models\Product;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
+
 $this->title = 'Поиск :';
 ?>
-<?php Pjax::begin(['id' => 'pjax_text_search','timeout'=>false]); ?>
-<?= ListView::widget([
+
+<?php Pjax::begin(['id' => 'pjax_text_search', 'timeout' => false]);
+
+$filters = $this->render('_filters', compact('dataProvider','searchModel'));
+
+echo ListView::widget([
     'dataProvider' => $dataProvider,
     'options' => [
         'tag' => 'section',
@@ -21,10 +26,11 @@ $this->title = 'Поиск :';
         'maxButtonCount' => 6,
     ],
 
-    'layout' => '<div class="cards-block">{items}</div>{summary}{pager}',
+    'layout' => '<div class="cards-block">{items}</div>'.$filters.'{summary}{pager}',
     'itemOptions' => ['class' => 'card'],
     'itemView' => '_card'
 ]) ?>
+
 <?php Pjax::end(); ?>
 
 

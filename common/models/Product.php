@@ -77,10 +77,11 @@ class Product extends \yii\db\ActiveRecord
             'name' => 'Наименование',
             'price' => 'Цена',
             'currency' => 'Валюта',
-            'remains' => 'Остатки',
+            'remains' => 'В наличии',
             'unit' => 'Единица измерения',
             'images' => 'Фотографии',
             'description' => 'Описание',
+            'brand' => 'Производитель',
         ];
     }
 
@@ -104,6 +105,13 @@ class Product extends \yii\db\ActiveRecord
         return self::$_shopName;
     }
 
+
+    public static function brandsList()
+    {
+        $array= ArrayHelper::map(self::find()->select(['brand'], 'DISTINCT')->all(),'brand','brand');
+        asort($array);
+        return $array;
+    }
 
 
 

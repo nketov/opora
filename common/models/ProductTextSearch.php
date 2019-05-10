@@ -18,7 +18,7 @@ class ProductTextSearch extends Product
     public function rules()
     {
         return [
-            [['text'], 'string'],
+            [['text', 'brand'], 'string'],
         ];
     }
 
@@ -44,6 +44,15 @@ class ProductTextSearch extends Product
             'pagination' => [
                 'pageSize' => 12,
             ],
+            'sort' => [
+                'attributes' => [
+                    'price' => ['label' => 'По цене'],
+                    'remains' => ['label' => 'По количеству'],
+                ],
+                'defaultOrder' => [
+                    'price' => SORT_DESC
+                ]
+            ]
         ]);
 
 
@@ -51,20 +60,21 @@ class ProductTextSearch extends Product
 
         $this->load($params);
 
-        $synonyms=Synonym::getSynonyms($this->text);
+        $synonyms = Synonym::getSynonyms($this->text);
 
-    $query_array = ['or',
-        ['like', 'name', trim($this->text)],
-        ['like', 'article', trim($this->text)],
-    ];
+        $query_array = ['or',
+            ['like', 'name', trim($this->text)],
+            ['like', 'article', trim($this->text)],
+        ];
 
 
-    foreach ($synonyms as $syn){
-        $query_array[] =  ['like', 'name', $syn];
-    }
+        foreach ($synonyms as $syn) {
+            $query_array[] = ['like', 'name', $syn];
+        }
 
         $query->andFilterWhere($query_array);
 
+        $query->andFilterWhere(['like', 'brand', $this->brand]);
 
         return $dataProvider;
     }

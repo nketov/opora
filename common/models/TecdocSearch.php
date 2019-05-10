@@ -25,7 +25,7 @@ class TecdocSearch extends Product
     {
         return [
             [['year', 'mfa_id', 'mod_id', 'type_id'], 'integer'],
-            [['category', 'car_name'], 'safe'],
+            [['category', 'car_name','brand'], 'safe'],
         ];
     }
 
@@ -53,20 +53,7 @@ class TecdocSearch extends Product
      */
     public function search()
     {
-
         $allModels = [];
-
-//        if ($this->category && $this->type_id) {
-//            \Yii::$app->db->createCommand('SET SESSION wait_timeout = 300;')->execute();
-//            $products = array_unique(ArrayHelper::getColumn(Product::find()->active()->all(), 'article'));
-//
-//            foreach (TecDoc::getCategory($this->category, $this->type_id) as $article) {
-//                if ($article && in_array($article, $products))
-//                    foreach (Product::find()->where(['like', 'article', $article])->active()->all() as $product)
-//                        $allModels[] = $product;
-//            }
-//
-//        }
 
         $category = $this->category;
         $type =  $this->type_id;
@@ -86,11 +73,28 @@ class TecdocSearch extends Product
                 }, 300);
         }
 
+
+
+        if(isset($this->brand)){
+            foreach ($allModels as $key=>$model){
+                if ($model->brand !== $this->brand) unset($allModels[$key]);
+            }
+        }
+
         $dataProvider = new ArrayDataProvider([
             'allModels' => $allModels,
             'pagination' => [
                 'pageSize' => 10,
             ],
+            'sort' => [
+                'attributes' => [
+                    'price' => ['label'=> 'По цене'],
+                    'remains' => ['label'=> 'По количеству'],
+                ],
+                'defaultOrder' => [
+                    'price' => SORT_DESC
+                ]
+            ]
         ]);
 
         return $dataProvider;

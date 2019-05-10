@@ -113,11 +113,11 @@ $form = ActiveForm::begin(['id' => 'tecdoc-search-form']); ?>
 <hr>
 <hr>
 <div class="car-info">
-<?php
-if (!empty($car = TecDoc::getCookieCar())){ ?>
-    <h2><?= $car['car_text'] ?></h2>
-    <?=TecDoc::getTypeInfo($car['mod_id'],$car['year'],$car['type_id'])?>
-<?php } ?>
+    <?php
+    if (!empty($car = TecDoc::getCookieCar())) { ?>
+        <h2><?= $car['car_text'] ?></h2>
+        <?= TecDoc::getTypeInfo($car['mod_id'], $car['year'], $car['type_id']) ?>
+    <?php } ?>
 </div>
 
 <hr>
@@ -136,7 +136,10 @@ if (!empty($car = TecDoc::getCookieCar())){ ?>
 
         $dataProvider = $tecdocSearch->search();
         Pjax::begin(['id' => 'pjax_car_category', 'timeout' => false]);
-        if ($tecdocSearch['category'])
+        if ($tecdocSearch['category']) {
+
+            $filters = $this->render('_filters', ['dataProvider' => $dataProvider, 'searchModel' => $tecdocSearch]);
+
             echo ListView::widget([
                 'dataProvider' => $dataProvider,
                 'options' => [
@@ -152,10 +155,11 @@ if (!empty($car = TecDoc::getCookieCar())){ ?>
                     'maxButtonCount' => 6,
                 ],
 
-                'layout' => '<div class="cards-block">{items}</div>{summary}{pager}',
+                'layout' => '<div class="cards-block">{items}</div>'.$filters.'{summary}{pager}',
                 'itemOptions' => ['class' => 'card'],
                 'itemView' => '_card'
             ]);
+        }
         Pjax::end();
         ?>
     </section>

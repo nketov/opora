@@ -4,7 +4,7 @@ use yii\helpers\StringHelper;
 
 ?>
 
-<div class="card-contur"></div>
+<div class="card-contur" data-id="<?= $model->id ?>"></div>
 
 <div class="card-img-block">
     <?php if ($model->getFirstImage()) {

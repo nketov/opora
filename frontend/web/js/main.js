@@ -24,7 +24,7 @@ $(function () {
     // topCatalogResize();
 
     $('body').on('click', '.card-img-block,.card-text', function () {
-        var product = $(this).closest('.card').data('key');
+        var product = $(this).closest('.card').find('.card-contur').data('id');
         location.href = '/product/' + product;
     });
 
@@ -331,13 +331,17 @@ $(function () {
     });
 
 
+    $('body').on('change','#brand_search',function () {
+       $(this).closest('form').submit();
+    });
+
     $("#header_pjax_form").on("pjax:end", function () {
 
         if ($('#pjax_text_search').length > 0) {
             $.pjax.reload({container: "#pjax_text_search", timeout: 5000});
         }
         else {
-            location.href = 'search?ProductTextSearch%5Btext%5D=' + $(this).find('input').val();
+            location.href = '/search?ProductTextSearch%5Btext%5D=' + $(this).find('input').val();
         }
     });
 

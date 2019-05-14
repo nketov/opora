@@ -102,19 +102,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-//        $liqpay = new LiqPay();
-//        $html = $liqpay->cnb_form(array(
-//            'action'         => 'pay',
-//            'amount'         => '0.55',
-//            'currency'       => 'UAH',
-//            'description'    => 'Тестовый платёж',
-//            'order_id'       => 'test_3',
-//            'version'        => '3',
-//        ));
-
-
-//        $np = new NovaPoshta();
-
+        $this->view->title = Content::findOne(1)->title;
 
         return $this->render('index');
     }

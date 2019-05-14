@@ -27,7 +27,7 @@ class ProductSearch extends Product
     {
         return [
             [['active', 'remains','currency'], 'integer'],
-            [['code', 'name', 'category', 'image_1',  'article', 'unit'], 'safe'],
+            [['code', 'name', 'category', 'image_1',  'article', 'unit','brand'], 'safe'],
             [['price'], 'number'],
         ];
     }
@@ -84,6 +84,15 @@ class ProductSearch extends Product
             'pagination' => [
                 'pageSize' => 12,
             ],
+            'sort' => [
+                'attributes' => [
+                    'price' => ['label' => 'По цене'],
+                    'remains' => ['label' => 'По количеству'],
+                ],
+                'defaultOrder' => [
+                    'price' => SORT_DESC
+                ]
+            ]
         ]);
 
 
@@ -120,6 +129,7 @@ class ProductSearch extends Product
 
         $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'name', $this->name])
+             ->andFilterWhere(['like', 'brand', $this->brand])
             ->andFilterWhere(['like', 'article', $this->article])             ;
 
         return $dataProvider;

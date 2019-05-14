@@ -75,7 +75,7 @@ class TecdocSearch extends Product
 
 
 
-        if(isset($this->brand)){
+        if($this->brand){
             foreach ($allModels as $key=>$model){
                 if ($model->brand !== $this->brand) unset($allModels[$key]);
             }

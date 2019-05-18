@@ -28,6 +28,8 @@ class Product extends \yii\db\ActiveRecord
 
 
     public $tecdoc_images;
+    public $brandsList;
+    public $brands=[];
 
     /**
      * {@inheritdoc}
@@ -106,11 +108,18 @@ class Product extends \yii\db\ActiveRecord
     }
 
 
-    public static function brandsList()
+    public static function brandsList($query)
+    {
+        $array= ArrayHelper::map($query->select(['brand'], 'DISTINCT')->all(),'brand','brand');
+        asort($array);
+        unset($array['']);
+        return $array;
+    }
+
+    public static function allBrandsList()
     {
         $array= ArrayHelper::map(self::find()->select(['brand'], 'DISTINCT')->all(),'brand','brand');
-        asort($array);
-        return $array;
+       return $array;
     }
 
 

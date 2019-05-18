@@ -27,7 +27,8 @@ if (isset($searchModel->category)) {
 <!--</aside>-->
 
 <?php Pjax::begin(['id' => 'pjax_list','timeout' => false]);
-$filters = $this->render('_filters', compact('dataProvider','searchModel'));
+echo $this->render('_sorters', compact('dataProvider'));
+$filters =  $this->render('_filters', compact('searchModel'));
 ?>
 
 <?= ListView::widget([
@@ -46,7 +47,7 @@ $filters = $this->render('_filters', compact('dataProvider','searchModel'));
         'maxButtonCount' => 6,
     ],
 
-    'layout' => '<div class="cards-block">{items}</div>'.$filters.'{summary}{pager}',
+    'layout' => '<div class="filters-cards">'.$filters.'<div class="cards-block">{items}</div></div>{summary}{pager}',
     'itemOptions' => ['class' => 'card'],
     'itemView' => '_card'
 ]) ?>

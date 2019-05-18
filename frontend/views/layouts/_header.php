@@ -28,8 +28,7 @@ use common\components\TecDoc;
             <a href="" class="twitter"><i class="fa fa-twitter"></i></a>
             <a href=""  class="facebook"><i class="fa fa-facebook"></i></a>
             <a href="" class="google"><i class="fa fa-google-plus"></i></a>
-
-<!--        --><?//= Html::img('/images/icons/kyivstar.png') . Html::img('/images/icons/kyivstar.png') . Html::img('/images/icons/kyivstar.png')  ?>
+            <?= Html::img('/images/icons/liqpay.png',['class'=>'liqpay-header' ]) ?>
     </div>
 
     <h4 class='header-user'>

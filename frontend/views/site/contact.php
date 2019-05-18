@@ -10,8 +10,8 @@ use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
 $this->title = 'Вопросы';
-
 ?>
+
 
 <div class="container-contact">
     <div>
@@ -53,9 +53,9 @@ $this->title = 'Вопросы';
 
     <div>
         <h2> Контакты:</h2>
-
-        <p><img src="/images/icons/email.png" alt=""> mail@opora.dn.ua</p>
-        <p><img src="/images/icons/icq.png" alt=""> <?= $content->icq ?></p>
+        <br><br>
+        <p><img src="/images/icons/email.png" alt=""> <br>mail@opora.dn.ua</p>
+<!--        <p><img src="/images/icons/icq.png" alt=""> --><?//= $content->icq ?><!--</p>-->
         <p><img src="/images/phone32.png" alt=""> <br><?= str_replace(',','<br>',$content->phones_header) ?></p>
 
 

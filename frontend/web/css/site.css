@@ -87,6 +87,13 @@ a {
     justify-content: end;
 }
 
+.liqpay-header{
+    height: 25px;
+    margin-left: 2vw;
+    margin-right: 1vw;
+    top: 3px;
+}
+
 #site-header-icons .fa {
     margin: 5px 10px;
     margin-bottom: 0px;
@@ -460,11 +467,7 @@ a {
     transition: opacity .65s;
 }
 
-#tecdoc-content {
-    display: grid;
-    grid-template-columns: 500px 1fr;
-    align-content: center;
-}
+
 
 #tecdoc-search-form {
     padding: 10px 25px;
@@ -474,13 +477,22 @@ a {
     grid-column-gap: 25px;
     background: rgba(50, 150, 125, .33);
     border-radius: 10px;
+    overflow: hidden;
 }
 
 #td-category-panel {
-    padding: 35px 16px;
+    padding: 2vw;
     background: rgba(150, 150, 55, .33);
     border-radius: 10px;
-    height: 155px;
+    /*height: 155px;*/
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+}
+
+#td-category-panel>span {
+    margin-left: 25px;
 }
 
 #select-preloader {
@@ -724,16 +736,49 @@ li strong {
     text-align: center;
 }
 
+
+.sorters{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: right;
+}
+
+.sorters>*{
+ margin: 0 1.5vw;
+}
+
+.filters  {
+    overflow: hidden;
+    padding: 2vw 1vw;
+}
+
+.filters .form-group > div{
+    display: flex;
+    flex-direction: column;
+}
+
+.filters label{
+    font-size: .8em;
+    margin-bottom: 2px;
+}
+
+.filters-cards{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    font-family: "Malgun Gothic";
+}
+
 #category-list-wrapper > .empty {
     font: italic 3rem "Segoe UI";
     text-align: center;
     margin: 50px auto;
     color: #F84;
     text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3) !important;
-
 }
 
 .summary {
+    grid-column-end: span 2;
     float: right;
     font: italic .9rem "Segoe UI";
     margin: 10px;
@@ -742,6 +787,7 @@ li strong {
 
 .pagination {
     display: table;
+    grid-column-end: span 2;
     max-width: 100%;
     margin: 10px;
     font: bold 16px "Segoe UI";
@@ -782,13 +828,13 @@ li strong {
 }
 
 .cards-block {
-    margin: .5rem;
+    margin: .5vw;
     margin-bottom: 4.5rem;
-    padding: 1rem .3rem;
+    padding: 1vw .3vw;
     display: grid;
+    align-content: start;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 15px;
-}
+    grid-gap: 1vw;}
 
 .card {
     z-index: 1;
@@ -1215,16 +1261,8 @@ li strong {
 }
 
 
-.filters{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
 
-.filters .form-group {
-    width: 300px;
 
-}
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
     position: relative;
@@ -1238,11 +1276,11 @@ a.asc:after, a.desc:after {
 }
 
 a.asc:after {
-    content: "\e151";
+    content: "\e155";
 }
 
 a.desc:after {
-    content: "\e152";
+    content: "\e156";
 }
 
 .sort-numerical a.asc:after {
@@ -1254,11 +1292,11 @@ a.desc:after {
 }
 
 .sort-ordinal a.asc:after {
-    content: "\e155";
+    content: "\e151";
 }
 
 .sort-ordinal a.desc:after {
-    content: "\e156";
+    content: "\e152";
 }
 
 
@@ -1301,9 +1339,18 @@ a.desc:after {
     #site-header-icons {
         grid-column-end: span 1;
         grid-row-end: span 3;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+
         justify-content: center;
 
     }
+
+
+    .liqpay-header{
+        grid-column-end: span 3;
+    }
+
 
     .header-user {
         grid-column-end: span 3;
@@ -1408,12 +1455,6 @@ a.desc:after {
         grid-template-columns: 1fr;
     }
 
-    .filters{
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-gap: 2vw;
-
-    }
 
     #footer {
         display: flex;
@@ -1459,14 +1500,25 @@ a.desc:after {
 
 @media screen and (max-width: 640px) {
 
+    #td-category-panel {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: .5vw;
+    }
 
-
+    #td-category-panel>span {
+        margin-left: 0;
+    }
     .menu-overlay .btn{
         max-width: 20vw !important;
         width: 20vw !important;
         font-size: 2.5vw !important;
         height: 7.5vw !important;
 
+    }
+
+    .filters-cards{
+        grid-template-columns: 1fr;
     }
 
     #site-header {
@@ -1601,7 +1653,6 @@ a.desc:after {
 }
 
 @media screen and (max-width: 395px) {
-
 
 
     #site-header .menu-overlay .btn{

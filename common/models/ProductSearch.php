@@ -16,18 +16,17 @@ class ProductSearch extends Product
 {
 
 
-   public $category;
+    public $category;
 
     /**
      * {@inheritdoc}
      */
 
-
     public function rules()
     {
         return [
-            [['active', 'remains','currency'], 'integer'],
-            [['code', 'name', 'category', 'image_1',  'article', 'unit','brand'], 'safe'],
+            [['active', 'remains', 'currency'], 'integer'],
+            [['code', 'name', 'category', 'image_1', 'article', 'unit', 'brands'], 'safe'],
             [['price'], 'number'],
         ];
     }
@@ -109,13 +108,13 @@ class ProductSearch extends Product
         }
 
 
-        if(!empty($params['category'])){
-            $this->category = Category::find()->where(['like','code', $params['category']])->one();
+        if (!empty($params['category'])) {
+            $this->category = Category::find()->where(['like', 'code', $params['category']])->one();
             $tree = new Tree_1C();
             $cats = $tree->getChildesIds($this->category->code);
-            $this->category=$this->category->id;
+            $this->category = $this->category->id;
             $query->andFilterWhere([
-                'in','category',$cats
+                'in', 'category', $cats
             ]);
         }
 
@@ -126,11 +125,25 @@ class ProductSearch extends Product
         ]);
 
 
-
         $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'name', $this->name])
-             ->andFilterWhere(['like', 'brand', $this->brand])
-            ->andFilterWhere(['like', 'article', $this->article])             ;
+            ->andFilterWhere(['like', 'article', $this->article]);
+
+        $this->brandsList = self::brandsList(clone ($query));
+
+        if (!empty($this->brands)) {
+
+            $brands_query_array = ['or',
+                ['like', 'brand', $this->brands[0]],
+            ];
+            foreach ($this->brands as $br) {
+                $brands_query_array[] = ['like', 'brand', $br];
+            }
+
+            $query->andFilterWhere($brands_query_array);
+        } else {
+            $this->brands = self::allBrandsList();
+        }
 
         return $dataProvider;
     }

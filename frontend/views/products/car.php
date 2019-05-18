@@ -122,14 +122,12 @@ $form = ActiveForm::begin(['id' => 'tecdoc-search-form']); ?>
 
 <hr>
 <hr>
+<div id="td-category-panel">
+    <?= $this->render('cat-selector', compact('tecdocSearch')) ?>
+</div>
 <div id="tecdoc-content">
 
-    <aside id="td-category-panel">
-        <?= $this->render('cat-selector', compact('tecdocSearch')) ?>
-    </aside>
-
     <section id="td-category-content">
-
         <?php
         echo Html::img('/images/gear.gif', ['id' => 'td_wheel-preloader']);
 
@@ -138,7 +136,9 @@ $form = ActiveForm::begin(['id' => 'tecdoc-search-form']); ?>
         Pjax::begin(['id' => 'pjax_car_category', 'timeout' => false]);
         if ($tecdocSearch['category']) {
 
-            $filters = $this->render('_filters', ['dataProvider' => $dataProvider, 'searchModel' => $tecdocSearch]);
+            echo $this->render('_sorters', compact('dataProvider'));
+
+            $filters =  $this->render('_filters', ['searchModel'=> $tecdocSearch]);
 
             echo ListView::widget([
                 'dataProvider' => $dataProvider,
@@ -155,7 +155,7 @@ $form = ActiveForm::begin(['id' => 'tecdoc-search-form']); ?>
                     'maxButtonCount' => 6,
                 ],
 
-                'layout' => '<div class="cards-block">{items}</div>'.$filters.'{summary}{pager}',
+                'layout' => '<div class="filters-cards">'.$filters.'<div class="cards-block">{items}</div></div>{summary}{pager}',
                 'itemOptions' => ['class' => 'card'],
                 'itemView' => '_card'
             ]);

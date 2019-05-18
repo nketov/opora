@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Product;
+use yii\helpers\ArrayHelper;
 
 /**
  * ProductSearch represents the model behind the search form of `common\models\Product`.
@@ -18,7 +19,7 @@ class ProductTextSearch extends Product
     public function rules()
     {
         return [
-            [['text', 'brand'], 'string'],
+            [['text', 'brands'], 'string'],
         ];
     }
 
@@ -55,7 +56,6 @@ class ProductTextSearch extends Product
             ]
         ]);
 
-
         $dataProvider->sort->defaultOrder['price'] = SORT_DESC;
 
         $this->load($params);
@@ -74,7 +74,22 @@ class ProductTextSearch extends Product
 
         $query->andFilterWhere($query_array);
 
-        $query->andFilterWhere(['like', 'brand', $this->brand]);
+        $this->brandsList = self::brandsList(clone ($query));
+
+        if (!empty($this->brands)) {
+
+            $brands_query_array = ['or',
+                ['like', 'brand', $this->brands[0]],
+            ];
+
+            foreach ($this->brands as $br) {
+                $brands_query_array[] = ['like', 'brand', $br];
+            }
+
+            $query->andFilterWhere($brands_query_array);
+        } else {
+            $this->brands = self::allBrandsList();
+        }
 
         return $dataProvider;
     }

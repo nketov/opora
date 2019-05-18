@@ -25,7 +25,7 @@ class TecdocSearch extends Product
     {
         return [
             [['year', 'mfa_id', 'mod_id', 'type_id'], 'integer'],
-            [['category', 'car_name','brand'], 'safe'],
+            [['category', 'car_name', 'brands'], 'safe'],
         ];
     }
 
@@ -56,7 +56,7 @@ class TecdocSearch extends Product
         $allModels = [];
 
         $category = $this->category;
-        $type =  $this->type_id;
+        $type = $this->type_id;
 
         if ($this->category && $this->type_id) {
             $allModels = \Yii::$app->cache->getOrSet('td_provider_models_' . $category . '_' . $type,
@@ -74,12 +74,21 @@ class TecdocSearch extends Product
         }
 
 
+        $array = ArrayHelper::map($allModels, 'brand', 'brand');
+        asort($array);
+        unset($array['']);
 
-        if($this->brand){
-            foreach ($allModels as $key=>$model){
-                if ($model->brand !== $this->brand) unset($allModels[$key]);
+
+        $this->brandsList = $array;
+
+        if (!empty($this->brands)) {
+            foreach ($allModels as $key => $model) {
+                if (!in_array($model->brand, $this->brands)) unset($allModels[$key]);
             }
+        } else{
+            $this->brands = self::allBrandsList();
         }
+
 
         $dataProvider = new ArrayDataProvider([
             'allModels' => $allModels,
@@ -88,8 +97,8 @@ class TecdocSearch extends Product
             ],
             'sort' => [
                 'attributes' => [
-                    'price' => ['label'=> 'По цене'],
-                    'remains' => ['label'=> 'По количеству'],
+                    'price' => ['label' => 'По цене'],
+                    'remains' => ['label' => 'По количеству'],
                 ],
                 'defaultOrder' => [
                     'price' => SORT_DESC

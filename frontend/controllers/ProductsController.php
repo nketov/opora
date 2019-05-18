@@ -37,8 +37,7 @@ class ProductsController extends Controller
 
         $searchModel = new ProductSearch();
         $searchModel->setAttribute('active', 1);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider = $searchModel->search($_REQUEST);
         return $this->render('category', compact('products', 'searchModel', 'dataProvider'));
 
     }
@@ -46,7 +45,8 @@ class ProductsController extends Controller
     public function actionTextSearch()
     {
         $searchModel = new ProductTextSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search($_REQUEST);
+
         return $this->render('text_search', compact('searchModel', 'dataProvider'));
 
     }
@@ -59,7 +59,7 @@ class ProductsController extends Controller
         }
 
         $tecdocSearch = new TecdocSearch();
-        $tecdocSearch->load(Yii::$app->request->queryParams);
+        $tecdocSearch->load($_REQUEST);
 
         if (!empty($car=TecDoc::getCookieCar())) {
             $tecdocSearch->load($car, '');
@@ -289,6 +289,13 @@ class ProductsController extends Controller
 
         $xml_total_price = $xml_order->appendChild($xml->createElement('TotalPrice'));
         $xml_total_price->appendChild($xml->createTextNode(round($cart->getSumm(), 2)));
+
+        $xml_date = $xml_order->appendChild($xml->createElement('Date'));
+        $xml_date->appendChild($xml->createTextNode(date('d-m-Y G:i:s',time())));
+
+        $xml_status = $xml_order->appendChild($xml->createElement('Status'));
+        $xml_status->appendChild($xml->createTextNode('Новый'));
+
 
         $xml_phone = $xml_order->appendChild($xml->createElement('Phone'));
         $xml_phone->appendChild($xml->createTextNode('0'.$orderForm->phone));

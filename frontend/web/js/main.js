@@ -331,7 +331,7 @@ $(function () {
     });
 
 
-    $('body').on('change','#brand_search',function () {
+    $('body').on('change','.filters input',function () {
        $(this).closest('form').submit();
     });
 

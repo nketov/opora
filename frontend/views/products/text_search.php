@@ -9,7 +9,9 @@ $this->title = 'Поиск :';
 
 <?php Pjax::begin(['id' => 'pjax_text_search', 'timeout' => false]);
 
-$filters = $this->render('_filters', compact('dataProvider','searchModel'));
+echo $this->render('_sorters', compact('dataProvider'));
+
+$filters =  $this->render('_filters', compact('searchModel'));
 
 echo ListView::widget([
     'dataProvider' => $dataProvider,
@@ -26,7 +28,7 @@ echo ListView::widget([
         'maxButtonCount' => 6,
     ],
 
-    'layout' => '<div class="cards-block">{items}</div>'.$filters.'{summary}{pager}',
+    'layout' => '<div class="filters-cards">'.$filters.'<div class="cards-block">{items}</div></div>{summary}{pager}',
     'itemOptions' => ['class' => 'card'],
     'itemView' => '_card'
 ]) ?>

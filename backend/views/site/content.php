@@ -28,7 +28,7 @@ $this->title = 'Содержание сайта'; ?>
 
             <?= $form->field($model, 'keywords')->textarea() ?>
 
-            <?= $form->field($model, 'icq')->textInput() ?>
+<!--            --><?//= $form->field($model, 'icq')->textInput() ?>
 
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary center-block']) ?>

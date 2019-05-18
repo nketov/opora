@@ -30,13 +30,11 @@ class ProductsController extends Controller
 {
 
 
-    public function actionCategory()
+    public function actionCategory($category)
     {
 
-
-
         $searchModel = new ProductSearch();
-        $searchModel->setAttribute('active', 1);
+        $searchModel->category_code=$category;
         $dataProvider = $searchModel->search($_REQUEST);
         return $this->render('category', compact('products', 'searchModel', 'dataProvider'));
 

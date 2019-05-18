@@ -17,6 +17,7 @@ class ProductSearch extends Product
 
 
     public $category;
+    public $category_code;
 
     /**
      * {@inheritdoc}
@@ -74,7 +75,7 @@ class ProductSearch extends Product
     public function search($params)
     {
 
-        $query = Product::find();
+        $query = Product::find()->active();
 
         // add conditions that should always apply here
 
@@ -97,9 +98,7 @@ class ProductSearch extends Product
 
         $dataProvider->sort->defaultOrder['price'] = SORT_DESC;
 
-
         $this->load($params);
-
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -108,8 +107,8 @@ class ProductSearch extends Product
         }
 
 
-        if (!empty($params['category'])) {
-            $this->category = Category::find()->where(['like', 'code', $params['category']])->one();
+        if (!empty($this->category_code)) {
+            $this->category = Category::find()->where(['like', 'code', $this->category_code])->one();
             $tree = new Tree_1C();
             $cats = $tree->getChildesIds($this->category->code);
             $this->category = $this->category->id;
@@ -118,16 +117,7 @@ class ProductSearch extends Product
             ]);
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'active' => $this->active
-        ]);
 
-
-        $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'article', $this->article]);
 
         $this->brandsList = self::brandsList(clone ($query));
 

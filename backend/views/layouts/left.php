@@ -44,6 +44,7 @@
                     ['label' => 'Синонимы поиска', 'icon' => 'refresh', 'url' => ['/synonym'],],
                     ['label' => 'Объявления', 'icon' => 'newspaper-o', 'url' => ['/post'],],
                     ['label' => 'Заказы', 'icon' => 'shopping-basket', 'url' => ['/order'],],
+                    ['label' => 'Вакансии', 'icon' => 'address-card', 'url' => ['/vacancy'],],
                     ['label' => 'Клиенты', 'icon' => 'user', 'url' => ['/user'],],
 //                    ['label' => 'Акции', 'icon' => 'gift', 'url' => ['/actions'],],//
 

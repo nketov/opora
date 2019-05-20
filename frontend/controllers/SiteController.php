@@ -13,6 +13,8 @@ use common\models\PageContent;
 use common\models\Post;
 use common\models\Product;
 use common\models\User;
+use common\models\Vacancy;
+use common\models\VacancySearch;
 use frontend\components\LiqPay;
 use frontend\components\NovaPoshta;
 use frontend\components\NovaPoshtaApi2;
@@ -242,8 +244,16 @@ class SiteController extends Controller
 
     public function actionVacancies()
     {
-        $content = $this->pages->vacancies;
-        return $this->render('vacancies', compact('content'));
+        $searchModel = new VacancySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('vacancies', compact('products', 'searchModel', 'dataProvider'));
+    }
+
+    public function actionVacancyView($id)
+    {
+        return $this->render('vacancy-view', [
+            'model' => Vacancy::findOne($id),
+        ]);
     }
 
 
@@ -253,7 +263,7 @@ class SiteController extends Controller
         $searchModel = new ArticleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('articles', compact('products', 'searchModel', 'dataProvider'));
+        return $this->render('articles', compact( 'searchModel', 'dataProvider'));
     }
 
     public function actionArticleView($id)

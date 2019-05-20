@@ -71,7 +71,6 @@ echo "<h4 class='header-car'>" .Html::img('/images/icons/car_icon.png',
 Pjax::begin(['id' => 'header_pjax_form'
 ]);
 
-
 $form = ActiveForm::begin([
     'method' => 'get',
     'action' => '/search',

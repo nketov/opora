@@ -91,7 +91,7 @@ a {
     height: 25px;
     margin-left: 2vw;
     margin-right: 1vw;
-    top: 3px;
+    top: 1px;
 }
 
 #site-header-icons .fa {
@@ -818,6 +818,10 @@ li strong {
 
 .article-preview {
     padding: 15px;
+}
+
+.vacancy-preview {
+    grid-column-end: span 2;
 }
 
 .article img {

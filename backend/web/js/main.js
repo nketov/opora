@@ -101,6 +101,13 @@ $(document).ready(function () {
         }
     );
 
+    $('body').on('click', '#vacancies-table tbody tr td:not(:last-child)',
+        function () {
+            var action_id = $(this).closest('tr').data('key');
+            location.href = '/admin/vacancy/update?id=' + action_id;
+        }
+    );
+
 
     $('body').on(
         'click',

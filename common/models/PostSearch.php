@@ -5,12 +5,15 @@ namespace common\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Post;
+use common\models\Synonym;
 
 /**
  * PostSearch represents the model behind the search form of `common\models\Post`.
  */
 class PostSearch extends Post
 {
+
+    public $text;
     /**
      * {@inheritdoc}
      */
@@ -54,29 +57,22 @@ class PostSearch extends Post
 
         ]);
 
-        $this->load($params);
+        $this->load($params,'ProductTextSearch');
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
+        $query_array = ['or',
+            ['like', 'name', trim($this->text)],
+            ['like', 'article', trim($this->text)],
+            ['like', 'text', trim($this->text)],
+        ];
+
+        $synonyms = Synonym::getSynonyms($this->text);
+        foreach ($synonyms as $syn) {
+            $query_array[] = ['like', 'name', $syn];
+            $query_array[] = ['like', 'text', $syn];
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'time' => $this->time,
-            'type' => $this->type,
-            'price' => $this->price,
-            'new' => $this->new,
-            'status' => $this->status,
-        ]);
+        $query->andFilterWhere($query_array);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'text', $this->text])
-            ->andFilterWhere(['like', 'image_name', $this->image_name])
-            ->andFilterWhere(['like', 'article', $this->article]);
 
         return $dataProvider;
     }

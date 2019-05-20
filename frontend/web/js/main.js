@@ -35,7 +35,7 @@ $(function () {
 
     $('.leyka').mousedown(function () {
         $(this).find('img').attr('src', '/images/leyka_yellow.png');
-    }).mouseup( function () {
+    }).mouseup(function () {
         $(this).find('img').attr('src', '/images/leyka_white.png');
     });
 
@@ -261,15 +261,32 @@ $(function () {
     );
 
 
-    $(document).on('pjax:start', function () {
-        $("#td_wheel-preloader").show(750);
-        $('.list-wrapper').slideUp(1000);
+    $(document).on('pjax:start', function (e) {
+        if (e.relatedTarget !== undefined) {
+            $("#td_wheel-preloader").show(750);
+            $('.list-wrapper').slideUp(1000);
+        }
         $('.main-content').css('min-height', $('.main-content').css('height'));
     })
-        .on('pjax:end', function () {
-            $("#td_wheel-preloader").hide(750);
-            $('.list-wrapper').slideUp(0).slideDown(1000);
-        })
+        .on('pjax:end', function (e) {
+            if (e.relatedTarget !== undefined) {
+                $("#td_wheel-preloader").hide(750);
+                $('.list-wrapper').slideUp(0).slideDown(1000);
+            }
+        });
+
+    $("#header_pjax_form").on("pjax:end", function () {
+
+        if ($('#pjax_text_search').length > 0) {
+            $.pjax.reload({container: "#pjax_sell_search", timeout: 5000,async:false});
+            $.pjax.reload({container: "#pjax_buy_search", timeout: 5000,async:false});
+            $.pjax.reload({container: "#pjax_text_search", timeout: 5000,async:false});
+        }
+        else {
+            location.href = '/search?ProductTextSearch%5Btext%5D=' + $(this).find('input').val();
+        }
+    });
+
 
 
     $('body').on('change', '#td_category,#td_sub_cat', function (e) {
@@ -331,19 +348,10 @@ $(function () {
     });
 
 
-    $('body').on('change','.filters input',function () {
-       $(this).closest('form').submit();
+    $('body').on('change', '.filters input', function () {
+        $(this).closest('form').submit();
     });
 
-    $("#header_pjax_form").on("pjax:end", function () {
-
-        if ($('#pjax_text_search').length > 0) {
-            $.pjax.reload({container: "#pjax_text_search", timeout: 5000});
-        }
-        else {
-            location.href = '/search?ProductTextSearch%5Btext%5D=' + $(this).find('input').val();
-        }
-    });
 
     $('.form-footer-text.toggle').click(function (e) {
         e.preventDefault();

@@ -5,12 +5,16 @@ namespace frontend\controllers;
 use app\models\UserCars;
 use common\components\TecDoc;
 use common\models\Order;
+use common\models\Post;
+use common\models\PostSearch;
 use common\models\ProductTextSearch;
+use common\models\Synonym;
 use common\models\TecdocSearch;
 use frontend\components\NovaPoshta;
 use frontend\models\Cart;
 use frontend\models\OrderForm;
 use frontend\models\UnregisteredUser;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use Yii;
@@ -32,7 +36,6 @@ class ProductsController extends Controller
 
     public function actionCategory($category)
     {
-
         $searchModel = new ProductSearch();
         $searchModel->category_code=$category;
         $dataProvider = $searchModel->search($_REQUEST);
@@ -40,12 +43,52 @@ class ProductsController extends Controller
 
     }
 
+    /**
+     * @return string
+     */
     public function actionTextSearch()
     {
         $searchModel = new ProductTextSearch();
         $dataProvider = $searchModel->search($_REQUEST);
 
-        return $this->render('text_search', compact('searchModel', 'dataProvider'));
+        $sellProvider = new ActiveDataProvider([
+            'query' => Post::find()->andWhere(['type'=>0,'status'=>1]),
+            'sort'=>array(
+                'defaultOrder'=>['time' => SORT_DESC],
+            ),
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+
+
+
+        $buyProvider = new ActiveDataProvider(array(
+            'query' => Post::find()->andWhere(array('type'=>1,'status'=>1)),
+            'sort'=>array(
+                'defaultOrder'=> array('time' => SORT_DESC),
+            ),
+            'pagination' => array(
+                'pageSize' => 5,
+            ),
+        ));
+
+        $query_array = ['or',
+            ['like', 'title', trim($searchModel->text)],
+            ['like', 'article', trim($searchModel->text)],
+            ['like', 'text', trim($searchModel->text)],
+        ];
+
+        $synonyms = Synonym::getSynonyms($searchModel->text);
+        foreach ($synonyms as $syn) {
+            $query_array[] = ['like', 'title', $syn];
+            $query_array[] = ['like', 'text', $syn];
+        }
+
+        $buyProvider->query->andFilterWhere($query_array);
+        $sellProvider->query->andFilterWhere($query_array);
+
+        return $this->render('text_search', compact('searchModel', 'dataProvider','buyProvider','sellProvider'));
 
     }
 

@@ -278,9 +278,9 @@ $(function () {
     $("#header_pjax_form").on("pjax:end", function () {
 
         if ($('#pjax_text_search').length > 0) {
-            $.pjax.reload({container: "#pjax_sell_search", timeout: 5000,async:false});
-            $.pjax.reload({container: "#pjax_buy_search", timeout: 5000,async:false});
-            $.pjax.reload({container: "#pjax_text_search", timeout: 5000,async:false});
+            $.pjax.reload({container: "#pjax_sell_search", timeout: 10000,async:false});
+            $.pjax.reload({container: "#pjax_buy_search", timeout: 10000,async:false});
+            $.pjax.reload({container: "#pjax_text_search", timeout: 10000,async:false});
         }
         else {
             location.href = '/search?ProductTextSearch%5Btext%5D=' + $(this).find('input').val();

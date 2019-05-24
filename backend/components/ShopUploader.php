@@ -110,7 +110,8 @@ class ShopUploader extends Widget
                 $rows[(string)trim($row['A'])] = [
                     'name' => (string)(trim($row['H']) . ' ' . trim($row['C'])),
                     'article' => (string)trim($row['D']),
-                    'remains' => (int)trim($row['G']),
+                    'remains_sklad' => (int)str_replace('>','',trim($row['F'])),
+                    'remains' => (int)str_replace('>','',trim($row['G'])),
                     'price' => (float)str_replace(',', '.', $row['E']) * 30 * (1 + $markup / 100)
                 ];
             }
@@ -132,6 +133,7 @@ class ShopUploader extends Widget
                 $product->shop = Product::VLAD_SHOP;
                 $product->article = (string)$rows[$product->code]['article'];
                 $product->remains = (int)$rows[$product->code]['remains'];
+                $product->remains_sklad = (int)$rows[$product->code]['remains_sklad'];
                 $product->price = (float)$rows[$product->code]['price'];
             } else {
                 if ($product->active) {
@@ -156,6 +158,7 @@ class ShopUploader extends Widget
             $newProduct->shop = Product::VLAD_SHOP;
             $newProduct->article = (string)$row['article'];
             $newProduct->remains = (int)$row['remains'];
+            $newProduct->remains_sklad = (int)$row['remains_sklad'];
             $newProduct->price = (float)$row['price'];
 
             if ($newProduct->save()) {
@@ -174,7 +177,7 @@ class ShopUploader extends Widget
     {
         switch ($this->shop) {
             case Product::VLAD_SHOP:
-                return new XlsFilter(2, ['A', 'C', 'D', 'E', 'G', 'H']);
+                return new XlsFilter(2, ['A', 'C', 'D', 'E','F', 'G', 'H']);
                 break;
 
 //            case Product::EGLO_SHOP:

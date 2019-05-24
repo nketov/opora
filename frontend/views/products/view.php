@@ -58,11 +58,21 @@ $this->title = $model->name;
                         <div class="spec_value"><?= $model->brand ?></div>
                     </div>
                 <?php } ?>
+                    <?php if ($model->shop == Product::OPORA_SHOP) { ?>
                     <div class="string">
                         <div class="spec_name">В наличии:&nbsp;</div>
                         <div class="spec_value"><?= $model->remains >0 ? $model->remains.'&nbsp;'.$model->unit : 'НЕТ' ?></div>
                     </div>
-
+                    <?php }  else {?>
+                        <div class="string">
+                            <div class="spec_name">Доставка <?= date('G', time()) < 12 ? 'сегодня': 'завтра'  ?>:&nbsp;</div>
+                            <div class="spec_value"><?= $model->remains_sklad >0 ? $model->remains_sklad.'&nbsp;шт.' : 'НЕТ' ?></div>
+                        </div>
+                        <div class="string">
+                            <div class="spec_name">Доставка через 2 дня:&nbsp;</div>
+                            <div class="spec_value"><?= $model->remains >0 ? $model->remains.'&nbsp;шт.' : 'НЕТ' ?></div>
+                        </div>
+                    <?php } ?>
             </div>
 
             <div class="view_buttons">

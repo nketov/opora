@@ -54,7 +54,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['active', 'remains', 'currency', 'category', 'shop'], 'integer'],
+            [['active', 'remains','remains_sklad', 'currency', 'category', 'shop'], 'integer'],
             [['price'], 'number'],
             [['code', 'article'], 'string', 'max' => 75],
             [['name'], 'string', 'max' => 200],
@@ -173,12 +173,12 @@ class Product extends \yii\db\ActiveRecord
                 $images[] = '/images/1C_images/' . $img;
             }
         } else {
-//            if($td_images = TecDoc::getImages($this->article)){
-//                foreach ($td_images as $img) {
-//                    if($img['PATH'])
-//                    $images[] = '/images/Foto/' . $img['PATH'];
-//                }
-//            }
+            if($this->shop == self::VLAD_SHOP && $td_images = TecDoc::getImages($this->article)){
+                foreach ($td_images as $img) {
+                    if($img['PATH'])
+                    $images[] = '/images/Foto/' . $img['PATH'];
+                }
+            }
         }
 
         return $images;

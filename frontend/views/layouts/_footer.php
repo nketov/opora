@@ -23,4 +23,3 @@ use yii\helpers\Html;
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

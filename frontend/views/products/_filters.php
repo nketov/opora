@@ -1,5 +1,5 @@
 <?php use yii\widgets\ActiveForm;
-use common\models\Product;
+use yii\helpers\Html;
 use kartik\select2\Select2;
 
 ?>
@@ -12,8 +12,9 @@ use kartik\select2\Select2;
     ]) ?>
 
     <?= $form->field($searchModel, 'brands')->checkboxList($searchModel->brandsList)
-//        ->label('Производители: ');
-        ->label(false);
+        ->label('<h4>Производители: </h4>');
+//        ->label(false);
     ?>
+    <?=Html::button('Очистить выбор',['class' => 'btn']) ?>
     <?php ActiveForm::end(); ?>
 </aside>

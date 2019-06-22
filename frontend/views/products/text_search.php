@@ -14,7 +14,7 @@ $this->title = 'Поиск :';
 echo $this->render('_sorters', compact('dataProvider'));
 
 $filters =  $this->render('_filters', compact('searchModel'));
-
+if($dataProvider->models)
 echo ListView::widget([
     'dataProvider' => $dataProvider,
     'options' => [

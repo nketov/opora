@@ -5,9 +5,9 @@ namespace frontend\assets;
 use yii\web\AssetBundle;
 
 /**
- * Main frontend application asset bundle.
+ * Main page vue asset bundle.
  */
-class VueAsset extends AssetBundle
+class VueMainPageAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
@@ -15,7 +15,9 @@ class VueAsset extends AssetBundle
         'css/style.css'
     ];
     public $js = [
-       'js/vue.js',
+       'https://cdn.jsdelivr.net/npm/vue',
+       'js/vue_main_page.js',
     ];
+
 
 }

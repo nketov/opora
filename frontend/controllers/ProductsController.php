@@ -95,9 +95,9 @@ class ProductsController extends Controller
     public function actionCarSearch()
     {
 
-        if (!\Yii::$app->request->isAjax && !empty($_GET['category'])) {
-            $this->redirect('car');
-        }
+//        if (!\Yii::$app->request->isAjax && !empty($_GET['category'])) {
+//            $this->redirect('car');
+//        }
 
         $tecdocSearch = new TecdocSearch();
         $tecdocSearch->load($_REQUEST);
@@ -230,6 +230,14 @@ class ProductsController extends Controller
     }
 
 
+    public function actionLiqpay($id)
+    {
+        return $this->render('liqpay', [
+            'model' => Order::findOne($id),
+        ]);
+    }
+
+
     public function actionAjaxGetSession()
     {
         if (Yii::$app->request->isAjax) {
@@ -344,6 +352,8 @@ class ProductsController extends Controller
         $xml_FIO->appendChild($xml->createTextNode($orderForm->FIO));
         $xml_delivery = $xml_order->appendChild($xml->createElement('Delivery'));
         $xml_delivery->appendChild($xml->createTextNode(OrderForm::deliveryName($orderForm->delivery)));
+        $xml_payment = $xml_order->appendChild($xml->createElement('Payment'));
+        $xml_payment->appendChild($xml->createTextNode(OrderForm::paymentName($orderForm->payment)));
 
         $order_content .= '<h3 style="color:#9f191f"> Всего: ' . Yii::$app->formatter->asDecimal(round($cart->getSumm(), 2)) . ' грн</h3>';
         $order_content .= 'Телефон: <b>' . (new User)->getPhone($orderForm->phone) . '</b><br>';
@@ -371,7 +381,7 @@ class ProductsController extends Controller
             $xml_address = $xml_order->appendChild($xml->createElement('Address'));
             $xml_address->appendChild($xml->createTextNode($orderForm->courier_address));
         }
-
+        $order_content .= 'Способ оплаты: <b>' . OrderForm::paymentName($orderForm->payment) . '</b><br>';
         $order_content .= '</div>';
         $shop_text .= $order_content;
 
@@ -384,6 +394,7 @@ class ProductsController extends Controller
         $xml->formatOutput = true;
         $content = $xml->saveXML();
         $xml->save(Url::to('@backend/1C_files/orders/order_'.$order->id.'.xml'));
+        $xml->save(Url::to('@backend/logs/orders/order_'.$order->id.'.xml'));
 
 
 
@@ -400,6 +411,7 @@ class ProductsController extends Controller
 
         Yii::$app->mailer->compose()
             ->setTo(['ketovnv@gmail.com','mail@opora.dn.ua'])
+//            ->setTo(['ketovnv@gmail.com'])
             ->setFrom(['mail@opora.dn.ua' => 'Opora'])
             ->setSubject('Заказ № ' . $order->id)
             ->setHtmlBody($shop_text)
@@ -407,12 +419,32 @@ class ProductsController extends Controller
 
         $cart->resetCart();
         Yii::$app->session->setFlash('success', 'Ваш заказ отправлен!');
-        $this->redirect(Url::to(['/']));
 
+        if($orderForm->payment == OrderForm::PAYMENT_LIQPAY){
+            $this->redirect(Url::to(['/liqpay/'.$order->id]));
+        } else {
+            $this->redirect(Url::to(['/']));
+        }
     }
 
 
     //    ---------------------ORDER_DROPDOWNs-----------------
+
+
+
+    public function actionNpPaymentDropDown()
+    {
+
+        $data = $_POST['depdrop_all_params'];
+
+        $out = [];
+        foreach (OrderForm::paymentNamesList($data['orderform-delivery']) as $key=>$val) {
+            $out[] = ['id' => $key, 'name' => $val];
+        }
+
+        return Json::encode(['output' => $out, 'selected' => $_GET['payment']]);
+    }
+
 
 
     public function actionNpCityDropDown()

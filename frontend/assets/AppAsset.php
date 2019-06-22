@@ -15,11 +15,10 @@ class AppAsset extends AssetBundle
         'css/animate.min.css',
         'css/fonts.css',
         'css/site.css',
-        'css/cart.css',
-        'css/style.css'
+        'css/cart.css'
+
     ];
     public $js = [
-//        'js/vue.js',
         'js/cart.js',
         'js/main.js',
 

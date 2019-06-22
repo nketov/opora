@@ -56,6 +56,7 @@ return [
                 'search' => 'products/text-search',
                 'catalog' => 'products/category',
                 'car' => 'products/car-search',
+                'liqpay/<id:\d+>' => 'products/liqpay',
                 'product/<id:\d+>' => 'products/view',
                 'post/<id:\d+>' => 'post/view',
                 'article/<id:\d+>' => 'site/article-view',

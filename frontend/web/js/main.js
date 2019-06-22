@@ -177,7 +177,8 @@ $(function () {
         $.ajax({
                 url: '/products/choose-garage?position=' + position,
                 success: function (response) {
-                    $('.header-car a').html(response);
+                    // $('.header-car a').html(response);
+                    location.href = '/car';
                 },
                 error: function (e) {
                     console.log(e.responseText);
@@ -259,7 +260,6 @@ $(function () {
 
         }
     );
-
 
     $(document).on('pjax:start', function (e) {
         if (e.relatedTarget !== undefined) {
@@ -348,8 +348,13 @@ $(function () {
     });
 
 
-    $('body').on('change', '.filters input', function () {
+    $('body').on('click', '.filters input', function () {
         $(this).closest('form').submit();
+    });
+
+    $('body').on('click', '.filters button', function (e) {
+        e.preventDefault();
+        $('.filters input').prop("checked", false);
     });
 
 
@@ -386,6 +391,21 @@ $(function () {
         }
 
     });
+
+
+    $('#np_payment').change(function () {
+
+        $('.np-hide').css('display', 'none');
+
+        if ($(this).val() == 1) {
+            $('.nova-poshta-block').css('display', 'block');
+        }
+        if ($(this).val() == 2) {
+            $('.nova-courier-address').css('display', 'block');
+        }
+
+    });
+
 
     $(window).resize(function () {
         // topCatalogResize();

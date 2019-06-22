@@ -42,7 +42,7 @@ $this->title = 'Заказы';
                     ['class' => 'yii\grid\SerialColumn'],
 
                     ['attribute' => 'id',
-                        'contentOptions' => ['style' => 'min-width:15%;white-space: normal; text-align:center'],
+                        'contentOptions' => ['style' => 'max-width:5%; white-space: normal; text-align:center'],
                         'filter' => false
                     ],
                     [

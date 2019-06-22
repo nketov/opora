@@ -66,6 +66,26 @@ use yii\helpers\Url;
                 <?= $form->field($model, 'FIO')->textInput(['placeholder' => 'Фамилия Имя Отчество'])?>
                 <?= $form->field($model, 'delivery')->dropDownList($model::deliveryNamesList());?>
 
+                <?= $form->field($model, 'payment')->widget(DepDrop::classname(), [
+                    'options' => [
+                        'tabindex' => 1,
+                        'role' => 'button-cursor',
+                        'id' => 'np_payment'
+                    ],
+                    'type' => DepDrop::TYPE_SELECT2,
+                    'select2Options' => [
+                        'theme' => Select2::THEME_BOOTSTRAP
+                    ],
+                    'pluginOptions' => [
+                        'depends' => ['orderform-delivery'],
+                        'url' => Url::to(['/products/np-payment-drop-down?payment=' . $model->payment]),
+                        'loadingText' => 'Загрузка ...',
+                        'placeholder' => 'Выберите метод оплаты',
+                        'initialize' => true,
+                    ],
+
+                ]);
+                ?>
 
                 <div class="nova-poshta-block np-hide">
                     <?= $form->field($model, 'region_id')->widget(Select2::className(), [
@@ -124,10 +144,12 @@ use yii\helpers\Url;
                 <div class="nova-courier-address np-hide">
                     <?= $form->field($model, 'courier_address')->textInput(['placeholder' => 'Укажите адрес доставки'])->label(false)?>
                 </div>
+<?php
+            ?>
 
             </div>
             <div class="modal-footer" style="text-align: center">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton('Заказать', ['class' => 'btn btn-primary']) ?>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
             </div>
             <?php ActiveForm::end(); ?>

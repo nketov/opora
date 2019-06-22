@@ -139,6 +139,7 @@ class Post extends \yii\db\ActiveRecord
     public function upload()
     {
         if ($this->validate()) {
+            $this->save();
             $this->image = UploadedFile::getInstance($this, 'image');
             if ($this->image) {
                 $this->image_name = 'post' . $this->id . '.' . $this->image->extension;

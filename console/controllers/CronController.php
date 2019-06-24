@@ -58,6 +58,16 @@ class CronController extends Controller
                 $category->code = (string)$code;
             }
 
+            $images= $cat->getElementsByTagName('img_name');
+
+            if($images->length) {
+                $img_string = '';
+                foreach ($images as $image) {
+                    $img_string .= $image->nodeValue . ';';
+                }
+                $category->images = (string)trim($img_string,';');
+            }
+
             $category->parent_code = (string)self::getByTagName('ParentCode') ?? '000000000';
 
             $category->name = (string)self::getByTagName('Name');
@@ -135,8 +145,8 @@ class CronController extends Controller
             }
         }
 
-
-        $report = 'Записей в XML-файле: ' . $items->length."\n";
+        $report = date("Y-m-d H:i:s")."\n";
+        $report .= 'Записей в XML-файле: ' . $items->length."\n";
         $report .='Добавлено новых продуктов: ' . $new_count."\n";
         $report .='Обновлено продуктов: ' . $renew_count."\n";
         $report .='Деактивировано продуктов: ' . $deactivated_count."\n";
@@ -149,7 +159,6 @@ class CronController extends Controller
 
         fclose($log);
     }
-
 
 
 

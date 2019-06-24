@@ -36,6 +36,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [['code', 'name'], 'required'],
+            [['images'], 'safe'],
             [['code', 'parent_code'], 'string', 'max' => 50],
             [['name'], 'string', 'max' => 100],
         ];
@@ -53,6 +54,26 @@ class Category extends \yii\db\ActiveRecord
             'parent_code' => 'Parent Code',
         ];
     }
+
+
+    public function getFirstImage()
+    {
+
+        return $this->getAllImages()[0] ?? '';
+    }
+
+    public function getAllImages()
+    {
+        $images = [];
+        if (!empty($this->images)) {
+            foreach (explode(';', $this->images) as $img) {
+                $images[] = '/images/1C_images/' . $img;
+            }
+        }
+        return $images;
+    }
+
+
 
     public static function getMainLinks()
     {

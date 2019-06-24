@@ -81,8 +81,10 @@ class Category extends \yii\db\ActiveRecord
 
         foreach (self::$_forMain as $code){
             $model = self::find()->where(['like','code',$code])->one();
-            if ($model)
-            $links.= Html::a($model->name,'/category/'.$code,['class'=>'btn']);
+            if ($model){
+            $image = $model->getFirstImage() ? Html::img($model->getFirstImage(),['class'=>'cat-img']).'&nbsp;' : '';
+            $links.= Html::a($image.$model->name,'/category/'.$code,['class'=>'btn']);
+            }
         }
         return $links;
     }

@@ -33,7 +33,7 @@ Yii::$app->formatter->locale = 'ru-RU'
                 'format' => 'raw',
                 'contentOptions' => ['style' => 'width: 32px'],
                 'value' => function ($data) {
-                    return $data->image_name ? Html::img('/images/posts/' . $data->image_name . '?rnd=' . time(),
+                    return $data->image_1 ? Html::img('/images/posts/' . $data->image_1 . '?rnd=' . time(),
                                     ['style'=> 'width:30px; height:auto']) : '' ;
                 }
             ],
@@ -92,7 +92,7 @@ Yii::$app->formatter->locale = 'ru-RU'
                 'format' => 'raw',
                 'contentOptions' => ['style' => 'width: 32px'],
                 'value' => function ($data) {
-                    return $data->image_name ? Html::img('/images/posts/' . $data->image_name . '?rnd=' . time(),
+                    return $data->image_1 ? Html::img('/images/posts/' . $data->image_1 . '?rnd=' . time(),
                         ['style'=> 'width:30px; height:auto']) : '' ;
                 }
             ],

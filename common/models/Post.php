@@ -19,8 +19,9 @@ use yii\helpers\Url;
 class Post extends \yii\db\ActiveRecord
 {
 
-    public $image;
+
     public $NP;
+    public $image;
 
     /**
      * {@inheritdoc}
@@ -37,8 +38,10 @@ class Post extends \yii\db\ActiveRecord
         return parent::__construct();
     }
 
+
+
     private static $_categoryName = [
-        '0'=> 'Не указана',
+        '0' => 'Не указана',
         '1' => 'Автосвет',
         '2' => 'Аккумуляторы',
         '3' => 'Газобаллонное оборудование (ГБО)',
@@ -69,11 +72,11 @@ class Post extends \yii\db\ActiveRecord
         return [
             [['price'], 'number'],
             [['title', 'text', 'user_id'], 'required'],
-            [['text', 'image_name'], 'string'],
-            [['user_id','type','new','category'], 'integer'],
+            [['text'], 'string'],
+            [['user_id', 'type', 'new', 'category'], 'integer'],
             [['time', 'region_id', 'city_id'], 'safe'],
-            [['title','article'], 'string', 'max' => 150],
-            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg,jpeg', 'checkExtensionByMimeType' => false],
+            [['title', 'article'], 'string', 'max' => 150],
+            [['image_1', 'image_2', 'image_3', 'image_4', 'image_5',], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg,jpeg', 'checkExtensionByMimeType' => false],
         ];
     }
 
@@ -88,11 +91,15 @@ class Post extends \yii\db\ActiveRecord
             'text' => 'Содержание',
             'user_id' => 'Пользователь',
             'time' => 'Время создания',
-            'image' => 'Изображение',
+            'image_1' => 'Изображение 1',
+            'image_2' => 'Изображение 2',
+            'image_3' => 'Изображение 3',
+            'image_4' => 'Изображение 4',
+            'image_5' => 'Изображение 5',
             'type' => 'Тип объявления',
             'new' => 'Состояние',
             'article' => 'Артикул',
-            'price'=> 'Цена,грн',
+            'price' => 'Цена,грн',
             'status' => 'Статус',
             'category' => 'Категория',
             'city_id' => 'Город',
@@ -140,12 +147,15 @@ class Post extends \yii\db\ActiveRecord
     {
         if ($this->validate()) {
             $this->save();
-            $this->image = UploadedFile::getInstance($this, 'image');
-            if ($this->image) {
-                $this->image_name = 'post' . $this->id . '.' . $this->image->extension;
-                $this->image->saveAs(Url::to('@frontend/web/images/posts/') . $this->image_name);
+            for ($i = 1; $i <= 5; $i++) {
+                $_name = 'image_' . $i;
+                $this->image = UploadedFile::getInstance($this, $_name);
+                if ($this->image) {
+                    $this->$_name = 'post' . $this->id . '_' . $i . '.' . $this->image->extension;
+                    $this->image->saveAs(Url::to('@frontend/web/images/posts/') . $this->$_name);
+                }
+                $this->save();
             }
-            $this->save();
             return true;
         } else {
             return false;

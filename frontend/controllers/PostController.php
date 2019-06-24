@@ -17,7 +17,7 @@ use yii\filters\VerbFilter;
 class PostController extends Controller
 {
 
-     /**
+    /**
      * {@inheritdoc}
      */
     public function behaviors()
@@ -33,7 +33,6 @@ class PostController extends Controller
     }
 
 
-
     /**
      * Lists all Post models.
      * @return mixed
@@ -43,9 +42,9 @@ class PostController extends Controller
 
 
         $sellProvider = new ActiveDataProvider([
-            'query' => Post::find()->andWhere(['type'=>0,'status'=>1]),
-            'sort'=>array(
-                'defaultOrder'=>['time' => SORT_DESC],
+            'query' => Post::find()->andWhere(['type' => 0, 'status' => 1]),
+            'sort' => array(
+                'defaultOrder' => ['time' => SORT_DESC],
             ),
             'pagination' => [
                 'pageSize' => 12,
@@ -53,9 +52,9 @@ class PostController extends Controller
         ]);
 
         $buyProvider = new ActiveDataProvider([
-            'query' => Post::find()->andWhere(['type'=>1,'status'=>1]),
-            'sort'=>array(
-                'defaultOrder'=>['time' => SORT_DESC],
+            'query' => Post::find()->andWhere(['type' => 1, 'status' => 1]),
+            'sort' => array(
+                'defaultOrder' => ['time' => SORT_DESC],
             ),
             'pagination' => [
                 'pageSize' => 12,
@@ -112,7 +111,12 @@ class PostController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->upload()) {
+        for ($i = 1; $i <= 5; $i++) {
+            $_name = 'image_' . $i;
+            unset($_POST['Post'][$_name]);
+        }
+
+        if ($model->load($_POST) && $model->upload()) {
             Yii::$app->session->setFlash('success', 'Объявление сохранено');
             return $this->redirect(['index']);
         }
@@ -167,8 +171,6 @@ class PostController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-
 
 
 }

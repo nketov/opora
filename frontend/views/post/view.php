@@ -29,8 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="content-header"><?= Html::encode($this->title) ?></div>
 
 
-    <?php if ($model->image_name)
-        echo Html::img('/images/posts/' . $model->image_name.'?rnd=' . time(), ['class' => 'post-img center-block']);
+    <?php
+    for ($i = 1; $i <= 5; $i++) {
+        $_name = 'image_' . $i;
+        if ($model->$_name)
+            echo Html::img('/images/posts/' . $model->$_name . '?rnd=' . time(), ['class' => 'post-img center-block']);
+
+    }
     ?>
 
     <br>

@@ -50,13 +50,46 @@ $this->title = 'Объявление: "' . $model->title . '"';
                     }
                 ],
                 [
-                    'attribute' => 'image_name',
+                    'attribute' => 'image_1',
                     'format' => 'raw',
-                    'label' => 'Изображение',
+                    'label' => 'Изображение 1',
                     'value' => function ($data) {
-                        return $data->image_name ? Html::img('/images/posts/' . $data->image_name,['style'=> 'max-width:70vw']) : "";
+                        return $data->image_1 ? Html::img('/images/posts/' . $data->image_1,['style'=> 'max-width:70vw']) : "";
                     }
                 ],
+                [
+                    'attribute' => 'image_2',
+                    'format' => 'raw',
+                    'label' => 'Изображение 2',
+                    'value' => function ($data) {
+                        return $data->image_2 ? Html::img('/images/posts/' . $data->image_2,['style'=> 'max-width:70vw']) : "";
+                    }
+                ],
+                [
+                    'attribute' => 'image_3',
+                    'format' => 'raw',
+                    'label' => 'Изображение 3',
+                    'value' => function ($data) {
+                        return $data->image_3 ? Html::img('/images/posts/' . $data->image_3,['style'=> 'max-width:70vw']) : "";
+                    }
+                ],
+                [
+                    'attribute' => 'image_4',
+                    'format' => 'raw',
+                    'label' => 'Изображение 4',
+                    'value' => function ($data) {
+                        return $data->image_4 ? Html::img('/images/posts/' . $data->image_4,['style'=> 'max-width:70vw']) : "";
+                    }
+                ],
+                [
+                    'attribute' => 'image_5',
+                    'format' => 'raw',
+                    'label' => 'Изображение 5',
+                    'value' => function ($data) {
+                        return $data->image_5 ? Html::img('/images/posts/' . $data->image_5,['style'=> 'max-width:70vw']) : "";
+                    }
+                ],
+
                 'price',
                 'article',
                 [

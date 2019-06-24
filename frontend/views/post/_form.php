@@ -19,13 +19,17 @@ if ($model->user_id != Yii::$app->getUser()->id) {
 
 <div class="post-form">
 
-        <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin();
 
-    <?= $form->field($model, 'image')->label('<h2>'.Html::tag('span', '', ['class' => 'glyphicon glyphicon-picture']).'&nbsp;Выберите изображение</h2>')->fileInput() ?>
+    for ($i = 1; $i <= 5; $i++) {
+        $_name='image_' . $i;
+        echo $form->field($model, $_name )->label('<h2>' . Html::tag('span', '', ['class' => 'glyphicon glyphicon-picture']) . '&nbsp;Выберите изображение&nbsp;№' . $i . '</h2>')->fileInput();
 
-    <?php if($model->image_name){ ?>
-        <img class='post-img' src="<?= '/images/posts/' . $model->image_name . '?rnd=' . time() ?>" alt="">
-    <?php } ?>
+        if ($model->$_name) { ?>
+            <img class='post-img' src="<?= '/images/posts/' . $model->$_name.'?rnd=' . time() ?>" alt="">
+        <?php }
+    }
+    ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 

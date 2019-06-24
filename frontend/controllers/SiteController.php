@@ -15,6 +15,7 @@ use common\models\Product;
 use common\models\User;
 use common\models\Vacancy;
 use common\models\VacancySearch;
+use DOMDocument;
 use frontend\components\LiqPay;
 use frontend\components\NovaPoshta;
 use frontend\components\NovaPoshtaApi2;
@@ -23,6 +24,7 @@ use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -173,8 +175,31 @@ class SiteController extends Controller
         if (!$user = Yii::$app->user->getIdentity())
             return $this->redirect('/login');
 
+
+
         $user->load(Yii::$app->request->post());
         $user->save();
+
+        if (Yii::$app->request->post()){
+            $xml = new DOMDocument('1.0', 'windows-1251');
+            $xml_user = $xml->appendChild($xml->createElement('User'));
+            $xml_id = $xml_user->appendChild($xml->createElement('Id'));
+            $xml_id->appendChild($xml->createTextNode($user->id));
+            $xml_email = $xml_user->appendChild($xml->createElement('Email'));
+            $xml_email->appendChild($xml->createTextNode($user->email));
+            $xml_phone = $xml_user->appendChild($xml->createElement('Phone'));
+            $xml_phone->appendChild($xml->createTextNode('0' . $user->phone));
+            $xml_FIO = $xml_user->appendChild($xml->createElement('FIO'));
+            $xml_FIO->appendChild($xml->createTextNode( $user->FIO));
+
+            $xml->formatOutput = true;
+            $content = $xml->saveXML();
+            $xml->save(Url::to('@backend/1C_files/users/change_user_'.$user->id .'_' .time() . '.xml'));
+            $xml->save(Url::to('@backend/logs/users/change_user_'.$user->id .'_' .time() . '.xml'));
+
+        }
+
+
 
         $postProvider = new ActiveDataProvider([
             'query' => Post::find()->andWhere(['user_id' => $user->id]),

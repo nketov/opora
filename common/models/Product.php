@@ -165,6 +165,7 @@ class Product extends \yii\db\ActiveRecord
         $array = explode(';;;;;',$this->properties);
         foreach ($array as $prop) {
             $pair = explode('|||',$prop);
+            if($pair[0] && $pair[1])
             $props[$pair[0]] = $pair[1];
         }
         return $props;

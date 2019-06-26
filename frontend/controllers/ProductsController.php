@@ -133,7 +133,7 @@ class ProductsController extends Controller
         $car_render = '<h2>'. $car_text.'</h2>';
         $car_render .= TecDoc::getTypeInfo($form['mod_id'],$form['year'],$form['type_id']);
 
-        $car_vin = $form['vin'] ? "VIN-код:&nbsp;".$form['vin'] : "";
+        $car_vin = !empty($form['vin']) ? "VIN-код:&nbsp;".$form['vin'] : "";
 
         return Json::encode([
             'car_name' => $car_text,

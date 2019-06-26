@@ -68,6 +68,12 @@ echo "<h4 class='header-car'>" .Html::img('/images/icons/car_icon.png',
         ['class' => '']). '<span>' .Html::a($car['car_text'] ?? 'Выберите свой автомобиль', '/car') . $car_delete .
     "</span></h4>";
 
+
+$vin_text =  !empty($car['vin']) ? "VIN-код: &nbsp;".$car['vin'] : "";
+
+echo "<span class='header-vin'>".$vin_text."</span>";
+
+
 Pjax::begin(['id' => 'header_pjax_form'
 ]);
 

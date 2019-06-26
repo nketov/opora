@@ -105,17 +105,22 @@ if (!Yii::$app->user->isGuest) {
                 ])->one();
                 $link=Html::a('Добавить текущий автомобиль', '', ['class' => 'add-garage']);
                 $delete= '';
+                $vin_link='';
                 if ($user_car){
                     if ($user_car['year']) {
                         $user_car['car_name'] .= ', ' . $user_car['year'] . ' г.в.';
                     }
                     $link = Html::a($user_car['car_name'], '/', ['class' => 'choose-garage']);
                     $delete= Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash']), ['/'], ['class' => 'btn btn-black delete-garage', 'title' => 'Удалить автомобиль']);
+                    $vin_link = Html::a($user_car['vin'] ?? "Укажите VIN-код", '/', ['class' => 'choose-vin']);
                 }
+
+
 
                 ?>
                 <tr data-key="<?= $i ?>">
                     <td style="padding:10px"> <?= $link ?></td>
+                    <td style="padding:10px"> <?= $vin_link ?></td>
                     <td style="padding:10px;text-align: right "><?= $delete ?></td>
                 </tr>
                 <?php
@@ -197,6 +202,13 @@ if (!Yii::$app->user->isGuest) {
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                 </div>
                 <?php ActiveForm::end(); ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="vin-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
             </div>
         </div>
     </div>

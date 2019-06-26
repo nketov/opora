@@ -33,6 +33,7 @@ class UserCars extends \yii\db\ActiveRecord
     {
         return [
             [[ 'car_name'], 'safe'],
+            [['vin'], 'string','length'=>17],
             [['user_id', 'position', 'year', 'mfa_id', 'mod_id', 'type_id'], 'integer'],
             [['car_name'], 'string', 'max' => 200],
         ];

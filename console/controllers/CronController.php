@@ -123,9 +123,24 @@ class CronController extends Controller
             if($images->length) {
                 $img_string = '';
                 foreach ($images as $image) {
+
                     $img_string .= $image->nodeValue . ';';
                 }
                 $product->images = (string)trim($img_string,';');
+
+            }
+
+            $properties = $item->getElementsByTagName('property');
+
+            if($properties->length) {
+                $prop_string = '';
+                foreach ($properties as $property) {
+                    $key= $property->getElementsByTagName('name')[0];
+                    $val= $property->getElementsByTagName('value')[0];
+
+                    $prop_string .= $key->nodeValue . '|||'.$val->nodeValue.';;;;;';
+                }
+                $product->properties = (string)trim($prop_string,';;;;;');
 
             }
 

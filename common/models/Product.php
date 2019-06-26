@@ -29,7 +29,7 @@ class Product extends \yii\db\ActiveRecord
 
     public $tecdoc_images;
     public $brandsList;
-    public $brands=[];
+    public $brands = [];
 
     /**
      * {@inheritdoc}
@@ -54,12 +54,12 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['active', 'remains','remains_sklad', 'currency', 'category', 'shop'], 'integer'],
+            [['active', 'remains', 'remains_sklad', 'currency', 'category', 'shop'], 'integer'],
             [['price'], 'number'],
             [['code', 'article'], 'string', 'max' => 75],
             [['name'], 'string', 'max' => 200],
             [['brand'], 'string', 'max' => 100],
-            [['images', 'description'], 'string'],
+            [['images', 'description', 'properties'], 'string'],
             [['unit'], 'string', 'max' => 10],
             [['code'], 'unique'],
         ];
@@ -110,7 +110,7 @@ class Product extends \yii\db\ActiveRecord
 
     public static function brandsList($query)
     {
-        $array= ArrayHelper::map($query->select(['brand'], 'DISTINCT')->all(),'brand','brand');
+        $array = ArrayHelper::map($query->select(['brand'], 'DISTINCT')->all(), 'brand', 'brand');
         asort($array);
         unset($array['']);
         return $array;
@@ -118,10 +118,9 @@ class Product extends \yii\db\ActiveRecord
 
     public static function allBrandsList()
     {
-        $array= ArrayHelper::map(self::find()->select(['brand'], 'DISTINCT')->all(),'brand','brand');
-       return $array;
+        $array = ArrayHelper::map(self::find()->select(['brand'], 'DISTINCT')->all(), 'brand', 'brand');
+        return $array;
     }
-
 
 
     public static function maxPrice($query)
@@ -159,6 +158,19 @@ class Product extends \yii\db\ActiveRecord
         return Category::findOne($this->category)->name ?? "";
     }
 
+    public function getProperties()
+    {
+        $props = [];
+
+        $array = explode(';;;;;',$this->properties);
+        foreach ($array as $prop) {
+            $pair = explode('|||',$prop);
+            $props[$pair[0]] = $pair[1];
+        }
+        return $props;
+    }
+
+
     public function getFirstImage()
     {
 
@@ -173,18 +185,16 @@ class Product extends \yii\db\ActiveRecord
                 $images[] = '/images/1C_images/' . $img;
             }
         } else {
-            if($this->shop == self::VLAD_SHOP && $td_images = TecDoc::getImages($this->article)){
+            if ($this->shop == self::VLAD_SHOP && $td_images = TecDoc::getImages($this->article)) {
                 foreach ($td_images as $img) {
-                    if($img['PATH'])
-                    $images[] = '/images/Foto/' . $img['PATH'];
+                    if ($img['PATH'])
+                        $images[] = '/images/Foto/' . $img['PATH'];
                 }
             }
         }
 
         return $images;
     }
-
-
 
 
     public static function getActiveCodesArray()
@@ -196,7 +206,6 @@ class Product extends \yii\db\ActiveRecord
     {
         return new ProductQuery(get_called_class());
     }
-
 
 
 }

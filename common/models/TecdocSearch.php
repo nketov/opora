@@ -19,12 +19,14 @@ class TecdocSearch extends Product
     public $type_id;
     public $car_name;
     public $category;
+    public $vin;
 
 
     public function rules()
     {
         return [
             [['year', 'mfa_id', 'mod_id', 'type_id'], 'integer'],
+            [['vin'], 'string','length'=>17],
             [['category', 'car_name', 'brands'], 'safe'],
         ];
     }
@@ -44,6 +46,7 @@ class TecdocSearch extends Product
             'mod_id' => 'Модель',
             'type_id' => 'Тип модели',
             'category' => 'Категория',
+            'vin' => 'VIN-код',
         ];
     }
 

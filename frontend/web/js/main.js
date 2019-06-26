@@ -100,6 +100,26 @@ $(function () {
         $('#phone-modal').modal('show');
     });
 
+    $('body').on('click', '.choose-vin', function (e) {
+        e.preventDefault();
+        var position = $(this).closest('tr').data('key');
+
+        $.ajax({
+                url: '/products/vin-modal?position=' + position,
+                success: function (response) {
+                    console.log(response);
+                    $('#vin-modal .modal-content').html(response);
+
+                },
+                error: function (e) {
+                    console.log(e.responseText);
+                }
+            }
+        );
+
+        $('#vin-modal').modal('show');
+    });
+
     $('body').on('click', '#brands-table tbody tr',
         function () {
             var year_ref = '';
@@ -159,7 +179,8 @@ $(function () {
                         alert('Текущий автомобиль не выбран!');
                     } else {
                         td.html(res.link);
-                        td.next('td').html(res.delete);
+                        td.next('td').html(res.vin);
+                        td.next('td').next('td').html(res.delete);
                     }
                 },
                 error: function (e) {
@@ -197,7 +218,8 @@ $(function () {
                     url: '/products/delete-garage?position=' + position,
                     success: function (response) {
                         td.html('');
-                        td.prev('td').html(response);
+                        td.prev('td').html('');
+                        td.prev('td').prev('td').html(response);
                     },
                     error: function (e) {
                         console.log(e.responseText);
@@ -223,12 +245,19 @@ $(function () {
     $('.td_submit').on('click',
         function (e) {
             e.preventDefault();
+
+
             var name = $('#td_mfa_id option:selected').text()
                 + " " + $('#td_type_id option:selected').text();
 
-            var data = $('#tecdoc-search-form').find('select').serialize();
+            var serialize_tags = 'select,input';
+            if (parseInt($('#tecdocsearch-vin').val().length,10) != 17) {
+                    serialize_tags = 'select'
+            }
 
+            var data = $('#tecdoc-search-form').find(serialize_tags).serialize();
             data += '&TecdocSearch%5Bcar_name%5D=' + name;
+
 
             $('#pjax_car_category').slideUp(1000);
             $('#td-category-panel .select2').slideUp(1000, function () {
@@ -245,6 +274,7 @@ $(function () {
                             var res = JSON.parse(response);
                             console.log(res.select_render);
                             $('.header-car a').html(res.car_name);
+                            $('.header-vin').html(res.car_vin);
                             $('#td-category-panel').html(res.select_render);
                             $('.car-info').html(res.car_render);
                             $('#td-category-panel .select2').slideUp(0).slideDown(1000);
@@ -381,6 +411,7 @@ $(function () {
 
     $('#orderform-delivery').change(function () {
 
+
         $('.np-hide').css('display', 'none');
 
         if ($(this).val() == 1) {
@@ -397,10 +428,10 @@ $(function () {
 
         $('.np-hide').css('display', 'none');
 
-        if ($(this).val() == 1) {
+        if ($('#orderform-delivery').val() == 1) {
             $('.nova-poshta-block').css('display', 'block');
         }
-        if ($(this).val() == 2) {
+        if ($('#orderform-delivery').val() == 2) {
             $('.nova-courier-address').css('display', 'block');
         }
 

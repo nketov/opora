@@ -133,12 +133,29 @@ class ProductsController extends Controller
         $car_render = '<h2>'. $car_text.'</h2>';
         $car_render .= TecDoc::getTypeInfo($form['mod_id'],$form['year'],$form['type_id']);
 
+        $car_vin = $form['vin'] ? "VIN-код:&nbsp;".$form['vin'] : "";
+
         return Json::encode([
             'car_name' => $car_text,
             'car_render' => $car_render,
+            'car_vin' => $car_vin,
             'select_render' => $this->renderAjax('cat-selector',
                 compact('tecdocSearch'))
         ]);
+    }
+
+    public
+    function actionVinModal($position)
+    {
+        $user = \Yii::$app->user->identity;
+        $user_car = UserCars::find()->where([
+            'position' => $position,
+            'user_id' => $user->id
+        ])->one();
+
+
+        return $this->renderAjax('vin-modal-content', compact('user_car'));
+
     }
 
     public
@@ -177,8 +194,10 @@ class ProductsController extends Controller
             }
 
 
+
         return Json::encode([
             'link' => $res,
+            'vin' => Html::a($user_car->vin ?? "Укажите VIN-код", '/', ['class' => 'choose-vin']),
             'delete' => Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash']), ['/'], ['class' => 'btn btn-black delete-garage', 'title' => 'Удалить автомобиль'])
         ]);
 

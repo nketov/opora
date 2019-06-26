@@ -31,6 +31,8 @@ $this->title = $model->name;
 
         </div>
 
+
+
         <div class="view_info">
             <?php if (!empty($model->description)) { ?>
                 <div class="view_description">
@@ -57,6 +59,15 @@ $this->title = $model->name;
                         <div class="spec_name">Производитель:&nbsp;</div>
                         <div class="spec_value"><?= $model->brand ?></div>
                     </div>
+                    <?php if ($properties = $model->getProperties())
+                        foreach ($properties as $key=>$val){?>
+                            <div class="string">
+                                <div class="spec_name"><?=$key ?>:&nbsp;</div>
+                                <div class="spec_value"><?=$val ?></div>
+                            </div>
+                            <?php } ?>
+
+
                 <?php } ?>
                     <?php if ($model->shop == Product::OPORA_SHOP) { ?>
                     <div class="string">

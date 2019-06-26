@@ -34,6 +34,9 @@ class Cart extends Model
             if ($car['year']) {
                 $car_text .= ', ' . $car['year'] . ' г.в.';
             }
+            if ($car['vin']) {
+                $car_text .= ', VIN-код: ' . $car['vin'];
+            }
             $_SESSION['cart'][$id]['car'] = $car_text;
         }
 

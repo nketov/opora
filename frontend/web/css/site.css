@@ -87,7 +87,7 @@ a {
     justify-content: end;
 }
 
-.liqpay-header{
+.liqpay-header {
     height: 25px;
     margin-left: 2vw;
     margin-right: 1vw;
@@ -157,7 +157,7 @@ a {
     align-content: center;
 }
 
-.leyka img{
+.leyka img {
     max-width: 95%;
 }
 
@@ -171,7 +171,6 @@ a {
     top: 10px;
 }
 
-
 .header-user .btn {
     max-width: 300px !important;
     overflow: hidden;
@@ -180,23 +179,23 @@ a {
     align-self: flex-end;
 }
 
-.btn{
+.btn {
     background: linear-gradient(to left, #5D22AC, #E337B9);
     color: white !important;
     border-color: black !important;
 }
 
-.btn:hover{
+.btn:hover {
     background: linear-gradient(to right, #5D22AC, #E337B9) !important;
 }
 
-.btn:active{
+.btn:active {
     background: #E337B9 !important;
     color: yellow !important;
     text-shadow: none !important;
 }
 
-#site-header .btn, .top-category .btn,.main-footer-links .btn {
+#site-header .btn, .top-category .btn, .main-footer-links .btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -225,8 +224,6 @@ a {
     width: 220px;
     top: 3px;
 }
-
-
 
 /*BURGER START*/
 .menu-btn {
@@ -313,7 +310,7 @@ a {
 
 /*BURGER END*/
 
-.btn-overlay{
+.btn-overlay {
     position: absolute;
     top: .5vw;
     right: .75vw;
@@ -334,12 +331,11 @@ a {
 
 }
 
-.menu-overlay .btn{
+.menu-overlay .btn {
     height: 3.5vw !important;
     width: 8vw !important;
     justify-self: center;
 }
-
 
 .top-panel {
     display: flex;
@@ -439,8 +435,15 @@ a {
     align-items: center;
 }
 
-.header-car span{
- background:  linear-gradient(to right, rgba(255,0,200,.25), rgba(200,0,255,.25)) ;
+.header-vin {
+    position: absolute;
+    bottom: 0;
+    font-weight: bold;
+    font-size: .85em;
+}
+
+.header-car span {
+    background: linear-gradient(to right, rgba(255, 0, 200, .25), rgba(200, 0, 255, .25));
 
     padding: 2px;
     border: #AA00EE solid 2px;
@@ -449,9 +452,8 @@ a {
 }
 
 .header-car span:hover {
-    background:  linear-gradient(to left, rgba(255,0,200,.25), rgba(200,0,255,.25)) ;
+    background: linear-gradient(to left, rgba(255, 0, 200, .25), rgba(200, 0, 255, .25));
 }
-
 
 .header-car-delete {
     border-radius: 50%;
@@ -465,9 +467,10 @@ a {
     height: 35px;
     opacity: 0;
     transition: opacity .65s;
+    grid-column-end: span 5;
+    width: 300px;
+    justify-self: center;
 }
-
-
 
 #tecdoc-search-form {
     padding: 10px 25px;
@@ -478,6 +481,10 @@ a {
     background: rgba(50, 150, 125, .33);
     border-radius: 10px;
     overflow: hidden;
+}
+
+#tecdoc-search-form .help-block {
+    font-size: .7em;
 }
 
 #td-category-panel {
@@ -491,7 +498,7 @@ a {
     overflow: hidden;
 }
 
-#td-category-panel>span {
+#td-category-panel > span {
     margin-left: 25px;
 }
 
@@ -545,7 +552,7 @@ li strong {
     padding-top: 0 !important;
 }
 
-.main-footer-links{
+.main-footer-links {
     top: 2vw;
     display: flex;
     align-content: center;
@@ -553,13 +560,13 @@ li strong {
 
 }
 
-.main-footer-links .btn{
+.main-footer-links .btn {
     max-width: 15vw;
- }
+}
 
-.cat-img{
+.cat-img {
     max-width: 30%;
-    left:-5px;
+    left: -5px;
     border-radius: 3px;
 }
 
@@ -595,12 +602,12 @@ li strong {
     font-weight: bold;
 }
 
-.post-create form{
+.post-create form {
     padding-left: 100px;
 }
 
-.post-form .form-group,.container-contact .form-group{
-    max-width:  750px;
+.post-form .form-group, .container-contact .form-group {
+    max-width: 750px;
 }
 
 .post-view {
@@ -693,14 +700,14 @@ li strong {
 }
 
 .main-content h2 {
-     font-family: "Century Gothic";
-     color: #7700AA;
-     padding-left: 5%;
-     padding-top: 5px;
-     font-size: calc(.8rem + .7vw);
-     font-weight: bold;
-     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3) !important;
- }
+    font-family: "Century Gothic";
+    color: #7700AA;
+    padding-left: 5%;
+    padding-top: 5px;
+    font-size: calc(.8rem + .7vw);
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3) !important;
+}
 
 .main-content a {
     color: #330055;
@@ -742,34 +749,33 @@ li strong {
     text-align: center;
 }
 
-
-.sorters{
+.sorters {
     display: flex;
     justify-content: end;
     align-items: center;
     text-align: right;
 }
 
-.sorters>*{
- margin: 0 1.5vw;
+.sorters > * {
+    margin: 0 1.5vw;
 }
 
-.filters  {
+.filters {
     overflow: hidden;
     padding: 2vw 1vw;
 }
 
-.filters .form-group > div{
+.filters .form-group > div {
     display: flex;
     flex-direction: column;
 }
 
-.filters label{
+.filters label {
     font-size: .8em;
     margin-bottom: 2px;
 }
 
-.filters-cards{
+.filters-cards {
     display: grid;
     grid-template-columns: 200px 1fr;
     font-family: "Malgun Gothic";
@@ -844,7 +850,8 @@ li strong {
     display: grid;
     align-content: start;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 1vw;}
+    grid-gap: 1vw;
+}
 
 .card {
     z-index: 1;
@@ -1134,8 +1141,8 @@ li strong {
     text-align: center;
 }
 
-#contactform-verifycode{
-    left:95px;
+#contactform-verifycode {
+    left: 95px;
     max-width: 100px;
 }
 
@@ -1270,9 +1277,6 @@ li strong {
     height: 1px;
 }
 
-
-
-
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
     position: relative;
@@ -1309,19 +1313,17 @@ a.desc:after {
     content: "\e152";
 }
 
-
 @media screen and (max-width: 1000px) {
 
-      .post-content {
+    .post-content {
         grid-template-columns: 1fr;
     }
 
-    .post-create form{
+    .post-create form {
         padding-left: 2vw;
     }
 
-
-    .menu-overlay .btn{
+    .menu-overlay .btn {
         height: 5vw !important;
         width: 10vw !important;
     }
@@ -1332,21 +1334,20 @@ a.desc:after {
 
     }
 
-    .main-footer-links{
+    .main-footer-links {
         display: grid;
-        grid-template-columns: repeat(4,1fr);
+        grid-template-columns: repeat(4, 1fr);
         justify-items: stretch;
     }
 
-    .main-footer-links .btn{
+    .main-footer-links .btn {
         max-width: none;
         height: 64px;
     }
 
-    .main-footer-links .btn{
-     font-size: 16px;
+    .main-footer-links .btn {
+        font-size: 16px;
     }
-
 
     #site-header .btn, .top-category .btn {
         font-size: 1.6vw;
@@ -1365,15 +1366,13 @@ a.desc:after {
         grid-column-end: span 1;
         grid-row-end: span 3;
         display: grid;
-        grid-template-columns: repeat(3,1fr);
+        grid-template-columns: repeat(3, 1fr);
         justify-content: center;
     }
 
-
-    .liqpay-header{
+    .liqpay-header {
         grid-column-end: span 3;
     }
-
 
     .header-user {
         grid-column-end: span 3;
@@ -1464,8 +1463,7 @@ a.desc:after {
 
 @media screen and (max-width: 767px) {
 
-    .post-index table tr > *:nth-child(4)
-    {
+    .post-index table tr > *:nth-child(4) {
         display: none;
     }
 
@@ -1477,8 +1475,9 @@ a.desc:after {
         display: grid;
         grid-template-columns: 1fr;
     }
-    .main-footer-links{
-        grid-template-columns: repeat(3,1fr);
+
+    .main-footer-links {
+        grid-template-columns: repeat(3, 1fr);
     }
 
     #footer {
@@ -1525,17 +1524,17 @@ a.desc:after {
 
 @media screen and (max-width: 640px) {
 
-
     #td-category-panel {
         display: grid;
         grid-template-columns: 1fr;
         grid-gap: .5vw;
     }
 
-    #td-category-panel>span {
+    #td-category-panel > span {
         margin-left: 0;
     }
-    .menu-overlay .btn{
+
+    .menu-overlay .btn {
         max-width: 20vw !important;
         width: 20vw !important;
         font-size: 2.5vw !important;
@@ -1543,13 +1542,13 @@ a.desc:after {
 
     }
 
-    .filters-cards{
+    .filters-cards {
         grid-template-columns: 1fr;
     }
 
     #site-header {
-        grid-template-columns: repeat(4,1fr);
-        grid-template-rows: repeat(7,1fr);
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(7, 1fr);
     }
 
     #site-header-logo {
@@ -1594,7 +1593,7 @@ a.desc:after {
     #header-phones {
         grid-column-end: span 2;
         grid-row-end: span 2;
-        font-size: 3vw ;
+        font-size: 3vw;
     }
 
     #header-buttons {
@@ -1602,14 +1601,13 @@ a.desc:after {
         grid-row-end: span 2;
     }
 
-    .main-footer-links{
-        grid-template-columns: repeat(2,1fr);
+    .main-footer-links {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .left-catalog{
+    .left-catalog {
         padding-left: 25px;
     }
-
 
     #tecdoc-search-form {
         padding: 3px 10px;
@@ -1624,16 +1622,15 @@ a.desc:after {
     }
 
     .td_submit {
-        grid-column-end: span 1;
+        grid-column-end: span 2;
     }
-
 
     #tecdoc-search-form {
         grid-template-columns: repeat(2, 1fr);
         grid-column-gap: 10px;
     }
 
-    .main-content{
+    .main-content {
         grid-template-columns: 1fr;
         margin: 0;
     }
@@ -1653,7 +1650,6 @@ a.desc:after {
     .image_container {
         width: calc(99vw);
     }
-
 
     .view_info {
         margin: 0;
@@ -1683,8 +1679,7 @@ a.desc:after {
 
 @media screen and (max-width: 395px) {
 
-
-    #site-header .menu-overlay .btn{
+    #site-header .menu-overlay .btn {
         max-width: 42vw !important;
         width: 42vw !important;
         height: 11vw !important;
@@ -1694,7 +1689,7 @@ a.desc:after {
     #site-header .btn, .top-category .btn {
         height: 12vw;
         font-size: 4vw !important;
-        max-width:25vw !important;
+        max-width: 25vw !important;
 
     }
 
@@ -1705,11 +1700,10 @@ a.desc:after {
 
     }
 
-
     #header-phones {
         grid-column-end: span 4;
         grid-row-end: span 2;
-        font-size: 5vw ;
+        font-size: 5vw;
 
     }
 
@@ -1722,8 +1716,8 @@ a.desc:after {
         padding: 0;
     }
 
-    .main-footer-links{
-        grid-template-columns: repeat(1,1fr);
+    .main-footer-links {
+        grid-template-columns: repeat(1, 1fr);
     }
 
     .card {
@@ -1742,6 +1736,10 @@ a.desc:after {
         text-align: center;
     }
 
+    .td_submit {
+        grid-column-end: span 1;
+    }
+
     .form-control {
         width: 95%;
 
@@ -1758,8 +1756,7 @@ a.desc:after {
 
     .container-actions table tr > *:nth-child(5),
     .container-cabinet .actions tr > *:nth-child(5),
-    .post-index table tr > *:nth-child(3)
-    {
+    .post-index table tr > *:nth-child(3) {
         display: none;
     }
 }

@@ -106,6 +106,9 @@ $form = ActiveForm::begin(['id' => 'tecdoc-search-form']); ?>
     ],
 ])->label(false);
 ?>
+<?= $form->field($tecdocSearch, 'vin')->textInput(
+        ['placeholder' =>'Укажите VIN-код']
+)->label(false); ?>
 
 <?= Html::submitButton('Выбрать авто', ['class' => 'btn btn-primary td_submit']) ?>
 

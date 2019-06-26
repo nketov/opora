@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use app\models\UserCars;
 use common\models\Actions;
 use common\models\ActionsContent;
 use common\models\Article;
@@ -177,10 +178,9 @@ class SiteController extends Controller
 
 
 
-        $user->load(Yii::$app->request->post());
-        $user->save();
-
-        if (Yii::$app->request->post()){
+        if (!empty($_POST['User']) && ($_POST['User']['phone'] || $_POST['User']['FIO'] )){
+            $user->load(Yii::$app->request->post());
+            $user->save();
             $xml = new DOMDocument('1.0', 'windows-1251');
             $xml_user = $xml->appendChild($xml->createElement('User'));
             $xml_id = $xml_user->appendChild($xml->createElement('Id'));
@@ -199,7 +199,14 @@ class SiteController extends Controller
 
         }
 
-
+        if (!empty($_POST['UserCars']) && $_POST['UserCars']['vin'] ){
+            $user_car = UserCars::find()->where([
+                'position' => $_POST['UserCars']['position'],
+                'user_id' => $user->id
+            ])->one();
+            $user_car->load(Yii::$app->request->post());
+            $user_car->save();
+        }
 
         $postProvider = new ActiveDataProvider([
             'query' => Post::find()->andWhere(['user_id' => $user->id]),

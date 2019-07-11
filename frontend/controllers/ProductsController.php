@@ -33,9 +33,18 @@ use common\models\User;
 class ProductsController extends Controller
 {
 
+    public function beforeAction($action)
+    {
+
+        ini_set('memory_limit', '4096M');
+        return parent::beforeAction($action);
+    }
+
+
 
     public function actionCategory($category)
     {
+
         $searchModel = new ProductSearch();
         $searchModel->category_code=$category;
         $dataProvider = $searchModel->search($_REQUEST);

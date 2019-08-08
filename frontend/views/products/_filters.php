@@ -5,10 +5,11 @@ use kartik\select2\Select2;
 ?>
 <aside class="filters">
     <?php $form = ActiveForm::begin([
-        'method' => 'post',
+        'method' => 'get',
         'options' => [
             'data-pjax' => 1
         ],
+
     ]) ?>
 
     <?= $form->field($searchModel, 'brands')->checkboxList($searchModel->brandsList)

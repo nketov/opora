@@ -299,13 +299,17 @@ $(function () {
         $('.main-content').css('min-height', $('.main-content').css('height'));
     })
         .on('pjax:end', function (e) {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
             if (e.relatedTarget !== undefined) {
                 $("#td_wheel-preloader").hide(750);
                 $('.list-wrapper').slideUp(0).slideDown(1000);
             }
+
         });
 
     $("#header_pjax_form").on("pjax:end", function () {
+
+        $("html, body").animate({ scrollTop: 0 }, "slow");
 
         if ($('#pjax_text_search').length > 0) {
             $.pjax.reload({container: "#pjax_sell_search", timeout: 10000,async:false});
@@ -313,7 +317,7 @@ $(function () {
             $.pjax.reload({container: "#pjax_text_search", timeout: 10000,async:false});
         }
         else {
-            location.href = '/search?ProductTextSearch%5Btext%5D=' + $(this).find('input').val();
+            location.href = '/search?PTS%5Btext%5D=' + $(this).find('input').val();
         }
     });
 

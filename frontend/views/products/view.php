@@ -61,10 +61,16 @@ $this->title = $model->name;
                     </div>
                     <?php if ($properties = $model->getProperties())
                         foreach ($properties as $key=>$val){?>
-                            <div class="string">
-                                <div class="spec_name"><?=$key ?>:&nbsp;</div>
-                                <div class="spec_value"><?=$val ?></div>
-                            </div>
+<!--                            <div class="string">-->
+<!--                                <div class="spec_name" style="border: 1px solid black">--><?//=$key ?><!--:&nbsp;</div>-->
+<!--                                <div class="spec_value" style="border: 1px solid black">--><?//=$val ?><!--</div>-->
+<!--                            </div>-->
+                            <table class="table-bordered" style="width: 100%">
+                                <tr>
+                                    <td style="width: 50%;text-align: left"><?=$key ?></td>
+                                    <td style="width: 50%;text-align: right"><?=$val ?></td>
+                                </tr>
+                            </table>
                             <?php } ?>
 
 

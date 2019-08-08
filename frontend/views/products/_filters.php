@@ -7,7 +7,7 @@ use kartik\select2\Select2;
     <?php $form = ActiveForm::begin([
         'method' => 'get',
         'options' => [
-            'data-pjax' => 1
+            'data-pjax' => true
         ],
 
     ]) ?>

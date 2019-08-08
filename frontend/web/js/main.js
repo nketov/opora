@@ -449,5 +449,14 @@ $(function () {
     // $('#td_category').trigger('change');
     // $('#td_sub_cat').trigger('change');
 
+      $(document).on('pjax:beforeSend', function (event, xhr, options) {
+        console.log(options.url.length);
+        if(options.url.length>2000){
+            options.url = options.url.split('?')[0];
+        }
+        return true;
+    });
+
 
 });
+

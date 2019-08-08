@@ -68,7 +68,7 @@ $this->title = $model->name;
                             <table class="table-bordered" style="width: 100%">
                                 <tr>
                                     <td style="width: 50%;text-align: left"><?=$key ?></td>
-                                    <td style="width: 50%;text-align: right"><?=$val ?></td>
+                                    <td style="width: 50%;text-align: center"><?=$val ?></td>
                                 </tr>
                             </table>
                             <?php } ?>

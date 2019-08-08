@@ -10,9 +10,9 @@ use common\models\Product;
 use common\models\Category;
 
 /**
- * ProductSearch represents the model behind the search form of `common\models\Product`.
+ * PS represents the model behind the search form of `common\models\Product`.
  */
-class ProductSearch extends Product
+class PS extends Product
 {
 
 

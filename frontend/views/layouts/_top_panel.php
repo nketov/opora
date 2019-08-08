@@ -1,13 +1,13 @@
 <?php
 
 use common\components\TecDoc;
-use common\models\ProductTextSearch;
+use common\models\PTS;
 use frontend\components\Tree_1C;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use kartik\form\ActiveForm;
 use yii\helpers\Url;
-$searchModel = new ProductTextSearch();
+$searchModel = new PTS();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 $tree = new Tree_1C();
 ?>

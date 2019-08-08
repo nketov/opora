@@ -57,7 +57,7 @@ class PostSearch extends Post
 
         ]);
 
-        $this->load($params,'ProductTextSearch');
+        $this->load($params,'PTS');
 
         $query_array = ['or',
             ['like', 'name', trim($this->text)],

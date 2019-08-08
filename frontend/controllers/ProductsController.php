@@ -7,7 +7,7 @@ use common\components\TecDoc;
 use common\models\Order;
 use common\models\Post;
 use common\models\PostSearch;
-use common\models\ProductTextSearch;
+use common\models\PTS;
 use common\models\Synonym;
 use common\models\TecdocSearch;
 use frontend\components\NovaPoshta;
@@ -19,7 +19,7 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use Yii;
 use common\models\Product;
-use common\models\ProductSearch;
+use common\models\PS;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -45,7 +45,7 @@ class ProductsController extends Controller
     public function actionCategory($category)
     {
 
-        $searchModel = new ProductSearch();
+        $searchModel = new PS();
         $searchModel->category_code=$category;
         $dataProvider = $searchModel->search($_REQUEST);
         return $this->render('category', compact('products', 'searchModel', 'dataProvider'));
@@ -57,7 +57,7 @@ class ProductsController extends Controller
      */
     public function actionTextSearch()
     {
-        $searchModel = new ProductTextSearch();
+        $searchModel = new PTS();
         $dataProvider = $searchModel->search($_REQUEST);
 
         $sellProvider = new ActiveDataProvider([

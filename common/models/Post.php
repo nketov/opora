@@ -138,7 +138,7 @@ class Post extends \yii\db\ActiveRecord
         return [
             0 => 'Ожидание',
             1 => 'Активно',
-            2 => 'Отклонёно'
+            2 => 'Отклонено'
         ];
     }
 

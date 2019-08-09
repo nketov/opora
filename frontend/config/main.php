@@ -73,7 +73,7 @@ return [
                 'tecdoc/lookup/<number:\w+>' => 'tecdoc/lookup',
                 'category/<category:\d+>' => 'products/category',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                '<action:(about|contact|login|signup|view|cabinet|actions|articles|all-images|1c-tree|delivery|payment|guarantee|vacancies|agreements)>' => 'site/<action>'
+                '<action:(about|contact|login|signup|view|cabinet|actions|articles|all-images|1c-tree|delivery|payment|guarantee|vacancies|agreements|convention)>' => 'site/<action>'
             ],
         ],
     ],

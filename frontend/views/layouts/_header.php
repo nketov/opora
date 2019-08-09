@@ -19,6 +19,7 @@ use common\components\TecDoc;
         <?= Html::a('Гарантии', '/guarantee', ['class' => 'btn']) ?>
         <?= Html::a('Договора', '/agreements ', ['class' => 'btn']) ?>
         <?= Html::a('Вакансии', '/vacancies', ['class' => 'btn']) ?>
+        <?= Html::a('Соглашение', '/convention', ['class' => 'btn']) ?>
 
     </div>
 

@@ -274,12 +274,19 @@ class SiteController extends Controller
         return $this->render('agreements', compact('content'));
     }
 
+    public function actionConvention()
+    {
+        $content = $this->pages->convention;
+        return $this->render('convention', compact('content'));
+    }
+
     public function actionVacancies()
     {
         $searchModel = new VacancySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('vacancies', compact('products', 'searchModel', 'dataProvider'));
     }
+
 
     public function actionVacancyView($id)
     {

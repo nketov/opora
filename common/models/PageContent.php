@@ -31,8 +31,8 @@ class PageContent extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['actions', 'delivery', 'payment', 'guarantee', 'agreements', 'vacancies'], 'required'],
-            [['actions', 'delivery', 'guarantee', 'agreements', 'vacancies','payment'], 'string']
+            [['actions', 'delivery', 'payment', 'guarantee', 'agreements', 'vacancies','convention'], 'required'],
+            [['actions', 'delivery', 'guarantee', 'agreements', 'vacancies','payment','convention'], 'string']
         ];
     }
 
@@ -48,7 +48,8 @@ class PageContent extends \yii\db\ActiveRecord
             'payment' => 'Страница "Доставка"',
             'guarantee' => 'Страница "Гарантии"',
             'agreements' => 'Страница "Договора"',
-            'vacancies' => 'Страница "Вакансии"'
+            'vacancies' => 'Страница "Вакансии"',
+            'convention' => 'Страница "Соглашение"'
         ];
     }
 

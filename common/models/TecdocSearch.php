@@ -64,7 +64,6 @@ class TecdocSearch extends Product
         if ($this->category && $this->type_id) {
             $allModels = \Yii::$app->cache->getOrSet('td_provider_models_' . $category . '_' . $type,
                 function () use ($category, $type) {
-                    \Yii::$app->db->createCommand('SET SESSION wait_timeout = 300;')->execute();
                     $products = array_unique(ArrayHelper::getColumn(Product::find()->active()->all(), 'article'));
                     $am = [];
                     foreach (TecDoc::getCategory($category, $type) as $article) {

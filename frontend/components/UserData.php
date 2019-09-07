@@ -13,6 +13,7 @@ class UserData extends BaseObject
     public function init()
     {
 
+        \Yii::$app->cache->flush();
 //        if (isset(\Yii::$app->user->identity) && $user = \Yii::$app->user->identity) {
 
 //            if (isset($_COOKIE['car']) && !empty($car = unserialize($_COOKIE['car'], ["allowed_classes" => false]))) {

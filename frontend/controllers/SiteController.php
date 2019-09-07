@@ -256,6 +256,7 @@ class SiteController extends Controller
         return $this->render('delivery', compact('content'));
     }
 
+
     public function actionPayment()
     {
         $content = $this->pages->payment;

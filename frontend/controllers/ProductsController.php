@@ -493,6 +493,7 @@ class ProductsController extends Controller
     public function actionNpWarehouseDropDown()
     {
 
+
         $data = $_POST['depdrop_all_params'];
 
         $np = new NovaPoshta();
